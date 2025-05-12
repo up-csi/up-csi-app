@@ -1,4 +1,6 @@
 <script lang="ts">
+    import { writable } from 'svelte/store';
+
     const { name, role, closeModal, activeCategory } = $props();
     // Implement color of name
 
@@ -12,13 +14,40 @@
         'B&C': 'var(--color-bnc-green)',
     };
 
-    let imageURL: string | null = $state(null);
+    const imageURL = writable<string | null>(null);
 
-    function handleUpload(event: Event) {
+    async function handleSubmit(event: Event) {
+        event.preventDefault();
+
+        const form = event.target as HTMLFormElement;
+        const formData = new FormData(form);
+
+        try {
+            const response = await fetch('/api/upload', {
+                method: 'POST',
+                body: formData,
+            });
+
+            if (!response.ok) {
+                const error = await response.json();
+                console.error('Error uploading data:', error);
+                alert('Failed to upload data. Please try again.');
+            } else {
+                const data = await response.json();
+                console.log('Data uploaded successfully:', data);
+                alert('Data uploaded successfully!');
+            }
+        } catch (error) {
+            console.error('Unexpected error:', error);
+            alert('An unexpected error occurred. Please try again.');
+        }
+    }
+
+    function handleFileChange(event: Event) {
         const target = event.target as HTMLInputElement;
         const file = target.files?.[0];
         if (file && file.type.startsWith('image/')) {
-            imageURL = URL.createObjectURL(file);
+            imageURL.set(URL.createObjectURL(file));
         }
     }
 </script>
@@ -41,7 +70,7 @@
         </button>
     </div>
 
-    <form class="grid gap-6 md:grid-cols-2 md:gap-0" method="POST">
+    <form class="grid gap-6 md:grid-cols-2 md:gap-0" onsubmit={handleSubmit}>
         <div class="mx-10 md:mr-3">
             <h2 class="pb-1 text-4xl font-bold" style="color:{categoryColors[activeCategory]}">{name}</h2>
             <h3 class="dark:text-csi-white text-sm">{role}</h3>
@@ -49,6 +78,7 @@
             <label for="question" class="dark:text-csi-white mb-1 block pt-5 text-2xl font-bold">Your Question</label>
             <textarea
                 id="question"
+                name="question"
                 class="dark:text-csi-white mb-3 w-full rounded-xl px-4 py-2 text-sm font-light md:h-10 dark:bg-[#161619]"
                 placeholder="Type your question here ..."
                 style="height: 100px; resize: none"
@@ -58,6 +88,7 @@
             <label for="answer" class="dark:text-csi-white mb-1 block text-2xl font-bold">Their Answer</label>
             <textarea
                 id="answer"
+                name="answer"
                 class="dark:text-csi-white mb-3 w-full rounded-xl px-4 py-2 text-sm font-light md:h-10 dark:bg-[#161619]"
                 placeholder="Type their answer here ..."
                 style="height: 100px; resize: none"
@@ -72,11 +103,19 @@
                 style="background-color:rgba(0, 198, 215, 0.07);"
                 id="drop-area"
             >
-                <input type="file" accept="image/*" alt="image" id="img-input" onchange={handleUpload} hidden />
+                <input
+                    type="file"
+                    accept="image/*"
+                    alt="image"
+                    id="img-input"
+                    name="image"
+                    onchange={handleFileChange}
+                    hidden
+                />
                 <div class="items-center" id="img-view">
-                    {#if imageURL}
+                    {#if $imageURL}
                         <img
-                            src={imageURL}
+                            src={$imageURL}
                             alt="selfie with member"
                             class="aspect-square size-50 rounded-2xl object-cover"
                         />
