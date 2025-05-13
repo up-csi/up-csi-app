@@ -1,19 +1,24 @@
 <script lang="ts">
+    const sigTotal = 34;
     const signatureSheet = [
-        { name: 'Executive', progress: '18/34', color: 'bg-cyan-400' },
-        { name: 'Membership & Internals', progress: '12/34', color: 'bg-pink-400' },
-        { name: 'Service', progress: '17/34', color: 'bg-yellow-400' },
-        { name: 'Innovation', progress: '20/34', color: 'bg-orange-400' },
-        { name: 'Engineering', progress: '34/34', color: 'bg-red-500' },
-        { name: 'External Relations', progress: '30/34', color: 'bg-blue-500' },
-        { name: 'Branding and Creatives', progress: '25/34', color: 'bg-green-500' },
+        { name: 'Executive', progress: 18, progressString: '', color: 'bg-cyan-400' },
+        { name: 'Membership & Internals', progress: 12, progressString: '', color: 'bg-pink-400' },
+        { name: 'Service', progress: 17, progressString: '', color: 'bg-yellow-400' },
+        { name: 'Innovation', progress: 20, progressString: '', color: 'bg-orange-400' },
+        { name: 'Engineering', progress: 34, progressString: '', color: 'bg-red-500' },
+        { name: 'External Relations', progress: 30, progressString: '', color: 'bg-blue-500' },
+        { name: 'Branding and Creatives', progress: 25, progressString: '', color: 'bg-green-500' },
     ];
+    signatureSheet.forEach(committee => {
+        committee.progressString = `${committee.progress}/${sigTotal}`;
+    });
 
-    const quizProgress = '28/40';
+    const quizTotal = 40;
+    let quizProgress = 28;
+    let quizString = `${quizProgress}/${quizTotal}`;
 
-    function calculatePercentage(progress: string) {
-        const [num, denom] = progress.split('/').map(Number);
-        if (num && denom) return (num / denom) * 100;
+    function calculatePercentage(portion: number, total: number) {
+        if (portion && total) return (portion / total) * 100;
     }
 </script>
 
@@ -28,12 +33,12 @@
                 <div>
                     <div class="flex justify-between">
                         <h3 class="text-csi-white">{section.name}</h3>
-                        <p class="text-csi-white">{section.progress}</p>
+                        <p class="text-csi-white">{section.progressString}</p>
                     </div>
                     <div class="mt-1 h-6 w-full overflow-hidden rounded-full bg-gray-700">
                         <div
                             class="{section.color} h-full"
-                            style="width: {calculatePercentage(section.progress)}%"
+                            style="width: {calculatePercentage(section.progress, sigTotal)}%"
                         ></div>
                     </div>
                 </div>
@@ -44,10 +49,10 @@
             <h2 class="text-csi-blue text-3xl font-bold">Constitution Quiz</h2>
             <div class="flex justify-between">
                 <h3 class="text-csi-white">Progress</h3>
-                <p class="text-csi-white">{quizProgress}</p>
+                <p class="text-csi-white">{quizString}</p>
             </div>
             <div class="mt-1 h-4 w-full overflow-hidden rounded-full bg-gray-700">
-                <div class="h-full bg-cyan-400" style="width: {calculatePercentage(quizProgress)}%"></div>
+                <div class="h-full bg-cyan-400" style="width: {calculatePercentage(quizProgress, quizTotal)}%"></div>
             </div>
             <p class="text-csi-white">The quiz will close in # days and # hours</p>
             <p class="text-csi-white">Constitution quiz mechanics</p>
