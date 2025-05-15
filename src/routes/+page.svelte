@@ -20,6 +20,9 @@
     }
 
     const { data } = $props();
+    import { uuid } from '$lib/shared.js';
+    console.log(data);
+    if (data != null && data.user != null) uuid.set(data.user.id);
     import logo from '$lib/icons/upcsi.svg';
 </script>
 

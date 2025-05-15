@@ -32,6 +32,11 @@
     let selectedMember = $state(members[0]);
     let showModal = $state(false);
 
+    import { uuid } from '$lib/shared.js';
+    let data = $state("");
+    data = $uuid;
+    console.log($uuid)
+
     function openModal(member: mem) {
         showModal = true;
         selectedMember = member;
