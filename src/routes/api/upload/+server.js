@@ -17,6 +17,8 @@ export async function POST({ request }) {
 
     try {
         const formData = await request.formData();
+        const uuid = formData.get('uuid');
+        const member_id = formData.get('member_id');
         const question = formData.get('question');
         const answer = formData.get('answer');
         const imageFile = formData.get('image');
@@ -61,12 +63,13 @@ export async function POST({ request }) {
             console.log('Uploading file to Google Drive with metadata:', fileMetadata);
             console.log('File mimeType:', media.mimeType);
 
+            console.log("driveResponse start");
             const driveResponse = await drive.files.create({
                 requestBody: fileMetadata,
                 media: media,
                 fields: 'id',
             });
-
+            console.log("driveResponse success");
             fileId = driveResponse.data.id;
             fileUrl = `https://drive.google.com/uc?id=${fileId}`;
             console.log('File uploaded successfully. File ID:', fileId);
@@ -104,6 +107,8 @@ export async function POST({ request }) {
 
         // Save data to Supabase
         console.log('Starting to save data to Supabase with the following details:', {
+            uuid,
+            member_id,
             question,
             answer,
             image_url: fileUrl,
@@ -116,6 +121,8 @@ export async function POST({ request }) {
                     question,
                     answer,
                     image_url: fileUrl, // Use the correct file URL
+                    applicant_id: uuid,
+                    member_id
                 });
 
             if (error) {
@@ -124,10 +131,12 @@ export async function POST({ request }) {
             }
 
             console.log('Data successfully saved to Supabase:', {
-            question,
-            answer,
-            image_url: fileUrl,
-        });
+                question,
+                answer,
+                image_url: fileUrl,
+                applicant_id: uuid,
+                member_id
+            });
 
             return new Response(JSON.stringify({ message: 'Data saved successfully', data }), {
                 status: 200,

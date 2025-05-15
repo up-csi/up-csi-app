@@ -1,7 +1,8 @@
 <script lang="ts">
     import { writable } from 'svelte/store';
+    import { uuid } from '$lib/shared.js';
 
-    const { name, role, closeModal, activeCategory } = $props();
+    const { member_id, name, role, closeModal, activeCategory } = $props();
     // Implement color of name
 
     const categoryColors: Record<string, string> = {
@@ -71,6 +72,27 @@
     </div>
 
     <form class="grid gap-6 md:grid-cols-2 md:gap-0" onsubmit={handleSubmit}>
+
+        <input
+            type="text"
+            alt="uuid"
+            id="uuid-input"
+            name="uuid"
+            value="{$uuid}"
+            hidden
+            required
+        />
+        
+        <input
+            type="text"
+            alt="member_id"
+            id="memberid-input"
+            name="member_id"
+            value="{member_id}"
+            hidden
+            required
+        />
+
         <div class="mx-10 md:mr-3">
             <h2 class="pb-1 text-4xl font-bold" style="color:{categoryColors[activeCategory]}">{name}</h2>
             <h3 class="dark:text-csi-white text-sm">{role}</h3>

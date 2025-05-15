@@ -5,6 +5,7 @@
 
     import MemberCard from './MemberCard.svelte';
     import Modal from './Modal.svelte';
+    import { uuid } from '$lib/shared.js';
 
     const categories = ['Exec', 'M&I', 'Service', 'Innov', 'Engg', 'Exte', 'B&C'];
 
@@ -32,10 +33,6 @@
     let selectedMember = $state(members[0]);
     let showModal = $state(false);
 
-    import { uuid } from '$lib/shared.js';
-    let data = $state("");
-    data = $uuid;
-    console.log($uuid)
 
     function openModal(member: mem) {
         showModal = true;
@@ -81,7 +78,7 @@
     </div>
     {#if showModal}
         <div class="flex-center fixed inset-0 justify-center bg-black/50">
-            <Modal name={selectedMember?.name} role={selectedMember?.role} {closeModal} {activeCategory}></Modal>
+            <Modal member_id={selectedMember?.member_id} name={selectedMember?.name} role={selectedMember?.role} {closeModal} {activeCategory}></Modal>
         </div>
     {/if}
 </div>
