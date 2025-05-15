@@ -22,12 +22,12 @@
 {:else}
     <div class="flex w-full flex-row bg-[#161619]">
         {#if page.url.pathname !== '/login/'}
-            <div class="flex w-1/6">
+            <div class="flex w-64">
                 <NavBar />
             </div>
         {/if}
 
-        <div class="flex {page.url.pathname === '/login/' ? 'w-full' : 'w-5/6'}">
+        <div class="flex {page.url.pathname === '/login/' ? 'w-full' : 'w-[calc(100%-16rem)]'}">
             {@render children()}
         </div>
     </div>
