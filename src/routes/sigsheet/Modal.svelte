@@ -38,6 +38,9 @@
                 console.log('Data uploaded successfully:', data);
                 alert('Data uploaded successfully!');
             }
+
+            closeModal();
+            
         } catch (error) {
             console.error('Unexpected error:', error);
             alert('An unexpected error occurred. Please try again.');
