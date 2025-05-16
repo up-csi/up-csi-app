@@ -26,7 +26,7 @@
 		"Branding & Creatives": "bg-green-500"
 	};
 
-	let signatureSheet: CommitteeProgress[] = [];
+	let signatureSheet: CommitteeProgress[] = $state([]);
 	const quizProgress = '28/40';
 
 	function calculatePercentage(progress: string) {
@@ -48,33 +48,42 @@ onMount(async () => {
 	*/ 
 
 	// 1. Get sigsheet rows
-	const { data, error } = await supabase
+	const supabase_sig = await supabase
 		.from('sigsheet')
 		.select('member_id, members:member_id (member_committee)')
 		.eq('applicant_id', applicantId);
 
-	if (error) {
-		console.error('Error fetching sigsheet:', error.message);
+    const sig_error = supabase_sig.error;
+
+	if (sig_error) {
+		console.error('Error fetching sigsheet:', sig_error.message);
 		return;
 	}
 
+    const sig_data = supabase_sig.data;
+
 	// 2. Count how many signatures per committee
 	const committeeCounts: Record<string, number> = {};
-	(data as unknown as SigsheetRow[]).forEach(row => {
+	(sig_data as unknown as SigsheetRow[]).forEach(row => {
 		const committee = row.members?.member_committee;
 		if (!committee) return;
 		committeeCounts[committee] = (committeeCounts[committee] || 0) + 1;
 	});
 
 	// 3. Get total members per committee
-	const { data: memberData, error: memberError } = await supabase
+	const supabaseMembers = await supabase
 		.from('members')
 		.select('member_committee');
+
+    const memberError = supabaseMembers.error;
+    // { data: memberData, error: memberError }
 
 	if (memberError) {
 		console.error('Error fetching members:', memberError.message);
 		return;
 	}
+
+    const memberData = supabaseMembers.data;
 
 	const totalByCommittee: Record<string, number> = {};
 	memberData.forEach((row: { member_committee: string }) => {
@@ -93,6 +102,7 @@ onMount(async () => {
 	});
 });
 
+    const { data } = $props();
     import logo from '$lib/icons/upcsi.svg';
 
 // take note month starts at 0
@@ -131,10 +141,9 @@ onMount(async () => {
     setInterval(updateTimeLeft, 1000);
 </script>
 
-
-
-
-<div class="font-inter h-screen flex-1 flex-row bg-[#161619] p-6">
+{#if data.session}
+    <div class="font-inter h-screen flex-1 flex-row bg-[#161619] p-6">
+    <h1 class="text-csi-white mb-2 flex w-100 text-4xl font-bold">Hello, {data.user?.email?.split('@')[0]}!</h1>
     <h2 class="text-csi-white flex w-100 text-2xl font-bold">Your Dashboard</h2>
 
     <main class="mt-6 flex justify-evenly">
@@ -163,7 +172,7 @@ onMount(async () => {
                 <h3 class="text-csi-white">Progress</h3>
                 <p class="text-csi-white">{quizProgress}</p>
             </div>
-            
+
             <div class="mt-1 h-4 w-full overflow-hidden rounded-full bg-gray-700">
                 <div class="h-full bg-cyan-400" style="width: {calculatePercentage(quizProgress)}%"></div>
             </div>
@@ -176,3 +185,24 @@ onMount(async () => {
         </div>
     </main>
 </div>
+{:else}
+    <div
+        class="font-inter flex min-h-screen w-full flex-col items-center justify-center gap-4 border text-center dark:bg-[#161619]"
+    >
+        <main
+            class="font-inter flex flex-col items-center justify-center gap-2 rounded-xl px-4 py-6 md:px-8 dark:bg-[#2f2f32]"
+        >
+            <div class="text-csi-blue mb-4 flex items-center justify-center gap-4">
+                <img src={logo} class="w-[25px]" alt="CSI Logo" />
+                <div class="font-inter flex flex-col text-left">
+                    <span class="text-xs font-extralight">University of the Philippines</span>
+                    <span class="mt-[-2px] text-xs font-semibold">Center for Student Innovations</span>
+                </div>
+            </div>
+
+            <h1 class="dark:text-csi-white text-3xl font-extrabold">Welcome to the CSI App!</h1>
+
+            <a href="/login" class="text-csi-blue text-base font-bold underline">Go to Login page</a>
+        </main>
+    </div>
+{/if}
