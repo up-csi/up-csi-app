@@ -7,13 +7,43 @@ export interface mem {
 }
 
 export const members: mem[] = [
-    { member_id: 1, name: 'Victor Reyes', role: 'President & Director for Engineering', category: 'Exec', photo: 'VictorReyes' },
-    { member_id: 2, name: 'BMae Amurao', role: 'Director for Membership and Internals', category: 'Exec', photo: 'BmaeAmurao' },
-    { member_id: 3, name: 'Don Chavez', role: 'Co-Vice President for Service', category: 'Exec', photo: 'DonSebastienChavez' },
+    {
+        member_id: 1,
+        name: 'Victor Reyes',
+        role: 'President & Director for Engineering',
+        category: 'Exec',
+        photo: 'VictorReyes',
+    },
+    {
+        member_id: 2,
+        name: 'BMae Amurao',
+        role: 'Director for Membership and Internals',
+        category: 'Exec',
+        photo: 'BmaeAmurao',
+    },
+    {
+        member_id: 3,
+        name: 'Don Chavez',
+        role: 'Co-Vice President for Service',
+        category: 'Exec',
+        photo: 'DonSebastienChavez',
+    },
     { member_id: 4, name: 'Bryan Uy', role: 'Co-Vice President for Service', category: 'Exec', photo: 'BryanUy' },
     { member_id: 5, name: 'Benj Lazaro', role: 'Vice President for Innovation', category: 'Exec', photo: 'BenjLazaro' },
-    { member_id: 6, name: 'Sean Tolentino', role: 'Director for External Relations', category: 'Exec', photo: 'SeanKenjiTolentino' },
-    { member_id: 7, name: 'Isay Bucu', role: 'Vice President for Branding and Creatives', category: 'Exec', photo: 'IsayBucu' },
+    {
+        member_id: 6,
+        name: 'Sean Tolentino',
+        role: 'Director for External Relations',
+        category: 'Exec',
+        photo: 'SeanKenjiTolentino',
+    },
+    {
+        member_id: 7,
+        name: 'Isay Bucu',
+        role: 'Vice President for Branding and Creatives',
+        category: 'Exec',
+        photo: 'IsayBucu',
+    },
 
     { member_id: 61, name: 'Eko Delflin', role: '', category: 'B&C', photo: 'EkoDelflin' },
     { member_id: 62, name: 'Fibi Moraca', role: '', category: 'B&C', photo: 'FibiMoraca' },

@@ -40,11 +40,8 @@
             }
 
             filledSigsheet.add(member_id);
-            console.log("ADDED TO FILLED SIGSHEET", $filledSigsheet);
+            console.log('ADDED TO FILLED SIGSHEET', $filledSigsheet);
             closeModal();
-
-            
-            
         } catch (error) {
             console.error('Unexpected error:', error);
             alert('An unexpected error occurred. Please try again.');
@@ -79,26 +76,9 @@
     </div>
 
     <form class="grid gap-6 md:grid-cols-2 md:gap-0" onsubmit={handleSubmit}>
+        <input type="text" alt="uuid" id="uuid-input" name="uuid" value={$uuid} hidden required />
 
-        <input
-            type="text"
-            alt="uuid"
-            id="uuid-input"
-            name="uuid"
-            value="{$uuid}"
-            hidden
-            required
-        />
-        
-        <input
-            type="text"
-            alt="member_id"
-            id="memberid-input"
-            name="member_id"
-            value="{member_id}"
-            hidden
-            required
-        />
+        <input type="text" alt="member_id" id="memberid-input" name="member_id" value={member_id} hidden required />
 
         <div class="mx-10 md:mr-3">
             <h2 class="pb-1 text-4xl font-bold" style="color:{categoryColors[activeCategory]}">{name}</h2>

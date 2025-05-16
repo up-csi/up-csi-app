@@ -57,19 +57,20 @@ export async function POST({ request }) {
             body: readableStream,
         };
 
-        let fileId = null, fileUrl = null; // Initialize variables
+        let fileId = null,
+            fileUrl = null; // Initialize variables
 
         try {
             console.log('Uploading file to Google Drive with metadata:', fileMetadata);
             console.log('File mimeType:', media.mimeType);
 
-            console.log("driveResponse start");
+            console.log('driveResponse start');
             const driveResponse = await drive.files.create({
                 requestBody: fileMetadata,
                 media: media,
                 fields: 'id',
             });
-            console.log("driveResponse success");
+            console.log('driveResponse success');
             fileId = driveResponse.data.id;
             fileUrl = `https://drive.google.com/uc?id=${fileId}`;
             console.log('File uploaded successfully. File ID:', fileId);
@@ -122,7 +123,7 @@ export async function POST({ request }) {
                     answer,
                     image_url: fileUrl, // Use the correct file URL
                     applicant_id: uuid,
-                    member_id
+                    member_id,
                 });
 
             if (error) {
@@ -135,7 +136,7 @@ export async function POST({ request }) {
                 answer,
                 image_url: fileUrl,
                 applicant_id: uuid,
-                member_id
+                member_id,
             });
 
             return new Response(JSON.stringify({ message: 'Data saved successfully', data }), {

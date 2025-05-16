@@ -7,7 +7,7 @@
     import Modal from './Modal.svelte';
     import { filledSigsheet } from '$lib/shared';
 
-    console.log("FILLED SIGSHEET: ", $filledSigsheet);
+    console.log('FILLED SIGSHEET: ', $filledSigsheet);
 
     const categories = ['Exec', 'M&I', 'Service', 'Innov', 'Engg', 'Exte', 'B&C'];
 
@@ -35,11 +35,9 @@
     let selectedMember = $state(members[0]);
     let showModal = $state(false);
 
-
     function openModal(member: mem) {
-        if (!$filledSigsheet.has(member.member_id))
-            showModal = true;
-            selectedMember = member;
+        if (!$filledSigsheet.has(member.member_id)) showModal = true;
+        selectedMember = member;
     }
 
     function closeModal() {
@@ -81,7 +79,13 @@
     </div>
     {#if showModal}
         <div class="flex-center fixed inset-0 justify-center bg-black/50">
-            <Modal member_id={selectedMember?.member_id} name={selectedMember?.name} role={selectedMember?.role} {closeModal} {activeCategory}></Modal>
+            <Modal
+                member_id={selectedMember?.member_id}
+                name={selectedMember?.name}
+                role={selectedMember?.role}
+                {closeModal}
+                {activeCategory}
+            ></Modal>
         </div>
     {/if}
 </div>
