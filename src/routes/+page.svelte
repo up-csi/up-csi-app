@@ -1,4 +1,5 @@
 <script lang="ts">
+    import { filledSigsheet, uuid } from '$lib/shared';
     import { onMount } from 'svelte';
     import { supabase } from '$lib/supabaseClient';
 
@@ -35,7 +36,7 @@
     }
 
     onMount(async () => {
-        const applicantId = '10dd9dfb-91c7-4307-bc1f-d2df76833112';
+        const applicantId = $uuid;
 
         // supposedly we should fetch the user ID like this:
         /*
@@ -100,9 +101,6 @@
     });
 
     const { data } = $props();
-    import { filledSigsheet, uuid } from '$lib/shared';
-    import { supabase } from '$lib/supabaseClient';
-
     async function fetchSigsheet(uuid: string) {
         console.log('Fetching sigsheet from Supabase with ID:', uuid);
         try {
