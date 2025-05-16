@@ -180,7 +180,7 @@ onMount(async () => {
             <p class="text-csi-white">Constitution quiz mechanics</p>
             <a
                 href="./consti-quiz"
-                class="bg-csi-blue w-1/6 self-center rounded-3xl py-2 text-center font-bold text-[#161619]">Continue</a
+                class="bg-csi-blue w-1/4 self-center rounded-3xl py-2 text-center font-bold text-[#161619]">Continue</a
             >
         </div>
     </main>
