@@ -1,26 +1,141 @@
-<!-- <script lang="ts"> -->
-<!-- </script> -->
-
 <script lang="ts">
-    const signatureSheet = [
-        { name: 'Executive', progress: '18/34', color: 'bg-cyan-400' },
-        { name: 'Membership & Internals', progress: '12/34', color: 'bg-pink-400' },
-        { name: 'Service', progress: '17/34', color: 'bg-yellow-400' },
-        { name: 'Innovation', progress: '20/34', color: 'bg-orange-400' },
-        { name: 'Engineering', progress: '34/34', color: 'bg-red-500' },
-        { name: 'External Relations', progress: '30/34', color: 'bg-blue-500' },
-        { name: 'Branding and Creatives', progress: '25/34', color: 'bg-green-500' },
-    ];
+    import { onMount } from 'svelte';
+    import { supabase } from '$lib/supabaseClient';
 
+    type CommitteeProgress = {
+        name: string;
+        progress: string;
+        color: string | undefined;
+    };
+
+    type SigsheetRow = {
+        member_id: number;
+        members?: { member_committee: string }; // not an array anymore
+    };
+
+    // const totalByCommittee: Record<string, number> = {};
+
+    const committeeColors: Record<string, string> = {
+        Executive: 'bg-cyan-400',
+        'Membership & Internals': 'bg-pink-400',
+        Service: 'bg-yellow-400',
+        Innovation: 'bg-orange-400',
+        Engineering: 'bg-red-500',
+        'External Relations': 'bg-blue-500',
+        'Branding & Creatives': 'bg-green-500',
+    };
+
+    let signatureSheet: CommitteeProgress[] = $state([]);
     const quizProgress = '28/40';
 
     function calculatePercentage(progress: string) {
         const [num, denom] = progress.split('/').map(Number);
         if (num && denom) return (num / denom) * 100;
+        return 0;
     }
+
+    onMount(async () => {
+        const applicantId = '10dd9dfb-91c7-4307-bc1f-d2df76833112';
+
+        // supposedly we should fetch the user ID like this:
+        /*
+		const {
+		data: { user }
+	} = await supabase.auth.getUser();
+
+	const applicantId = user?.id;
+	*/
+
+        // 1. Get sigsheet rows
+        const supabase_sig = await supabase
+            .from('sigsheet')
+            .select('member_id, members:member_id (member_committee)')
+            .eq('applicant_id', applicantId);
+
+        const sig_error = supabase_sig.error;
+
+        if (sig_error) {
+            // console.error('Error fetching sigsheet:', sig_error.message);
+            return;
+        }
+
+        const sig_data = supabase_sig.data;
+
+        // 2. Count how many signatures per committee
+        const committeeCounts: Record<string, number> = {};
+        (sig_data as unknown as SigsheetRow[]).forEach(row => {
+            const committee = row.members?.member_committee;
+            if (!committee) return;
+            committeeCounts[committee] = (committeeCounts[committee] || 0) + 1;
+        });
+
+        // 3. Get total members per committee
+        const supabaseMembers = await supabase.from('members').select('member_committee');
+
+        const memberError = supabaseMembers.error;
+        // { data: memberData, error: memberError }
+
+        if (memberError) {
+            // console.error('Error fetching members:', memberError.message);
+            return;
+        }
+
+        const memberData = supabaseMembers.data;
+
+        const totalByCommittee: Record<string, number> = {};
+        memberData.forEach((row: { member_committee: string }) => {
+            const committee = row.member_committee;
+            totalByCommittee[committee] = (totalByCommittee[committee] || 0) + 1;
+        });
+
+        // 4. Build progress array
+        signatureSheet = Object.entries(totalByCommittee).map(([name, total]) => {
+            const count = committeeCounts[name] || 0;
+            return {
+                name,
+                progress: `${count}/${total}`,
+                color: committeeColors[name],
+            };
+        });
+    });
 
     const { data } = $props();
     import logo from '$lib/icons/upcsi.svg';
+
+    // take note month starts at 0
+    // sample deadline is May 31, 6:30 PM
+    const quizRawDeadline = new Date(2025, 4, 31, 18, 30, 0);
+    const deadlineHour = quizRawDeadline.getHours();
+    const deadlineMinutes = quizRawDeadline.getMinutes();
+    const quizDeadline = quizRawDeadline.getTime();
+    let daysLeft = 0;
+    let hoursLeft = 0;
+    let quizClosingString = '';
+
+    function updateTimeLeft() {
+        const now = new Date().getTime();
+        // console.log(now);
+
+        const timeLeft = quizDeadline - now;
+
+        daysLeft = Math.floor(timeLeft / (1000 * 60 * 60 * 24));
+        hoursLeft = Math.floor((timeLeft % (1000 * 60 * 60 * 24)) / (1000 * 60 * 60));
+
+        if (timeLeft < 0) {
+            quizClosingString = 'The quiz has closed.';
+        } else if (daysLeft < 1 && hoursLeft < 1) {
+            quizClosingString = `The quiz will close at ${deadlineHour % 12}:${(deadlineMinutes < 10 ? '0' : '') + deadlineMinutes} ${deadlineHour >= 12 ? 'PM' : 'AM'}.`;
+        } else {
+            const daysString = `${daysLeft}${daysLeft === 1 ? ' day' : ' days'}`;
+            const hoursString = `${hoursLeft}${hoursLeft === 1 ? ' hour' : ' hours'}`;
+            const hasAnd = daysLeft > 0 && hoursLeft > 0;
+
+            quizClosingString = `The quiz will close in ${daysLeft <= 0 ? '' : daysString}${hasAnd ? ' and ' : ''}${hoursLeft <= 0 ? '' : hoursString}.`;
+        }
+    }
+
+    updateTimeLeft();
+    setInterval(updateTimeLeft, 1000);
 </script>
 
 {#if data.session}
@@ -54,14 +169,15 @@
                     <h3 class="text-csi-white">Progress</h3>
                     <p class="text-csi-white">{quizProgress}</p>
                 </div>
+
                 <div class="mt-1 h-4 w-full overflow-hidden rounded-full bg-gray-700">
                     <div class="h-full bg-cyan-400" style="width: {calculatePercentage(quizProgress)}%"></div>
                 </div>
-                <p class="text-csi-white">The quiz will close in # days and # hours</p>
+                <p class="text-csi-white">{quizClosingString}</p>
                 <p class="text-csi-white">Constitution quiz mechanics</p>
                 <a
                     href="./consti-quiz"
-                    class="bg-csi-blue w-1/6 self-center rounded-3xl py-2 text-center font-bold text-[#161619]"
+                    class="bg-csi-blue w-1/4 self-center rounded-3xl py-2 text-center font-bold text-[#161619]"
                     >Continue</a
                 >
             </div>
