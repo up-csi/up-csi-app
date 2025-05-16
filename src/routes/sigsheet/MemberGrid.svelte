@@ -37,8 +37,9 @@
 
 
     function openModal(member: mem) {
-        showModal = true;
-        selectedMember = member;
+        if (!$filledSigsheet.has(member.member_id))
+            showModal = true;
+            selectedMember = member;
     }
 
     function closeModal() {
