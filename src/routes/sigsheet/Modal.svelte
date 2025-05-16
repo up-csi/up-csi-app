@@ -1,6 +1,6 @@
 <script lang="ts">
+    import { filledSigsheet, uuid } from '$lib/shared';
     import { writable } from 'svelte/store';
-    import { uuid } from '$lib/shared.js';
 
     const { member_id, name, role, closeModal, activeCategory } = $props();
     // Implement color of name
@@ -39,7 +39,11 @@
                 alert('Data uploaded successfully!');
             }
 
+            filledSigsheet.add(member_id);
+            console.log("ADDED TO FILLED SIGSHEET", $filledSigsheet);
             closeModal();
+
+            
             
         } catch (error) {
             console.error('Unexpected error:', error);

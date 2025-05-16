@@ -20,7 +20,7 @@
     }
 
     const { data } = $props();
-    import { uuid, filledSigsheet } from '$lib/shared.js';
+    import { filledSigsheet, uuid } from '$lib/shared';
     import { supabase } from '$lib/supabaseClient';
 
     async function fetchSigsheet(uuid: string){
@@ -45,8 +45,9 @@
     }
 
     console.log(data);
-    if (data != null && data.user != null) {
+    if (data !== null && data.user !== null) {
         uuid.set(data.user.id);
+        console.log("UUID: ", $uuid);
         fetchSigsheet(data.user.id);
     }
 
