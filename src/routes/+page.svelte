@@ -110,7 +110,7 @@
     const quizDeadline = quizRawDeadline.getTime();
     let daysLeft = 0;
     let hoursLeft = 0;
-    let quizClosingString = '';
+    let quizClosingString = $state('');
 
     function updateTimeLeft() {
         const now = new Date().getTime();
@@ -166,7 +166,7 @@
             <div class="bg-csi-neutral-900 flex w-3/7 flex-col gap-y-4 rounded-2xl p-6">
                 <h2 class="text-csi-blue text-3xl font-bold">Constitution Quiz</h2>
                 <div class="flex justify-between">
-                    <h3 class="text-csi-white">Progress</h3>
+                    <h3 class="text-csi-white text-lg font-bold">Progress</h3>
                     <p class="text-csi-white">{quizProgress}</p>
                 </div>
 
@@ -174,7 +174,27 @@
                     <div class="h-full bg-cyan-400" style="width: {calculatePercentage(quizProgress)}%"></div>
                 </div>
                 <p class="text-csi-white">{quizClosingString}</p>
-                <p class="text-csi-white">Constitution quiz mechanics</p>
+                <div class="text-csi-white">
+                    <p class="pb-2 text-lg font-bold">Constitution Quiz Mechanics</p>
+                    <ul class="px-10" style="list-style-type:circle;">
+                        <li class="py-1">The constitution quiz is a requirement for all CSI Applicants</li>
+                        <li class="py-1">
+                            This quiz is open notes and you may view a copy of the constitution <a
+                                class="text-csi-blue hover:underline hover:duration-300 hover:ease-in-out"
+                                href="https://drive.google.com/file/d/1p9rVCCyIwaA7W36t_hbwF9-lFWSJ3NR-/view?usp=drive_link"
+                                target="_blank">here</a
+                            >.
+                        </li>
+                        <li class="py-1">
+                            Please keep the contents of the quiz confidential. You may not consult with other applicants
+                            or members!
+                        </li>
+                        <li class="py-1">
+                            The deadline of the quiz is <b>May 31, 6:30 PM</b>. Your progress will be saved when you
+                            exit.
+                        </li>
+                    </ul>
+                </div>
                 <a
                     href="./consti-quiz"
                     class="bg-csi-blue w-1/4 self-center rounded-3xl py-2 text-center font-bold text-[#161619]"
