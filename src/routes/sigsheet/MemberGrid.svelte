@@ -5,7 +5,9 @@
 
     import MemberCard from './MemberCard.svelte';
     import Modal from './Modal.svelte';
-    import { uuid } from '$lib/shared.js';
+    import { filledSigsheet } from '$lib/shared';
+
+    console.log("FILLED SIGSHEET: ", $filledSigsheet);
 
     const categories = ['Exec', 'M&I', 'Service', 'Innov', 'Engg', 'Exte', 'B&C'];
 
@@ -52,7 +54,7 @@
             {#each members.filter(member => member.category === activeCategory) as member (member.name)}
                 <div in:fade={{ duration: 1300 }}>
                     <button onclick={() => openModal(member)} class="cursor-pointer">
-                        <MemberCard {member} />
+                        <MemberCard filled={$filledSigsheet.has(member.member_id)} {member} />
                     </button>
                 </div>
             {/each}
