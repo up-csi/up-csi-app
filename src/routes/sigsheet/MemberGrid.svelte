@@ -5,6 +5,9 @@
 
     import MemberCard from './MemberCard.svelte';
     import Modal from './Modal.svelte';
+    import { filledSigsheet } from '$lib/shared';
+
+    console.log('FILLED SIGSHEET: ', $filledSigsheet);
 
     const categories = ['Exec', 'M&I', 'Service', 'Innov', 'Engg', 'Exte', 'B&C'];
 
@@ -33,7 +36,7 @@
     let showModal = $state(false);
 
     function openModal(member: mem) {
-        showModal = true;
+        if (!$filledSigsheet.has(member.member_id)) showModal = true;
         selectedMember = member;
     }
 
@@ -50,7 +53,7 @@
             {#each members.filter(member => member.category === activeCategory) as member (member.name)}
                 <div in:fade={{ duration: 1300 }}>
                     <button onclick={() => openModal(member)} class="cursor-pointer">
-                        <MemberCard {member} />
+                        <MemberCard filled={$filledSigsheet.has(member.member_id)} {member} />
                     </button>
                 </div>
             {/each}
@@ -76,7 +79,13 @@
     </div>
     {#if showModal}
         <div class="flex-center fixed inset-0 justify-center bg-black/50">
-            <Modal name={selectedMember?.name} role={selectedMember?.role} {closeModal} {activeCategory}></Modal>
+            <Modal
+                member_id={selectedMember?.member_id}
+                name={selectedMember?.name}
+                role={selectedMember?.role}
+                {closeModal}
+                {activeCategory}
+            ></Modal>
         </div>
     {/if}
 </div>

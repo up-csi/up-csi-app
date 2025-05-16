@@ -100,6 +100,34 @@
     });
 
     const { data } = $props();
+    import { filledSigsheet, uuid } from '$lib/shared';
+    import { supabase } from '$lib/supabaseClient';
+
+    async function fetchSigsheet(uuid: string) {
+        console.log('Fetching sigsheet from Supabase with ID:', uuid);
+        try {
+            const { data, error } = await supabase.from('sigsheet').select('member_id').eq('applicant_id', uuid);
+
+            if (error) {
+                console.error('Supabase error:', error);
+                return;
+            }
+
+            const filledIDs = new Set(data.map(row => row.member_id));
+            filledSigsheet.set(filledIDs);
+            console.log('Sigsheet successfully fetched from Supabase');
+        } catch (err) {
+            console.error('Unexpected error fetching sigsheet:', err);
+        }
+    }
+
+    console.log(data);
+    if (data !== null && data.user !== null) {
+        uuid.set(data.user.id);
+        console.log('UUID: ', $uuid);
+        fetchSigsheet(data.user.id);
+    }
+
     import logo from '$lib/icons/upcsi.svg';
 
     // take note month starts at 0
