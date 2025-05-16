@@ -49,12 +49,12 @@
             let hoursString = `${hoursLeft}` + (hoursLeft == 1 ? ' hour' : ' hours');
             let hasAnd = daysLeft > 0 && hoursLeft > 0;
 
-            quizClosingString = `The quiz will close in ${daysLeft <= 0 ? '' : daysString}${hasAnd ? ' and ' : ''}${hoursLeft <= 0 ? '' : hoursString}.`
+            quizClosingString = `The quiz will close in ${daysLeft <= 0 ? '' : daysString}${hasAnd ? ' and ' : ''}${hoursLeft <= 0 ? '' : hoursString}.`;
         }
     }
 
     updateTimeLeft();
-    setInterval(updateTimeLeft, 1000)
+    setInterval(updateTimeLeft, 1000);
 </script>
 
 <div class="font-inter h-screen flex-1 flex-row bg-[#161619] p-6">
