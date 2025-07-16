@@ -7,60 +7,61 @@ export interface mem {
 }
 
 export const members: mem[] = [
-    { 
-        member_id: 5, 
-        name: 'Benj Lazaro', 
-        role: 'President', 
-        category: 'Exec', 
-        photo: 'BenjLazaro' 
+    {
+        member_id: 5,
+        name: 'Benj Lazaro',
+        role: 'President',
+        category: 'Exec',
+        photo: 'BenjLazaro',
     },
-    { 
-        member_id: 16, 
-        name: 'Nate Zuñiga', 
+    {
+        member_id: 16,
+        name: 'Nate Zuñiga',
         role: 'Director for Membership and Internals',
         category: 'Exec',
-        photo: 'NateZuñiga' },
-    { 
-        member_id: 4, 
-        name: 'Bryan Uy', 
-        role: 'Vice President for Service', 
-        category: 'Exec', 
-        photo: 'BryanUy' 
+        photo: 'NateZuñiga',
     },
-    { 
-        member_id: 36, 
-        name: 'Sidney Fernando', 
-        role: 'Co-Vice President for Innovation', 
-        category: 'Exec', 
-        photo: 'SidneyFernando' 
+    {
+        member_id: 4,
+        name: 'Bryan Uy',
+        role: 'Vice President for Service',
+        category: 'Exec',
+        photo: 'BryanUy',
     },
-    { 
-        member_id: 48, 
-        name: 'Mikel Arcardo', 
-        role: 'Co-Vice President for Innovation', 
-        category: 'Exec', 
-        photo: 'MikelArcardo' 
+    {
+        member_id: 36,
+        name: 'Sidney Fernando',
+        role: 'Co-Vice President for Innovation',
+        category: 'Exec',
+        photo: 'SidneyFernando',
     },
-    { 
-        member_id: 40, 
-        name: 'Ehren Castillo', 
-        role: 'Director for Engineering', 
-        category: 'Exec', 
-        photo: 'EhrenCastillo' 
+    {
+        member_id: 48,
+        name: 'Mikel Arcardo',
+        role: 'Co-Vice President for Innovation',
+        category: 'Exec',
+        photo: 'MikelArcardo',
     },
-    { 
-        member_id: 52, 
-        name: 'Cessa Gonzales', 
+    {
+        member_id: 40,
+        name: 'Ehren Castillo',
+        role: 'Director for Engineering',
+        category: 'Exec',
+        photo: 'EhrenCastillo',
+    },
+    {
+        member_id: 52,
+        name: 'Cessa Gonzales',
         role: 'Director for External Relations',
         category: 'Exec',
-        photo: 'CessaGonzales' 
+        photo: 'CessaGonzales',
     },
-    { 
-        member_id: 66, 
-        name: 'Karin Consebido', 
+    {
+        member_id: 66,
+        name: 'Karin Consebido',
         role: 'Vice President for Branding and Creatives',
         category: 'Exec',
-        photo: 'KarinConsebido' 
+        photo: 'KarinConsebido',
     },
 
     { member_id: 61, name: 'Eko Delflin', role: '', category: 'B&C', photo: 'EkoDelflin' },
