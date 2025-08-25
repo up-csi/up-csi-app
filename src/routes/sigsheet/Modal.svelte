@@ -36,11 +36,10 @@
             } else {
                 const data = await response.json();
                 console.log('Data uploaded successfully:', data);
+                filledSigsheet.add(member_id);
+                console.log('ADDED TO FILLED SIGSHEET', $filledSigsheet);
                 alert('Data uploaded successfully!');
             }
-
-            filledSigsheet.add(member_id);
-            console.log('ADDED TO FILLED SIGSHEET', $filledSigsheet);
             closeModal();
         } catch (error) {
             console.error('Unexpected error:', error);
