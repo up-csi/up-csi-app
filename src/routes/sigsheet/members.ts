@@ -119,7 +119,6 @@ export const members: mem[] = [
     { member_id: 41, name: 'Emman Amante', role: '', category: 'Service', photo: 'EmmanAmante' },
     { member_id: 69, name: 'Sam Siy', role: '', category: 'Service', photo: 'SamSiy' },
     { member_id: 77, name: 'Andri Crisostomo', role: '', category: 'Service', photo: 'AndriCrisostomo' },
-
 ];
 
 export default members;
