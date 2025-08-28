@@ -7,13 +7,13 @@
     import SectionNav from './SectionNav.svelte';
     import ShortTextQuestion from './ShortTextQuestion.svelte';
 
-    // Supabase client
-    const supabase = createClient(env.PUBLIC_SUPABASE_URL, env.PUBLIC_SUPABASE_ANON_KEY);
-
     // first pull out `data`
     const { data } = $props();
     // then destructure `user` from that
-    const { user } = data;
+    const { user, questions } = data;
+
+    // NOTE: for debugging purposes only, remove during production
+    // console.log('questions:', questions);
 
     // State variables for messages
     let submissionError = $state('');
