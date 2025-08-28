@@ -1,6 +1,5 @@
 <script lang="ts">
-    import { createClient } from '@supabase/supabase-js';
-    import { env } from '$env/dynamic/public';
+    import type { User } from '@supabase/supabase-js';
     // Alphabetical imports
     import CheckboxQuestion from './CheckboxQuestion.svelte';
     import LongTextQuestion from './LongTextQuestion.svelte';
@@ -93,22 +92,23 @@
         return radioScores.reduce((a, b) => a + b, 0) + checkboxScore;
     }
 
-    async function handleSubmit() {
-        const username = user?.email?.split('@')[0] ?? 'anonymous';
-        const score = calculateClosedEndedScore();
-
-        const { error } = await supabase
-            .from('consti-quiz')
-            .insert([{ name: username, score, created_at: new Date().toISOString() }]);
-
-        if (error) {
-            submissionError = 'Failed to submit score. Please try again.';
-            submissionSuccess = '';
-        } else {
-            submissionSuccess = `Your score of ${score} has been submitted!`;
-            submissionError = '';
-        }
-    }
+    // NOTE: commented this out first, since we should create supabase endpoints in +server.ts instead
+    // async function handleSubmit() {
+    //     const username = user?.email?.split('@')[0] ?? 'anonymous';
+    //     const score = calculateClosedEndedScore();
+    //
+    //     const { error } = await supabase
+    //         .from('consti-quiz')
+    //         .insert([{ name: username, score, created_at: new Date().toISOString() }]);
+    //
+    //     if (error) {
+    //         submissionError = 'Failed to submit score. Please try again.';
+    //         submissionSuccess = '';
+    //     } else {
+    //         submissionSuccess = `Your score of ${score} has been submitted!`;
+    //         submissionError = '';
+    //     }
+    // }
 </script>
 
 <div class="flex h-screen bg-[#161619] text-[#F9FAFB]">
@@ -473,12 +473,12 @@
                     <ShortTextQuestion title="Who is the best DCS prof?" value={b5} />
                 </div>
 
-                <button
-                    onclick={handleSubmit}
-                    class="mt-6 rounded bg-[#00C6D7] px-4 py-2 font-bold text-[#161619] hover:opacity-90"
-                >
-                    Submit
-                </button>
+                <!-- <button -->
+                <!--     onclick={handleSubmit} -->
+                <!--     class="mt-6 rounded bg-[#00C6D7] px-4 py-2 font-bold text-[#161619] hover:opacity-90" -->
+                <!-- > -->
+                <!--     Submit -->
+                <!-- </button> -->
 
                 {#if submissionError}
                     <div class="mb-4 text-red-500">{submissionError}</div>
