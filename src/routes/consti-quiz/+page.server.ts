@@ -19,11 +19,10 @@ export async function load({ locals }) {
     const { data, error } = await supabase.from('constiquiz-questions').select(select_query);
 
     if (error) {
+        // TODO: make sure to change this during production
         console.error(error);
         throw error;
     }
-
-    console.log(data);
 
     return { questions: data };
 }
