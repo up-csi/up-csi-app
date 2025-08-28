@@ -21,6 +21,6 @@
     // });
 </script>
 
-<main class="bg-[#161619]">
+<main class="bg-[#161619] min-h-screen">
     <MemberGrid />
 </main>
