@@ -1,4 +1,4 @@
-import { redirect, error } from '@sveltejs/kit';
+import { redirect } from '@sveltejs/kit';
 
 export const GET = async ({ url, locals: { supabase } }) => {
     const code = url.searchParams.get('code');
@@ -25,7 +25,7 @@ export const GET = async ({ url, locals: { supabase } }) => {
             throw redirect(303, `/login/error?code=domain_restricted`);
         }
 
-        //Whitelist CSI Members, placeholder code
+        // Whitelist CSI Members, placeholder code
         // const allowedEmails = [
         //     "cssacles@up.edu.ph",
         // ]
