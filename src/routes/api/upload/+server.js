@@ -15,8 +15,10 @@ export async function POST({ request }) {
     try {
         const formData = await request.formData();
         const uuid = formData.get('uuid');
+        const username = formData.get('username');
         const gdrive_folder_id = formData.get('gdrive_folder_id');
         const member_id = formData.get('member_id');
+        const member_name = formData.get('member_name');
         const question = formData.get('question');
         const answer = formData.get('answer');
         const imageFile = formData.get('image');
@@ -49,7 +51,7 @@ export async function POST({ request }) {
 
         // Upload image to Google Drive
         const fileMetadata = {
-            name: imageFile.name,
+            name: `${String(username)}-${String(member_name).replace(/\s+/g, "")}`,
             parents: [String(gdrive_folder_id)],
         };
 
