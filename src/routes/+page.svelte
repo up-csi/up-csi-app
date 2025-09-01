@@ -1,8 +1,4 @@
 <script lang="ts">
-<<<<<<< HEAD
-=======
-    import { filledSigsheet, gdrive_folder_id, username, uuid } from '$lib/shared';
->>>>>>> d5a2871 (feat(sigsheet): each applicant has will get their own gdrive folder)
     import { onMount } from 'svelte';
     import { supabase } from '$lib/supabaseClient';
     import { uuid } from '$lib/shared';
@@ -90,13 +86,13 @@
         const memberData = supabaseMembers.data;
 
         const totalByCommittee: Record<string, number> = {
-            Executive: 0,
+            'Executive': 0,
             'Membership & Internals': 0,
-            Service: 0,
-            Innovation: 0,
-            Engineering: 0,
+            'Service': 0,
+            'Innovation': 0,
+            'Engineering': 0,
             'External Relations': 0,
-            'Branding & Creatives': 0,
+            'Branding & Creatives': 0
         };
         memberData.forEach((row: { member_committee: string }) => {
             const committee = row.member_committee;
@@ -116,69 +112,6 @@
         
     });
 
-<<<<<<< HEAD
-=======
-    const { data } = $props();
-    async function fetchSigsheet(applicant_id: string) {
-        console.log('Fetching sigsheet from Supabase with ID:', applicant_id);
-        try {
-            const { data, error } = await supabase
-                .from('sigsheet')
-                .select('member_id')
-                .eq('applicant_id', applicant_id);
-
-            if (error) {
-                console.error('Supabase error:', error);
-                return;
-            }
-
-            const filledIDs = new Set(data.map(row => row.member_id));
-            filledSigsheet.set(filledIDs);
-            console.log('Sigsheet successfully fetched from Supabase');
-        } catch (err) {
-            console.error('Unexpected error fetching sigsheet:', err);
-        }
-    }
-
-    async function fetchFolder(applicant_id: string, username: string) {
-        console.log('Fetching gdrive_folder_id for Applicant:', applicant_id);
-        try {
-            const response = await fetch('/api/get_gdrive_folder', {
-                method: 'POST',
-                body: JSON.stringify({
-                    uuid: applicant_id,
-                    username: username
-                })
-            });
-
-            if (!response.ok) {
-                const error = await response.json();
-                console.error('Error fetching Folder ID', error);
-            } else {
-                const data = await response.json();
-                console.log('Folder ID fetched successfully:', data);
-                gdrive_folder_id.set(data.folder_id);
-                console.log('$lib gdrive_folder_id set to', $gdrive_folder_id);
-            }
-        } catch (error) {
-            console.error('Unexpected error on fetchFolder():', error);
-            alert('An unexpected error occurred. Please try again.');
-        }   
-    }
-
-    // Set up user variables in $lib
-    if (data !== null && data.user !== null) {
-        console.log(data);
-        uuid.set(data.user!.id);
-        username.set(data.user!.email!.split('@')[0] ?? '');
-        console.log('UUID: ', $uuid);
-        onMount(async () => {
-            await fetchSigsheet(data.user!.id);
-            await fetchFolder($uuid, $username);
-        });
-    }
-
->>>>>>> d5a2871 (feat(sigsheet): each applicant has will get their own gdrive folder)
     import logo from '$lib/icons/upcsi.svg';
 
     // take note month starts at 0
