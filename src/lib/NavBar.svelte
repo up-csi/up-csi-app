@@ -23,6 +23,7 @@
         </div>
     </div>
 
+    <div class="flex flex-1 flex-col overflow-y-auto">
         {#each options as option, i (option)}
             <a class="my-2 flex w-full" href={filenames[i]}>
                 <div
@@ -43,15 +44,15 @@
                 </div>
             </a>
         {/each}
-
-        <form class="absolute bottom-0 mb-10 ml-2 w-full" action="/logout" method="POST">
-            <div
-                class="text-csi-white hover:bg-csi-neutral-100 hover:text-csi-black flex w-full gap-2 rounded-full p-3 font-medium
-                        opacity-50 ease-in-out hover:font-medium hover:opacity-100 hover:duration-100"
-            >
-                <LogOut class={icon_class} />
-                <button type="submit" class="ml-4 w-3/4">Log Out</button>
-            </div>
-        </form>
     </div>
+
+    <form class="mt-auto mb-10" action="/logout" method="POST">
+        <div
+            class="text-csi-white hover:bg-csi-neutral-100 hover:text-csi-black flex w-full cursor-pointer gap-2 rounded-full p-3 font-medium
+                        opacity-50 ease-in-out hover:font-medium hover:opacity-100 hover:duration-100"
+        >
+            <LogOut class={icon_class} />
+            <button type="submit" class="w-3/4 cursor-pointer">Log Out</button>
+        </div>
+    </form>
 </div>
