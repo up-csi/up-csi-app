@@ -84,13 +84,13 @@
         const memberData = supabaseMembers.data;
 
         const totalByCommittee: Record<string, number> = {
-            'Executive': 0,
+            Executive: 0,
             'Membership & Internals': 0,
-            'Service': 0,
-            'Innovation': 0,
-            'Engineering': 0,
+            Service: 0,
+            Innovation: 0,
+            Engineering: 0,
             'External Relations': 0,
-            'Branding & Creatives': 0
+            'Branding & Creatives': 0,
         };
         memberData.forEach((row: { member_committee: string }) => {
             const committee = row.member_committee;
@@ -106,8 +106,6 @@
                 color: committeeColors[name],
             };
         });
-
-        
     });
 
     const { data } = $props();
@@ -139,8 +137,8 @@
                 method: 'POST',
                 body: JSON.stringify({
                     uuid: applicant_id,
-                    username: username
-                })
+                    username: username,
+                }),
             });
 
             if (!response.ok) {
@@ -155,7 +153,7 @@
         } catch (error) {
             console.error('Unexpected error on fetchFolder():', error);
             alert('An unexpected error occurred. Please try again.');
-        }   
+        }
     }
 
     // Set up user variables in $lib

@@ -51,7 +51,7 @@ export async function POST({ request }) {
 
         // Upload image to Google Drive
         const fileMetadata = {
-            name: `${String(username)}-${String(member_name).replace(/\s+/g, "")}`,
+            name: `${String(username)}-${String(member_name).replace(/\s+/g, '')}`,
             parents: [String(gdrive_folder_id)],
         };
 
