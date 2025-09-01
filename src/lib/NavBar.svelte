@@ -5,6 +5,7 @@
     const options = ['Dashboard', 'Signature Sheet', 'Constitution Quiz'];
     const filenames = ['/', '/sigsheet/', '/consti-quiz/'];
     const icon_class = 'h-6 w-6';
+    // eslint-disable-next-line prefer-const
     let { user, isNavBarOpen = $bindable() } = $props();
 </script>
 
