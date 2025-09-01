@@ -1,5 +1,5 @@
 <script lang="ts">
-    import { filledSigsheet, uuid } from '$lib/shared';
+    import { filledSigsheet, gdrive_folder_id, uuid } from '$lib/shared';
     import { writable } from 'svelte/store';
 
     const { member_id, name, role, closeModal, activeCategory } = $props();
@@ -76,6 +76,7 @@
 
     <form class="grid gap-6 md:grid-cols-2 md:gap-0" onsubmit={handleSubmit}>
         <input type="text" alt="uuid" id="uuid-input" name="uuid" value={$uuid} hidden required />
+        <input type="text" alt="gdrive_folder_id" id="gdrive_folder_id-input" name="gdrive_folder_id" value={$gdrive_folder_id} hidden required />
 
         <input type="text" alt="member_id" id="memberid-input" name="member_id" value={member_id} hidden required />
 

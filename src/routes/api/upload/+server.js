@@ -1,6 +1,5 @@
 import { PUBLIC_GOOGLE_PRIVATE_KEY, PUBLIC_GOOGLE_SERVICE_EMAIL } from '$env/static/public';
 import { Readable } from 'stream';
-import { gdrive_folder_id } from '$lib/shared'; 
 import { google } from 'googleapis';
 import { supabase } from '../../../lib/supabaseClient';
 
@@ -13,16 +12,17 @@ export async function POST({ request }) {
         private_key: PUBLIC_GOOGLE_PRIVATE_KEY ? 'Provided' : 'Not Provided',
     });
 
-    // Add debugging logs to verify folder permissions
-    console.log('Google Drive Folder ID:', gdrive_folder_id);
-
     try {
         const formData = await request.formData();
         const uuid = formData.get('uuid');
+        const gdrive_folder_id = formData.get('gdrive_folder_id');
         const member_id = formData.get('member_id');
         const question = formData.get('question');
         const answer = formData.get('answer');
         const imageFile = formData.get('image');
+
+        // Add debugging logs to verify folder permissions
+        console.log('Google Drive Folder ID:', gdrive_folder_id);
 
         if (!question || !answer || !imageFile || !(imageFile instanceof File)) {
             console.error('Validation error: Missing or invalid required fields');
@@ -50,7 +50,7 @@ export async function POST({ request }) {
         // Upload image to Google Drive
         const fileMetadata = {
             name: imageFile.name,
-            parents: [gdrive_folder_id],
+            parents: [String(gdrive_folder_id)],
         };
 
         const media = {

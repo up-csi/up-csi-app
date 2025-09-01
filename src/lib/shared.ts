@@ -1,9 +1,10 @@
 import { writable } from 'svelte/store';
 
 export const uuid = writable('');
+export const username = writable('');
 
-// export const gdrive_folder = writable('');
-export const gdrive_folder_id = '1caL05EFKPFVySv4slWpDJERlD6zRBPGW'; // TODO
+export const gdrive_folder_id = writable('');
+export const gdrive_root_folder = '1caL05EFKPFVySv4slWpDJERlD6zRBPGW'; 
 
 const store = writable(new Set());
 
