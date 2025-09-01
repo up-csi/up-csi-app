@@ -11,7 +11,6 @@
 
     const { data, children } = $props();
     const { session, supabase } = $derived(data);
-<<<<<<< HEAD
 
     // Sync $lib variables to data props
     if (data?.uuid) uuid.set(data.uuid);
@@ -19,8 +18,6 @@
     if (data?.filledSigsheet) filledSigsheet.set(data.filledSigsheet);
     if (data?.gdrive_folder_id) gdrive_folder_id.set(data.gdrive_folder_id);
 
-=======
->>>>>>> 3c9b156 (feat: add interactive menu)
     let isNavBarOpen = $state(false);
     onMount(() => {
         const { data } = supabase.auth.onAuthStateChange((_, newSession) => {
