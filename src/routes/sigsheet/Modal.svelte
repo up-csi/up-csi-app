@@ -1,9 +1,5 @@
 <script lang="ts">
-<<<<<<< HEAD
-    import { filledSigsheet, gdrive_folder_id, username, uuid } from '$lib/shared';
-=======
-    import { filledSigsheet, gdrive_folder_id, uuid } from '$lib/shared';
->>>>>>> d5a2871 (feat(sigsheet): each applicant has will get their own gdrive folder)
+    import { filledSigsheet, uuid } from '$lib/shared';
     import { writable } from 'svelte/store';
 
     const { member_id, name, role, closeModal, activeCategory } = $props();
@@ -21,18 +17,13 @@
 
     const imageURL = writable<string | null>(null);
 
-    let submitting = $state(false);
     async function handleSubmit(event: Event) {
         event.preventDefault();
-
-        if (submitting) return;
-        submitting = true;
 
         const form = event.target as HTMLFormElement;
         const formData = new FormData(form);
 
         try {
-            console.log('Start /api/upload.');
             const response = await fetch('/api/upload', {
                 method: 'POST',
                 body: formData,
@@ -45,10 +36,11 @@
             } else {
                 const data = await response.json();
                 console.log('Data uploaded successfully:', data);
-                filledSigsheet.add(member_id);
-                console.log('ADDED TO FILLED SIGSHEET', $filledSigsheet);
                 alert('Data uploaded successfully!');
             }
+
+            filledSigsheet.add(member_id);
+            console.log('ADDED TO FILLED SIGSHEET', $filledSigsheet);
             closeModal();
         } catch (error) {
             console.error('Unexpected error:', error);
@@ -84,25 +76,9 @@
     </div>
 
     <form class="grid gap-6 md:grid-cols-2 md:gap-0" onsubmit={handleSubmit}>
-<<<<<<< HEAD
-        <input
-            type="text"
-            alt="gdrive_folder_id"
-            id="gdrive_folder_id-input"
-            name="gdrive_folder_id"
-            value={$gdrive_folder_id}
-            hidden
-            required
-        />
-=======
         <input type="text" alt="uuid" id="uuid-input" name="uuid" value={$uuid} hidden required />
-        <input type="text" alt="gdrive_folder_id" id="gdrive_folder_id-input" name="gdrive_folder_id" value={$gdrive_folder_id} hidden required />
 
->>>>>>> d5a2871 (feat(sigsheet): each applicant has will get their own gdrive folder)
         <input type="text" alt="member_id" id="memberid-input" name="member_id" value={member_id} hidden required />
-        <input type="text" alt="member_name" id="membername-input" name="member_name" value={name} hidden required />
-        <input type="text" alt="username" id="username-input" name="username" value={$username} hidden required />
-        <input type="text" alt="uuid" id="uuid-input" name="uuid" value={$uuid} hidden required />
 
         <div class="mx-10 md:mr-3">
             <h2 class="pb-1 text-4xl font-bold" style="color:{categoryColors[activeCategory]}">{name}</h2>
@@ -144,7 +120,6 @@
                     name="image"
                     onchange={handleFileChange}
                     hidden
-                    required
                 />
                 <div class="items-center" id="img-view">
                     {#if $imageURL}
@@ -180,13 +155,8 @@
             </label>
             <button
                 class="dark:bg-csi-blue bg-opacity-10 dark:hover:bg-innov-orange h-60px cursor-pointer rounded-full px-6 py-2 text-xl font-semibold"
-                disabled={submitting}
             >
-                {#if submitting}
-                    Submitting...
-                {:else}
-                    Submit
-                {/if}
+                Submit
             </button>
         </div>
     </form>

@@ -12,17 +12,13 @@ export async function POST({ request }) {
         private_key: PUBLIC_GOOGLE_PRIVATE_KEY ? 'Provided' : 'Not Provided',
     });
 
-<<<<<<< HEAD
-    // Add debugging logs to verify folder permissions
-    console.log('Google Drive Folder ID:', '1caL05EFKPFVySv4slWpDJERlD6zRBPGW');
-
-=======
->>>>>>> d5a2871 (feat(sigsheet): each applicant has will get their own gdrive folder)
     try {
         const formData = await request.formData();
         const uuid = formData.get('uuid');
+        const username = formData.get('username');
         const gdrive_folder_id = formData.get('gdrive_folder_id');
         const member_id = formData.get('member_id');
+        const member_name = formData.get('member_name');
         const question = formData.get('question');
         const answer = formData.get('answer');
         const imageFile = formData.get('image');
@@ -55,12 +51,8 @@ export async function POST({ request }) {
 
         // Upload image to Google Drive
         const fileMetadata = {
-            name: imageFile.name,
-<<<<<<< HEAD
-            parents: ['1caL05EFKPFVySv4slWpDJERlD6zRBPGW'],
-=======
+            name: `${String(username)}-${String(member_name).replace(/\s+/g, "")}`,
             parents: [String(gdrive_folder_id)],
->>>>>>> d5a2871 (feat(sigsheet): each applicant has will get their own gdrive folder)
         };
 
         const media = {
