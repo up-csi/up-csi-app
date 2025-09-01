@@ -220,7 +220,7 @@
                             or members!
                         </li>
                         <li class="py-1">
-                            The deadline of the quiz is <b>May 31, 6:30 PM</b>. Your progress will be saved when you
+                            The consti quiz is open from <b>{quizRawStart.toLocaleDateString("en-us", {month: "short"})} {quizRawStart.getDate()} ({quizRawStart.toLocaleDateString("en-us", {weekday: "short"})}) to {quizRawEnd.toLocaleDateString("en-us", {month: "short"})} {quizRawEnd.getDate()} ({quizRawEnd.toLocaleDateString("en-us", {weekday: "short"})})</b>. Your progress will be saved when you
                             exit.
                         </li>
                     </ul>
