@@ -6,6 +6,9 @@ export const username = writable('');
 export const gdrive_folder_id = writable('');
 export const gdrive_root_folder = '1caL05EFKPFVySv4slWpDJERlD6zRBPGW';
 
+// export const gdrive_folder = writable('');
+export const gdrive_folder_id = '1caL05EFKPFVySv4slWpDJERlD6zRBPGW'; // TODO
+
 const store = writable(new Set());
 
 export const filledSigsheet = {

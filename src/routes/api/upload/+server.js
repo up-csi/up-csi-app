@@ -12,19 +12,16 @@ export async function POST({ request }) {
         private_key: PUBLIC_GOOGLE_PRIVATE_KEY ? 'Provided' : 'Not Provided',
     });
 
+    // Add debugging logs to verify folder permissions
+    console.log('Google Drive Folder ID:', '1caL05EFKPFVySv4slWpDJERlD6zRBPGW');
+
     try {
         const formData = await request.formData();
         const uuid = formData.get('uuid');
-        const username = formData.get('username');
-        const gdrive_folder_id = formData.get('gdrive_folder_id');
         const member_id = formData.get('member_id');
-        const member_name = formData.get('member_name');
         const question = formData.get('question');
         const answer = formData.get('answer');
         const imageFile = formData.get('image');
-
-        // Add debugging logs to verify folder permissions
-        console.log('Google Drive Folder ID:', gdrive_folder_id);
 
         if (!question || !answer || !imageFile || !(imageFile instanceof File)) {
             console.error('Validation error: Missing or invalid required fields');
@@ -51,8 +48,8 @@ export async function POST({ request }) {
 
         // Upload image to Google Drive
         const fileMetadata = {
-            name: `${String(username)}-${String(member_name).replace(/\s+/g, '')}`,
-            parents: [String(gdrive_folder_id)],
+            name: imageFile.name,
+            parents: ['1caL05EFKPFVySv4slWpDJERlD6zRBPGW'],
         };
 
         const media = {
