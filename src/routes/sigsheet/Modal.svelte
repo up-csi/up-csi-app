@@ -76,9 +76,19 @@
     </div>
 
     <form class="grid gap-6 md:grid-cols-2 md:gap-0" onsubmit={handleSubmit}>
-        <input type="text" alt="uuid" id="uuid-input" name="uuid" value={$uuid} hidden required />
-
+        <input
+            type="text"
+            alt="gdrive_folder_id"
+            id="gdrive_folder_id-input"
+            name="gdrive_folder_id"
+            value={$gdrive_folder_id}
+            hidden
+            required
+        />
         <input type="text" alt="member_id" id="memberid-input" name="member_id" value={member_id} hidden required />
+        <input type="text" alt="member_name" id="membername-input" name="member_name" value={name} hidden required />
+        <input type="text" alt="username" id="username-input" name="username" value={$username} hidden required />
+        <input type="text" alt="uuid" id="uuid-input" name="uuid" value={$uuid} hidden required />
 
         <div class="mx-10 md:mr-3">
             <h2 class="pb-1 text-4xl font-bold" style="color:{categoryColors[activeCategory]}">{name}</h2>

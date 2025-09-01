@@ -4,7 +4,7 @@ export const uuid = writable('');
 export const username = writable('');
 
 export const gdrive_folder_id = writable('');
-export const gdrive_root_folder = '1caL05EFKPFVySv4slWpDJERlD6zRBPGW'; 
+export const gdrive_root_folder = '1caL05EFKPFVySv4slWpDJERlD6zRBPGW';
 
 const store = writable(new Set());
 

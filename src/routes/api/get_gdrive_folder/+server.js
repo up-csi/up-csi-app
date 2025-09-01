@@ -13,7 +13,7 @@ export async function POST({ request }) {
     });
 
     try {
-        const { uuid, username } = await request.json()
+        const { uuid, username } = await request.json();
 
         // Ensure uuid is not empty
         if (uuid === '' || uuid === null) {
