@@ -1,5 +1,6 @@
 import { PUBLIC_GOOGLE_PRIVATE_KEY, PUBLIC_GOOGLE_SERVICE_EMAIL } from '$env/static/public';
 import { Readable } from 'stream';
+import { gdrive_folder_id } from '$lib/shared'; 
 import { google } from 'googleapis';
 import { supabase } from '../../../lib/supabaseClient';
 
@@ -13,7 +14,7 @@ export async function POST({ request }) {
     });
 
     // Add debugging logs to verify folder permissions
-    console.log('Google Drive Folder ID:', '1caL05EFKPFVySv4slWpDJERlD6zRBPGW');
+    console.log('Google Drive Folder ID:', gdrive_folder_id);
 
     try {
         const formData = await request.formData();
@@ -49,7 +50,7 @@ export async function POST({ request }) {
         // Upload image to Google Drive
         const fileMetadata = {
             name: imageFile.name,
-            parents: ['1caL05EFKPFVySv4slWpDJERlD6zRBPGW'],
+            parents: [gdrive_folder_id],
         };
 
         const media = {

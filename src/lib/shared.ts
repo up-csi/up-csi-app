@@ -1,5 +1,9 @@
 import { writable } from 'svelte/store';
+
 export const uuid = writable('');
+
+// export const gdrive_folder = writable('');
+export const gdrive_folder_id = '1caL05EFKPFVySv4slWpDJERlD6zRBPGW'; // TODO
 
 const store = writable(new Set());
 
