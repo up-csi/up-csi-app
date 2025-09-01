@@ -1,6 +1,6 @@
 <script>
-    import { BookCheck, LayoutDashboard, LogOut, NotebookPen } from '@lucide/svelte';
-    import CSI_Logo from '$lib/icons/upcsi.svg';
+    import { BookCheck, LayoutDashboard, LogOut, NotebookPen, X } from '@lucide/svelte';
+    import Placeholder_Icon from '$lib/assets/members/LinoPlaceholder.webp';
     import { page } from '$app/state';
     const options = ['Dashboard', 'Signature Sheet', 'Constitution Quiz'];
     const filenames = ['/', '/sigsheet/', '/consti-quiz/'];
