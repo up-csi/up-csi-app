@@ -200,7 +200,7 @@
                     <p class="text-csi-white">{quizProgress}</p>
                 </div>
 
-                <div class="mt-1 h-4 w-full overflow-hidden rounded-full bg-gray-700">
+                <div class="h-6 w-full overflow-hidden rounded-full bg-gray-700">
                     <div class="h-full bg-cyan-400" style="width: {calculatePercentage(quizProgress)}%"></div>
                 </div>
                 <p class="text-csi-white">{quizClosingString}</p>
