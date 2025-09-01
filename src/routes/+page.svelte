@@ -133,7 +133,7 @@
     const quizRawStart = new Date(2025, 9, 27, 0, 0, 0);
     const quizRawEnd = new Date(2025, 10, 1, 23, 59, 59);
     if (quizRawEnd.getTime() <= quizRawStart.getTime()) {
-        throw new Error("Consti quiz end time is on or before start time");
+        throw new Error('Consti quiz end time is on or before start time');
     }
 
     let daysLeft = 0;
@@ -150,11 +150,11 @@
         hoursLeft = Math.floor((timeLeft % (1000 * 60 * 60 * 24)) / (1000 * 60 * 60));
 
         if (now.getTime() - quizRawStart.getTime() < 0) {
-            quizClosingString = `The quiz will open on ${quizRawStart.toLocaleDateString("en-us", {month: "long"})} ${quizRawStart.getDate()}, ${quizRawStart.getFullYear()} at ${quizRawStart.toLocaleTimeString("en-us", {hour: "numeric", minute: "numeric"})}.`;
+            quizClosingString = `The quiz will open on ${quizRawStart.toLocaleDateString('en-us', { month: 'long' })} ${quizRawStart.getDate()}, ${quizRawStart.getFullYear()} at ${quizRawStart.toLocaleTimeString('en-us', { hour: 'numeric', minute: 'numeric' })}.`;
         } else if (timeLeft < 0) {
             quizClosingString = 'The quiz has closed.';
         } else if (daysLeft < 1 && hoursLeft < 1) {
-            quizClosingString = `The quiz will close at ${quizRawEnd.toLocaleTimeString("en-us", {hour: "numeric", minute: "numeric"})}.`;
+            quizClosingString = `The quiz will close at ${quizRawEnd.toLocaleTimeString('en-us', { hour: 'numeric', minute: 'numeric' })}.`;
         } else {
             const daysString = `${daysLeft}${daysLeft === 1 ? ' day' : ' days'}`;
             const hoursString = `${hoursLeft}${hoursLeft === 1 ? ' hour' : ' hours'}`;
@@ -220,18 +220,25 @@
                             or members!
                         </li>
                         <li class="py-1">
-                            The consti quiz is open from <b>{quizRawStart.toLocaleDateString("en-us", {month: "short"})} {quizRawStart.getDate()} ({quizRawStart.toLocaleDateString("en-us", {weekday: "short"})}) to {quizRawEnd.toLocaleDateString("en-us", {month: "short"})} {quizRawEnd.getDate()} ({quizRawEnd.toLocaleDateString("en-us", {weekday: "short"})})</b>. Your progress will be saved when you
-                            exit.
+                            The consti quiz is open from <b
+                                >{quizRawStart.toLocaleDateString('en-us', { month: 'short' })}
+                                {quizRawStart.getDate()} ({quizRawStart.toLocaleDateString('en-us', {
+                                    weekday: 'short',
+                                })}) to {quizRawEnd.toLocaleDateString('en-us', { month: 'short' })}
+                                {quizRawEnd.getDate()} ({quizRawEnd.toLocaleDateString('en-us', {
+                                    weekday: 'short',
+                                })})</b
+                            >. Your progress will be saved when you exit.
                         </li>
                     </ul>
                 </div>
 
-                {#if new Date().getTime() >= quizRawStart.getTime() && (new Date().getTime()) <= quizRawEnd.getTime()}
-                <a
-                    href="./consti-quiz"
-                    class="bg-csi-blue w-1/4 self-center rounded-3xl py-2 text-center font-bold text-[#161619]"
-                    >Continue</a
-                >
+                {#if new Date().getTime() >= quizRawStart.getTime() && new Date().getTime() <= quizRawEnd.getTime()}
+                    <a
+                        href="./consti-quiz"
+                        class="bg-csi-blue w-1/4 self-center rounded-3xl py-2 text-center font-bold text-[#161619]"
+                        >Continue</a
+                    >
                 {/if}
             </div>
         </main>
