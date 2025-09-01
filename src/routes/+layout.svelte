@@ -9,6 +9,7 @@
     import { onMount } from 'svelte';
     const { data, children } = $props();
     const { session, supabase } = $derived(data);
+    let isNavBarOpen = $state(false);
     onMount(() => {
         const { data } = supabase.auth.onAuthStateChange((_, newSession) => {
             if (newSession?.expires_at !== session?.expires_at) {
@@ -42,9 +43,11 @@
 
     <div class="flex w-full flex-row bg-[#161619]">
         {#if page.url.pathname !== '/login/'}
-            <div class="flex w-64">
-                <NavBar />
-            </div>
+            {#if isNavBarOpen}
+                <div class="flex w-64">
+                    <NavBar />
+                </div>
+            {/if}
         {/if}
 
         <div class="flex {page.url.pathname === '/login/' ? 'w-full' : 'w-[calc(100%-16rem)]'}">
