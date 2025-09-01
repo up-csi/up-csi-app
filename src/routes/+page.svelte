@@ -165,8 +165,12 @@
         username.set(data.user!.email!.split('@')[0] ?? '');
         console.log('UUID: ', $uuid);
         onMount(async () => {
-            await fetchSigsheet(data.user!.id);
-            await fetchFolder($uuid, $username);
+            if ($filledSigsheet.size === 0) {
+                await fetchSigsheet(data.user!.id);
+            }
+            if ($gdrive_folder_id === '') {
+                await fetchFolder($uuid, $username);
+            }
         });
     }
 
