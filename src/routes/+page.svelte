@@ -225,11 +225,14 @@
                         </li>
                     </ul>
                 </div>
+
+                {#if new Date().getTime() >= quizRawStart.getTime() && (new Date().getTime()) <= quizRawEnd.getTime()}
                 <a
                     href="./consti-quiz"
                     class="bg-csi-blue w-1/4 self-center rounded-3xl py-2 text-center font-bold text-[#161619]"
                     >Continue</a
                 >
+                {/if}
             </div>
         </main>
     </div>
