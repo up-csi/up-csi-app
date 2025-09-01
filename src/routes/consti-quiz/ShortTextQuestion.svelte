@@ -7,16 +7,9 @@
         placeholder?: string;
     }
 
-    const { title, value = $bindable(), placeholder = '' }: Props = $props();
-
-    let input: string = $state(value);
+    let { title, value = $bindable(), placeholder = '' }: Props = $props();
 </script>
 
 <Question {title}>
-    <input
-        type="text"
-        bind:value={input}
-        {placeholder}
-        class="w-full rounded border-none focus:ring-2 focus:outline-none"
-    />
+    <input type="text" bind:value {placeholder} class="w-full rounded border-none focus:ring-2 focus:outline-none" />
 </Question>
