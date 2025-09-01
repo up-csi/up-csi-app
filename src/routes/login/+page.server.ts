@@ -6,7 +6,7 @@ export const actions: Actions = {
         const { data, error } = await supabase.auth.signInWithOAuth({
             provider: 'google',
             options: {
-                redirectTo: 'http://localhost:5173/login/callback',
+                redirectTo: 'http://localhost:5173/login/callback', // Change this when prod
                 queryParams: {
                     access_type: 'offline',
                     prompt: 'consent',
@@ -15,7 +15,7 @@ export const actions: Actions = {
         });
 
         if (error) {
-            redirect(303, 'login/error');
+            redirect(303, `login/error?code=oauth_failed`);
         }
 
         if (data.url) {
