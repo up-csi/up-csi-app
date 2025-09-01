@@ -23,8 +23,9 @@
 {#if !data.session}
     {@render children()}
 {:else}
-    <header class="flex w-full items-center px-16 py-4" style="background-Color: #212121">
+    <header class="bg-csi-black sticky top-0 flex w-full items-center px-16 py-4">
         <button
+            class="cursor-pointer"
             onclick={() => {
                 isNavBarOpen = !isNavBarOpen;
             }}
@@ -44,13 +45,15 @@
     <div class="flex w-full flex-row bg-[#161619]">
         {#if page.url.pathname !== '/login/'}
             {#if isNavBarOpen}
-                <div class="flex w-64">
-                    <NavBar />
+                <div
+                    class="fixed top-0 left-0 z-50 h-screen w-64 transform transition-transform duration-700 ease-in-out"
+                >
+                    <NavBar user={data.user} bind:isNavBarOpen />
                 </div>
             {/if}
         {/if}
 
-        <div class="flex {page.url.pathname === '/login/' ? 'w-full' : 'w-[calc(100%-16rem)]'}">
+        <div class="flex w-full justify-center">
             {@render children()}
         </div>
     </div>
