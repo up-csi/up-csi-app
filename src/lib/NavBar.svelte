@@ -8,12 +8,20 @@
     let { user, isNavBarOpen = $bindable() } = $props();
 </script>
 
-<div class="bg-csi-black fixed h-screen flex-initial pt-8 pr-8 pl-7">
-    <div class="relative h-full">
-        <div class="mb-8 flex w-full p-4">
-            <img src={CSI_Logo} alt="UP CSI Logo" class="mr-6 w-6" />
-            <div class="text-csi-blue w-3/4 align-middle text-2xl font-semibold">UP CSI</div>
+<div class="bg-csi-black fixed flex h-screen flex-initial flex-col px-2 pt-8 sm:px-8">
+    <div class="mx-8 flex hover:cursor-pointer sm:mx-1">
+        <X class="text-csi-white ml-auto {icon_class}" onclick={() => (isNavBarOpen = false)} />
+    </div>
+    <div class="mb-8 flex w-full flex-col items-center justify-center sm:p-4">
+        <div class="w-screen text-center sm:w-48">
+            <img
+                src={Placeholder_Icon}
+                class="mx-auto mb-4 h-48 w-48 flex-shrink-0 rounded-full object-cover"
+                alt="Profile placeholder pic"
+            />
+            <p class="text-csi-white text-2xl font-bold">{user.email.slice(0, user.email.indexOf('@'))}</p>
         </div>
+    </div>
 
         {#each options as option, i (option)}
             <a class="my-2 flex w-full" href={filenames[i]}>
