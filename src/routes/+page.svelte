@@ -207,7 +207,7 @@
                         <li class="py-1">
                             This quiz is open notes and you may view a copy of the constitution <a
                                 class="text-csi-blue hover:underline hover:duration-300 hover:ease-in-out"
-                                href="https://drive.google.com/file/d/1p9rVCCyIwaA7W36t_hbwF9-lFWSJ3NR-/view?usp=drive_link"
+                                href="https://drive.google.com/file/d/1JtbGcts8YKyJsm20wgJh3I7Umwh0VwAz/view?usp=sharing"
                                 target="_blank">here</a
                             >.
                         </li>
