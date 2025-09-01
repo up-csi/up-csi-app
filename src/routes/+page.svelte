@@ -83,7 +83,15 @@
 
         const memberData = supabaseMembers.data;
 
-        const totalByCommittee: Record<string, number> = {};
+        const totalByCommittee: Record<string, number> = {
+            'Executive': 0,
+            'Membership & Internals': 0,
+            'Service': 0,
+            'Innovation': 0,
+            'Engineering': 0,
+            'External Relations': 0,
+            'Branding & Creatives': 0
+        };
         memberData.forEach((row: { member_committee: string }) => {
             const committee = row.member_committee;
             totalByCommittee[committee] = (totalByCommittee[committee] || 0) + 1;
