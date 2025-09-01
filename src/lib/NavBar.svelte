@@ -5,6 +5,7 @@
     const options = ['Dashboard', 'Signature Sheet', 'Constitution Quiz'];
     const filenames = ['/', '/sigsheet/', '/consti-quiz/'];
     const icon_class = 'h-6 w-6';
+    let { user, isNavBarOpen = $bindable() } = $props();
 </script>
 
 <div class="bg-csi-black fixed h-screen flex-initial pt-8 pr-8 pl-7">
