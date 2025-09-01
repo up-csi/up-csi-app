@@ -1,5 +1,9 @@
 <script lang="ts">
+<<<<<<< HEAD
     import { filledSigsheet, gdrive_folder_id, username, uuid } from '$lib/shared';
+=======
+    import { filledSigsheet, gdrive_folder_id, uuid } from '$lib/shared';
+>>>>>>> d5a2871 (feat(sigsheet): each applicant has will get their own gdrive folder)
     import { writable } from 'svelte/store';
 
     const { member_id, name, role, closeModal, activeCategory } = $props();
@@ -80,6 +84,7 @@
     </div>
 
     <form class="grid gap-6 md:grid-cols-2 md:gap-0" onsubmit={handleSubmit}>
+<<<<<<< HEAD
         <input
             type="text"
             alt="gdrive_folder_id"
@@ -89,6 +94,11 @@
             hidden
             required
         />
+=======
+        <input type="text" alt="uuid" id="uuid-input" name="uuid" value={$uuid} hidden required />
+        <input type="text" alt="gdrive_folder_id" id="gdrive_folder_id-input" name="gdrive_folder_id" value={$gdrive_folder_id} hidden required />
+
+>>>>>>> d5a2871 (feat(sigsheet): each applicant has will get their own gdrive folder)
         <input type="text" alt="member_id" id="memberid-input" name="member_id" value={member_id} hidden required />
         <input type="text" alt="member_name" id="membername-input" name="member_name" value={name} hidden required />
         <input type="text" alt="username" id="username-input" name="username" value={$username} hidden required />
