@@ -129,28 +129,32 @@
     import logo from '$lib/icons/upcsi.svg';
 
     // take note month starts at 0
-    // sample deadline is May 31, 6:30 PM
-    const quizRawDeadline = new Date(2025, 4, 31, 18, 30, 0);
-    const deadlineHour = quizRawDeadline.getHours();
-    const deadlineMinutes = quizRawDeadline.getMinutes();
-    const quizDeadline = quizRawDeadline.getTime();
+    // planned duration of consti quiz is from Oct 27 (12 AM) to Nov 1 (11:59 PM)
+    const quizRawStart = new Date(2025, 9, 27, 0, 0, 0);
+    const quizRawEnd = new Date(2025, 10, 1, 23, 59, 59);
+    if (quizRawEnd.getTime() <= quizRawStart.getTime()) {
+        throw new Error("Consti quiz end time is on or before start time");
+    }
+
     let daysLeft = 0;
     let hoursLeft = 0;
     let quizClosingString = $state('');
 
     function updateTimeLeft() {
-        const now = new Date().getTime();
+        const now = new Date();
         // console.log(now);
 
-        const timeLeft = quizDeadline - now;
+        const timeLeft = quizRawEnd.getTime() - now.getTime();
 
         daysLeft = Math.floor(timeLeft / (1000 * 60 * 60 * 24));
         hoursLeft = Math.floor((timeLeft % (1000 * 60 * 60 * 24)) / (1000 * 60 * 60));
 
-        if (timeLeft < 0) {
+        if (now.getTime() - quizRawStart.getTime() < 0) {
+            quizClosingString = `The quiz will open on ${quizRawStart.toLocaleDateString("en-us", {month: "long"})} ${quizRawStart.getDate()}, ${quizRawStart.getFullYear()} at ${quizRawStart.toLocaleTimeString("en-us", {hour: "numeric", minute: "numeric"})}.`;
+        } else if (timeLeft < 0) {
             quizClosingString = 'The quiz has closed.';
         } else if (daysLeft < 1 && hoursLeft < 1) {
-            quizClosingString = `The quiz will close at ${deadlineHour % 12}:${(deadlineMinutes < 10 ? '0' : '') + deadlineMinutes} ${deadlineHour >= 12 ? 'PM' : 'AM'}.`;
+            quizClosingString = `The quiz will close at ${quizRawEnd.toLocaleTimeString("en-us", {hour: "numeric", minute: "numeric"})}.`;
         } else {
             const daysString = `${daysLeft}${daysLeft === 1 ? ' day' : ' days'}`;
             const hoursString = `${hoursLeft}${hoursLeft === 1 ? ' hour' : ' hours'}`;
