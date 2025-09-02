@@ -1,5 +1,5 @@
 <script lang="ts">
-    import { filledSigsheet, uuid } from '$lib/shared';
+    import { filledSigsheet, gdrive_folder_id, username, uuid } from '$lib/shared';
     import { onMount } from 'svelte';
     import { supabase } from '$lib/supabaseClient';
 
@@ -83,7 +83,15 @@
 
         const memberData = supabaseMembers.data;
 
-        const totalByCommittee: Record<string, number> = {};
+        const totalByCommittee: Record<string, number> = {
+            Executive: 0,
+            'Membership & Internals': 0,
+            Service: 0,
+            Innovation: 0,
+            Engineering: 0,
+            'External Relations': 0,
+            'Branding & Creatives': 0,
+        };
         memberData.forEach((row: { member_committee: string }) => {
             const committee = row.member_committee;
             totalByCommittee[committee] = (totalByCommittee[committee] || 0) + 1;
@@ -101,10 +109,13 @@
     });
 
     const { data } = $props();
-    async function fetchSigsheet(uuid: string) {
-        console.log('Fetching sigsheet from Supabase with ID:', uuid);
+    async function fetchSigsheet(applicant_id: string) {
+        console.log('Fetching sigsheet from Supabase with ID:', applicant_id);
         try {
-            const { data, error } = await supabase.from('sigsheet').select('member_id').eq('applicant_id', uuid);
+            const { data, error } = await supabase
+                .from('sigsheet')
+                .select('member_id')
+                .eq('applicant_id', applicant_id);
 
             if (error) {
                 console.error('Supabase error:', error);
@@ -119,11 +130,46 @@
         }
     }
 
-    console.log(data);
+    async function fetchFolder(applicant_id: string, username: string) {
+        console.log('Fetching gdrive_folder_id for Applicant:', applicant_id);
+        try {
+            const response = await fetch('/api/get_gdrive_folder', {
+                method: 'POST',
+                body: JSON.stringify({
+                    uuid: applicant_id,
+                    username: username,
+                }),
+            });
+
+            if (!response.ok) {
+                const error = await response.json();
+                console.error('Error fetching Folder ID', error);
+            } else {
+                const data = await response.json();
+                console.log('Folder ID fetched successfully:', data);
+                gdrive_folder_id.set(data.folder_id);
+                console.log('$lib gdrive_folder_id set to', $gdrive_folder_id);
+            }
+        } catch (error) {
+            console.error('Unexpected error on fetchFolder():', error);
+            alert('An unexpected error occurred. Please try again.');
+        }
+    }
+
+    // Set up user variables in $lib
     if (data !== null && data.user !== null) {
-        uuid.set(data.user.id);
+        console.log(data);
+        uuid.set(data.user!.id);
+        username.set(data.user!.email!.split('@')[0] ?? '');
         console.log('UUID: ', $uuid);
-        fetchSigsheet(data.user.id);
+        onMount(async () => {
+            if ($filledSigsheet.size === 0) {
+                await fetchSigsheet(data.user!.id);
+            }
+            if ($gdrive_folder_id === '') {
+                await fetchFolder($uuid, $username);
+            }
+        });
     }
 
     import logo from '$lib/icons/upcsi.svg';
