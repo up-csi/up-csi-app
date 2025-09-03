@@ -66,29 +66,47 @@
             <div class="flex flex-1 overflow-hidden">
                 <!-- Main Content -->
                 <main class="w-3/5 overflow-y-auto bg-[#161619] p-8 pt-4">
-                    {#each sections as { section_id, title, description } (section_id)}
-                        <Section id={section_id.toString()} {title} {description}>
-                            {#each questions.filter(({ section }) => section.title === title) as { title, type, options }}
-                                {#if type === 'long_text'}
-                                    <LongTextQuestion {title} />
-                                {:else if type === 'short_text'}
-                                    <ShortTextQuestion {title} />
-                                {:else if type === 'radio'}
-                                    <RadioQuestion
-                                        {title}
-                                        items={options.map(({ option_id, title, value }) => ({
-                                            id: option_id,
-                                            value,
-                                            label: title,
-                                        }))}
+                    {#each sections as { section_id, title, points } (section_id)}
+                        <Section id={section_id.toString()} {title} {points}>
+                            {#each questions.filter(question => question.section.title === title) as question, i}
+                                {#if question.type === 'long_text'}
+                                    <LongTextQuestion
+                                        title={question.title}
+                                        bind:value={sectionToAnswers[section_id]![i]!}
                                     />
-                                {:else if type === 'checkbox'}
+                                {:else if question.type === 'short_text'}
+                                    <ShortTextQuestion
+                                        title={question.title}
+                                        bind:value={sectionToAnswers[section_id]![i]!}
+                                    />
+                                {:else if question.type === 'radio'}
+                                    {#if question.title === 'What is the hex code of CSI Blue?'}
+                                        <RadioQuestion
+                                            title={question.title}
+                                            bind:value={sectionToAnswers[section_id]![i]}
+                                            items={question.options!.map(option => ({
+                                                id: option.option_id,
+                                                label: option.title,
+                                            }))}
+                                            other
+                                        />
+                                    {:else}
+                                        <RadioQuestion
+                                            title={question.title}
+                                            bind:value={sectionToAnswers[section_id]![i]!}
+                                            items={question.options!.map(option => ({
+                                                id: option.option_id,
+                                                label: option.title,
+                                            }))}
+                                        />
+                                    {/if}
+                                {:else if question.type === 'checkbox'}
                                     <CheckboxQuestion
-                                        {title}
-                                        items={options.map(({ option_id, title, value }) => ({
-                                            id: option_id,
-                                            value,
-                                            label: title,
+                                        title={question.title}
+                                        bind:value={sectionToAnswers[section_id]![i]!}
+                                        items={question.options!.map(option => ({
+                                            id: option.option_id,
+                                            label: option.title,
                                         }))}
                                     />
                                 {:else}
