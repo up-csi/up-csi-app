@@ -23,7 +23,7 @@
 {#if !data.session}
     {@render children()}
 {:else}
-    <header class="bg-csi-black sticky top-0 flex w-full items-center px-16 py-4">
+    <header class="bg-csi-black sticky top-0 z-50 flex w-full items-center px-16 py-4">
         <button
             class="cursor-pointer"
             onclick={() => {
