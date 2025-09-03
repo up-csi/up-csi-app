@@ -8,7 +8,7 @@ export async function load({ locals }) {
         const { data, error } = await supabase.from('constiquiz-sections').select(`
 	    section_id,
 	    title,
-	    description
+	    points
 	`);
 
         if (error) {
@@ -30,8 +30,7 @@ export async function load({ locals }) {
             ),
             options:constiquiz-options (
                 option_id,
-                title,
-		value
+                title
             )
         `);
 

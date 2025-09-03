@@ -1,7 +1,7 @@
 export interface ISection {
     section_id: number;
     title: string;
-    description?: string;
+    points: string;
 }
 
 export interface IQuestion {
@@ -13,7 +13,6 @@ export interface IQuestion {
 export interface IOption {
     option_id: number;
     title: string;
-    value: number;
 }
 
 export interface IOptionQuestion extends IQuestion {
