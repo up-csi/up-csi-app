@@ -129,6 +129,7 @@
                     name="image"
                     onchange={handleFileChange}
                     hidden
+                    required
                 />
                 <div class="items-center" id="img-view">
                     {#if $imageURL}
