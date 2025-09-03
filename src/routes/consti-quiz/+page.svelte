@@ -8,6 +8,8 @@
     import Section from './Section.svelte';
     import SectionNav from './SectionNav.svelte';
     import ShortTextQuestion from './ShortTextQuestion.svelte';
+    import { browser } from '$app/environment';
+    import { onMount } from 'svelte';
 
     const { data } = $props();
     const { user, sections, questions } = data;
@@ -41,14 +43,37 @@
     const bonusAnswers = $state(Array(bonusQuestions.length).fill(''));
 
     // mapping from section id to quiz states
-    const sectionToAnswers: Record<string, string[]> = {
+    const sectionToAnswers: Record<string, string[]> = $state({
         '1000': preambleAnswers,
         '2000': mvpAnswers,
         '3000': ecAnswers,
         '4000': tfAnswers,
         '5000': mcAnswers,
         '6000': bonusAnswers,
-    };
+    });
+
+    function saveProgress(quiz: Record<string, string[]>) {
+        if (browser) {
+            localStorage.setItem('quiz-progress', JSON.stringify(quiz));
+        }
+    }
+
+    function loadProgress() {
+        if (browser) {
+            const progress = localStorage.getItem('quiz-progress');
+            if (progress) {
+                Object.assign(sectionToAnswers, JSON.parse(progress));
+            }
+        }
+    }
+
+    onMount(() => {
+        loadProgress();
+    });
+
+    $effect(() => {
+        saveProgress(sectionToAnswers);
+    });
 </script>
 
 <div class="flex h-screen bg-[#161619] text-[#F9FAFB]">
