@@ -1,7 +1,6 @@
 import type { PageServerLoad } from './$types';
 
 import type { ISection } from './constiquiz-types.ts';
-
 export async function load({ locals }) {
     const supabase = locals.supabase;
 

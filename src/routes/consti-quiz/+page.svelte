@@ -1,12 +1,13 @@
 <script lang="ts">
     import type { User } from '@supabase/supabase-js';
-
+    // Alphabetical imports
     import CheckboxQuestion from './CheckboxQuestion.svelte';
     import LongTextQuestion from './LongTextQuestion.svelte';
     import RadioQuestion from './RadioQuestion.svelte';
     import Section from './Section.svelte';
     import SectionNav from './SectionNav.svelte';
     import ShortTextQuestion from './ShortTextQuestion.svelte';
+    import { writable } from 'svelte/store';
 
     const { data } = $props();
     const { user, sections, questions } = data;
@@ -16,11 +17,28 @@
 
     // NOTE: for debugging purposes only, remove during production
     console.log('sections:', sections);
+    // NOTE: for debugging purposes only, remove during production
     console.log('questions:', questions);
 
     // State variables for messages
-    let submissionError = $state('');
-    let submissionSuccess = $state('');
+    const submissionError = $state('');
+    const submissionSuccess = $state('');
+
+    // filter questions by sections
+    const preambleQuestions = questions.filter(q => q.section.title == 'UP CSI Preamble');
+    const mvpQuestions = questions.filter(q => q.section.title == 'Mission, Vision, and Purpose');
+    const ecQuestions = questions.filter(q => q.section.title == 'Executive Board and Committee Members');
+    const tfQuestions = questions.filter(q => q.section.title == 'True or False');
+    const mcQuestions = questions.filter(q => q.section.title == 'Multiple Choice');
+    const bonusQuestions = questions.filter(q => q.section.title == 'Bonus');
+
+    // quiz state
+    const preambleAnswers = writable<string[]>(Array(preambleQuestions.length).fill(''));
+    const mvpAnswers = writable<string[]>(Array(mvpQuestions.length).fill(''));
+    const ecAnswers = writable<string[]>(Array(ecQuestions.length).fill(''));
+    const tfAnswers = writable<string[]>(Array(tfQuestions.length).fill(''));
+    const mcAnswers = writable<string[]>(Array(mcQuestions.length).fill(''));
+    const bonusAnswers = writable<string[]>(Array(bonusQuestions.length).fill(''));
 </script>
 
 <div class="flex h-screen bg-[#161619] text-[#F9FAFB]">
