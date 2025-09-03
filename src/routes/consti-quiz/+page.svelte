@@ -3,11 +3,11 @@
     // Alphabetical imports
     import CheckboxQuestion from './CheckboxQuestion.svelte';
     import LongTextQuestion from './LongTextQuestion.svelte';
+    import type { Question } from './constiquiz-types';
     import RadioQuestion from './RadioQuestion.svelte';
     import Section from './Section.svelte';
     import SectionNav from './SectionNav.svelte';
     import ShortTextQuestion from './ShortTextQuestion.svelte';
-    import { writable } from 'svelte/store';
 
     const { data } = $props();
     const { user, sections, questions } = data;
@@ -25,20 +25,30 @@
     const submissionSuccess = $state('');
 
     // filter questions by sections
-    const preambleQuestions = questions.filter(q => q.section.title == 'UP CSI Preamble');
-    const mvpQuestions = questions.filter(q => q.section.title == 'Mission, Vision, and Purpose');
-    const ecQuestions = questions.filter(q => q.section.title == 'Executive Board and Committee Members');
-    const tfQuestions = questions.filter(q => q.section.title == 'True or False');
-    const mcQuestions = questions.filter(q => q.section.title == 'Multiple Choice');
-    const bonusQuestions = questions.filter(q => q.section.title == 'Bonus');
+    const preambleQuestions = questions.filter((q: Question) => q.section.title === 'UP CSI Preamble');
+    const mvpQuestions = questions.filter((q: Question) => q.section.title === 'Mission, Vision, and Purpose');
+    const ecQuestions = questions.filter((q: Question) => q.section.title === 'Executive Board and Committee Members');
+    const tfQuestions = questions.filter((q: Question) => q.section.title === 'True or False');
+    const mcQuestions = questions.filter((q: Question) => q.section.title === 'Multiple Choice');
+    const bonusQuestions = questions.filter((q: Question) => q.section.title === 'Bonus');
 
     // quiz state
-    const preambleAnswers = writable<string[]>(Array(preambleQuestions.length).fill(''));
-    const mvpAnswers = writable<string[]>(Array(mvpQuestions.length).fill(''));
-    const ecAnswers = writable<string[]>(Array(ecQuestions.length).fill(''));
-    const tfAnswers = writable<string[]>(Array(tfQuestions.length).fill(''));
-    const mcAnswers = writable<string[]>(Array(mcQuestions.length).fill(''));
-    const bonusAnswers = writable<string[]>(Array(bonusQuestions.length).fill(''));
+    const preambleAnswers = $state(Array(preambleQuestions.length).fill(''));
+    const mvpAnswers = $state(Array(mvpQuestions.length).fill(''));
+    const ecAnswers = $state(Array(ecQuestions.length).fill(''));
+    const tfAnswers = $state(Array(tfQuestions.length).fill(''));
+    const mcAnswers = $state(Array(mcQuestions.length).fill(''));
+    const bonusAnswers = $state(Array(bonusQuestions.length).fill(''));
+
+    // mapping from section id to quiz states
+    const sectionToAnswers: Record<string, string[]> = {
+        '1000': preambleAnswers,
+        '2000': mvpAnswers,
+        '3000': ecAnswers,
+        '4000': tfAnswers,
+        '5000': mcAnswers,
+        '6000': bonusAnswers,
+    };
 </script>
 
 <div class="flex h-screen bg-[#161619] text-[#F9FAFB]">
