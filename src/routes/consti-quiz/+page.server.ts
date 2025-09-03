@@ -1,8 +1,8 @@
+import type { ISection, Question } from './constiquiz-types.ts';
 import type { PageServerLoad } from './$types';
-import type { ISection, IQuestion } from './constiquiz-types.ts';
 
 export const load: PageServerLoad = async ({ locals }) => {
-    const supabase = locals.supabase;
+    const { supabase } = locals;
 
     const fetchSections = async (): Promise<ISection[]> => {
         const { data, error } = await supabase.from('constiquiz-sections').select(`
@@ -20,7 +20,7 @@ export const load: PageServerLoad = async ({ locals }) => {
         return data ?? [];
     };
 
-    const fetchQuestions = async (): Promise<IQuestion[]> => {
+    const fetchQuestions = async (): Promise<Question[]> => {
         const { data, error } = await supabase.from('constiquiz-questions').select(`
             title,
             point_value,
@@ -44,7 +44,7 @@ export const load: PageServerLoad = async ({ locals }) => {
     };
 
     // fetch in parallel for faster results
-     const [sections, questions] = await Promise.all([fetchSections(), fetchQuestions()])
+    const [sections, questions] = await Promise.all([fetchSections(), fetchQuestions()])
 
     return { sections, questions };
 }

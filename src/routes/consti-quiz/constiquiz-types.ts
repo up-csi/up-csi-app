@@ -1,13 +1,7 @@
 export interface ISection {
     section_id: number;
     title: string;
-    points: string;
-}
-
-export interface IQuestion {
-    title: string;
-    point_value: number;
-    section: Section;
+    points: number;
 }
 
 export interface IOption {
@@ -15,7 +9,20 @@ export interface IOption {
     title: string;
 }
 
-export interface IOptionQuestion extends IQuestion {
+export interface ITextQuestion {
+    title: string;
+    point_value: number;
+    section: ISection;
+    type: 'long_text' | 'short_text';
+    options?: never;
+}
+
+export interface IOptionQuestion {
+    title: string;
+    point_value: number;
+    section: ISection;
     type: 'radio' | 'checkbox';
     options: IOption[];
 }
+
+export type Question = ITextQuestion | IOptionQuestion;
