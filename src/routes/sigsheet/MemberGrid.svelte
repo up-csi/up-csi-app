@@ -45,34 +45,34 @@
     }
 </script>
 
-<div class="mx-[3vw] mt-12 items-start justify-between pb-[1.5rem]" id="content">
-    <h1 class="text-csi-white mb-[1.5rem] w-[75vw] text-5xl font-bold">{categoryHeaders[activeCategory]}</h1>
+<div class="mx-[1.5vw] mt-6 items-start justify-between pb-4 min-[1280px]:mx-[6vw]" id="content">
+    <h1 class="text-csi-white mb-3 w-full text-xl font-bold min-[1280px]:text-5xl">{categoryHeaders[activeCategory]}</h1>
 
-    <div class="flex flex-row">
-        <div class="grid flex-1 grid-cols-1 gap-[1.5rem] sm:grid-cols-2 lg:grid-cols-4">
+    <div class="flex flex-col-reverse gap-3">
+    <div class="grid w-full grid-cols-2 gap-1.5 min-[1280px]:grid-cols-4">
             {#each members.filter(member => member.category === activeCategory) as member (member.name)}
                 <div in:fade={{ duration: 1300 }}>
-                    <button onclick={() => openModal(member)} class="cursor-pointer">
+                    <button onclick={() => openModal(member)} class="w-full cursor-pointer">
                         <MemberCard filled={$filledSigsheet.has(member.member_id)} {member} />
                     </button>
                 </div>
             {/each}
         </div>
 
-        <div class="ml-8 flex flex-col gap-4">
+    <div class="flex flex-row flex-wrap justify-start gap-1">
             {#each categories as category}
                 <button
-                    class="border-csi-black text-csi-white bg-csi-grey flex w-fit cursor-pointer gap-2 rounded-full border-2 px-[0.9rem] py-2 text-base font-bold opacity-50 transition-colors duration-300"
+                        class="border-csi-black text-csi-white bg-csi-grey flex w-fit cursor-pointer items-center gap-2 rounded-full border-2 border-[#2C2C2E] px-[0.8rem] py-2 text-sm font-bold opacity-80 transition-colors duration-300 min-[390px]:gap-2 min-[390px]:px-[0.7rem] min-[390px]:py-1.5 min-[390px]:text-sm min-[640px]:px-[0.9rem] min-[640px]:py-2 min-[640px]:text-base"
                     class:opacity-100={activeCategory === category}
                     class:bg-transparent={activeCategory === category}
                     style:border-color={activeCategory === category ? categoryColors[category] : '#2C2C2E'}
                     onclick={() => (activeCategory = category)}
                 >
-                    <span
-                        class="bg-mni-pink aspect-square w-[1.5rem] flex-shrink-0 rounded-full"
-                        style:background-color={categoryColors[category]}
-                    ></span>
-                    {category}
+                        <span
+                            class="bg-mni-pink aspect-square w-[1.5rem] flex-shrink-0 rounded-full min-[390px]:w-[1.5rem]"
+                            style:background-color={categoryColors[category]}
+                        ></span>
+                    <span class="flex items-center">{category}</span>
                 </button>
             {/each}
         </div>
