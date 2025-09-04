@@ -45,7 +45,7 @@
     }
 </script>
 
-<div class="mx-[1.5vw] mt-6 items-start justify-between pb-4 min-w-[320px] min-[375px]:mx-[2.5vw] min-[375px]:mt-8 min-[375px]:pb-[1.5rem] min-[390px]:mx-[3vw] min-[390px]:mt-12" id="content">
+<div class="mx-[1.5vw] mt-6 items-start justify-between pb-4 min-w-[320px] min-[360px]:mx-5 min-[375px]:mx-[2.5vw] min-[375px]:mt-8 min-[375px]:pb-[1.5rem] min-[390px]:mx-[3vw] min-[390px]:mt-12" id="content">
     <h1 class="text-csi-white mb-3 w-full text-xl font-bold min-[375px]:mb-4 min-[390px]:mb-[1.5rem] min-[640px]:text-4xl min-[1024px]:text-5xl">{categoryHeaders[activeCategory]}</h1>
 
     <div class="flex flex-col-reverse gap-3 min-[375px]:gap-4 min-[390px]:gap-6 min-[834px]:flex-row">
