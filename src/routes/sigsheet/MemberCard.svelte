@@ -10,9 +10,9 @@
 </script>
 
 <main
-    class="font-[Inter, sans-serif] flex w-full flex-col gap-[0.01rem] rounded-2xl bg-[#262629] px-4 pb-4 text-center transition-all duration-300 ease-in-out hover:scale-105 hover:bg-[#333336] min-[390px]:w-[22vw] min-[480px]:w-[18vw] min-[834px]:w-[14vw] min-[1280px]:w-[12vw]"
+    class="font-[Inter, sans-serif] flex w-full min-[834px]:w-[14vw] flex-col gap-[0.01rem] rounded-2xl bg-[#262629] px-4 pb-4 text-center transition-all duration-300 ease-in-out hover:scale-105 hover:bg-[#333336]"
 >
-    <div class="mb-[1rem] -mx-4 self-center min-[390px]:w-[22vw] min-[480px]:w-[18vw] min-[834px]:w-[14vw] min-[1280px]:w-[12vw]">
+    <div class="mb-[1rem] -mx-4 self-center min-[834px]:w-[14vw]">
         <img
             src={memberimg}
             class="aspect-square rounded-2xl object-cover"
