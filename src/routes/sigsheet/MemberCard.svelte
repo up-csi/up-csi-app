@@ -6,7 +6,7 @@
     // }
 
     // const memberimg = getImage(member.photo);
-    const memberimg = `/assets/members/${member.photo}.webp`
+    const memberimg = `/assets/members/${member.photo}.webp`;
 </script>
 
 <main
