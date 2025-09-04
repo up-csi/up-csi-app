@@ -45,11 +45,11 @@
     }
 </script>
 
-<div class="mx-[1.5vw] mt-6 items-start justify-between pb-4 min-[1280px]:mx-[6vw]" id="content">
-    <h1 class="text-csi-white mb-3 w-full text-xl font-bold min-[1280px]:text-5xl">{categoryHeaders[activeCategory]}</h1>
+<div class="mx-[1.5vw] mt-6 items-start justify-between pb-4 min-w-[320px] min-[834px]:mx-[3vw] min-[1280px]:mx-[6vw]" id="content">
+    <h1 class="text-csi-white mb-3 w-full text-xl font-bold min-[834px]:text-4xl min-[1280px]:text-5xl">{categoryHeaders[activeCategory]}</h1>
 
-    <div class="flex flex-col-reverse gap-3">
-    <div class="grid w-full grid-cols-2 gap-1.5 min-[1280px]:grid-cols-4">
+    <div class="flex flex-col-reverse gap-3 min-[834px]:flex-row">
+    <div class="grid w-full grid-cols-2 gap-1.5 min-[834px]:flex-1 min-[834px]:grid-cols-4 min-[834px]:gap-4 min-[1280px]:grid-cols-4">
             {#each members.filter(member => member.category === activeCategory) as member (member.name)}
                 <div in:fade={{ duration: 1300 }}>
                     <button onclick={() => openModal(member)} class="w-full cursor-pointer">
@@ -59,17 +59,17 @@
             {/each}
         </div>
 
-    <div class="flex flex-row flex-wrap justify-start gap-1">
+    <div class="flex flex-row flex-wrap justify-start gap-1 min-[834px]:ml-8 min-[834px]:flex-col min-[834px]:gap-4 min-[834px]:items-start">
             {#each categories as category}
-                <button
-                        class="border-csi-black text-csi-white bg-csi-grey flex w-fit cursor-pointer items-center gap-2 rounded-full border-2 border-[#2C2C2E] px-[0.8rem] py-2 text-sm font-bold opacity-80 transition-colors duration-300 min-[390px]:gap-2 min-[390px]:px-[0.7rem] min-[390px]:py-1.5 min-[390px]:text-sm min-[640px]:px-[0.9rem] min-[640px]:py-2 min-[640px]:text-base"
+        <button
+            class="border-csi-black text-csi-white bg-csi-grey flex w-fit cursor-pointer items-center gap-2 rounded-full border-2 border-[#2C2C2E] px-[0.8rem] py-2 text-sm font-bold opacity-80 transition-colors duration-300 min-[834px]:gap-4 min-[834px]:px-[1rem] min-[834px]:py-2 min-[834px]:text-base min-[1280px]:px-[1.2rem] min-[1280px]:py-2.5 min-[1280px]:text-lg"
                     class:opacity-100={activeCategory === category}
                     class:bg-transparent={activeCategory === category}
                     style:border-color={activeCategory === category ? categoryColors[category] : '#2C2C2E'}
                     onclick={() => (activeCategory = category)}
                 >
                         <span
-                            class="bg-mni-pink aspect-square w-[1.5rem] flex-shrink-0 rounded-full min-[390px]:w-[1.5rem]"
+                            class="bg-mni-pink aspect-square w-[1.5rem] flex-shrink-0 rounded-full min-[834px]:w-[2rem] min-[1280px]:w-[2.25rem]"
                             style:background-color={categoryColors[category]}
                         ></span>
                     <span class="flex items-center">{category}</span>
