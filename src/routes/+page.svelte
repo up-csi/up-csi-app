@@ -215,12 +215,12 @@
 </script>
 
 {#if data.session}
-    <div class="font-inter h-screen flex-1 flex-row bg-[#161619] p-6">
-        <h1 class="text-csi-white mb-2 flex w-100 text-4xl font-bold">Hello, {data.user?.email?.split('@')[0]}!</h1>
-        <h2 class="text-csi-white flex w-100 text-2xl font-bold">Your Dashboard</h2>
+    <div class="font-inter h-screen flex-1 flex-row bg-[#161619] py-6 px-4 sm:px-6 lg:px-10">
+        <h1 class="text-csi-white text-center lg:text-left lg:ml-12 mb-2 text-4xl font-bold">Hello, {data.user?.email?.split('@')[0]}!</h1>
+        <h2 class="text-csi-white text-center lg:text-left lg:ml-12 text-2xl font-bold">Your Dashboard</h2>
 
-        <main class="mt-6 flex justify-evenly">
-            <div class="bg-csi-neutral-900 flex w-3/7 flex-col gap-y-2.5 rounded-2xl p-6">
+        <main class="mt-6 flex flex-col lg:flex-row lg:justify-evenly">
+            <div class="bg-csi-neutral-900 flex lg:w-7/15 flex-col gap-y-2.5 rounded-2xl p-6 mb-8">
                 <h2 class="text-csi-blue text-3xl font-bold">Signature Sheet</h2>
 
                 {#each signatureSheet as section}
@@ -239,7 +239,7 @@
                 {/each}
             </div>
 
-            <div class="bg-csi-neutral-900 flex w-3/7 flex-col gap-y-4 rounded-2xl p-6">
+            <div class="bg-csi-neutral-900 flex lg:w-7/15 flex-col gap-y-4 rounded-2xl p-6 mb-8">
                 <h2 class="text-csi-blue text-3xl font-bold">Constitution Quiz</h2>
                 <div class="flex justify-between">
                     <h3 class="text-csi-white text-lg font-bold">Progress</h3>
@@ -252,7 +252,7 @@
                 <p class="text-csi-white">{quizClosingString}</p>
                 <div class="text-csi-white">
                     <p class="pb-2 text-lg font-bold">Constitution Quiz Mechanics</p>
-                    <ul class="px-10" style="list-style-type:circle;">
+                    <ul class="pl-5 pr-0 md:pl-10" style="list-style-type:circle;">
                         <li class="py-1">The constitution quiz is a requirement for all CSI Applicants</li>
                         <li class="py-1">
                             This quiz is open notes and you may view a copy of the constitution <a
@@ -294,7 +294,7 @@
         class="font-inter flex min-h-screen w-full flex-col items-center justify-center gap-4 border text-center dark:bg-[#161619]"
     >
         <main
-            class="font-inter flex flex-col items-center justify-center gap-2 rounded-xl px-4 py-6 md:px-8 dark:bg-[#2f2f32]"
+            class="font-inter flex flex-col items-center justify-center gap-2 rounded-xl px-4 py-6 lg:px-8 dark:bg-[#2f2f32]"
         >
             <div class="text-csi-blue mb-4 flex items-center justify-center gap-4">
                 <img src={logo} class="w-[25px]" alt="CSI Logo" />
