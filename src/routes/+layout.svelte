@@ -1,4 +1,5 @@
 <script lang="ts">
+    import { uuid, username, filledSigsheet, gdrive_folder_id } from '$lib/shared';
     import './app.css';
     import CSI_Logo from '$lib/icons/upcsi.svg';
     import HAM_MENU from '$lib/icons/ham_menu.svg';
@@ -7,8 +8,16 @@
 
     import { invalidate } from '$app/navigation';
     import { onMount } from 'svelte';
+
     const { data, children } = $props();
     const { session, supabase } = $derived(data);
+
+    // Sync $lib variables to data props
+    if(data?.uuid) uuid.set(data.uuid);
+    if(data?.username) username.set(data.username);
+    if(data?.filledSigsheet) filledSigsheet.set(data.filledSigsheet);
+    if(data?.gdrive_folder_id) gdrive_folder_id.set(data.gdrive_folder_id);
+
     let isNavBarOpen = $state(false);
     onMount(() => {
         const { data } = supabase.auth.onAuthStateChange((_, newSession) => {
