@@ -17,13 +17,18 @@
 
     const imageURL = writable<string | null>(null);
 
+    let submitting = $state(false);
     async function handleSubmit(event: Event) {
         event.preventDefault();
+
+        if (submitting) return;
+        submitting = true;
 
         const form = event.target as HTMLFormElement;
         const formData = new FormData(form);
 
         try {
+            console.log('Start /api/upload.');
             const response = await fetch('/api/upload', {
                 method: 'POST',
                 body: formData,
@@ -165,8 +170,13 @@
             </label>
             <button
                 class="dark:bg-csi-blue bg-opacity-10 dark:hover:bg-innov-orange h-60px cursor-pointer rounded-full px-6 py-2 text-xl font-semibold"
+                disabled={submitting}
             >
-                Submit
+                {#if submitting}
+                    Submitting...
+                {:else}
+                    Submit
+                {/if}
             </button>
         </div>
     </form>

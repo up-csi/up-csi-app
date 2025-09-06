@@ -1,7 +1,7 @@
 <script>
     import { BookCheck, LayoutDashboard, LogOut, NotebookPen, X } from '@lucide/svelte';
-    import Placeholder_Icon from '$lib/assets/members/LinoPlaceholder.webp';
     import { page } from '$app/state';
+    const Placeholder_Icon = `/assets/members/LinoPlaceholder.webp`;
     const options = ['Dashboard', 'Signature Sheet', 'Constitution Quiz'];
     const filenames = ['/', '/sigsheet/', '/consti-quiz/'];
     const icon_class = 'h-6 w-6';
