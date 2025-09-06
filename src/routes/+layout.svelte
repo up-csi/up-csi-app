@@ -1,6 +1,6 @@
 <script lang="ts">
     import './app.css';
-    import {filledSigsheet, gdrive_folder_id, username, uuid} from '$lib/shared';
+    import { filledSigsheet, gdrive_folder_id, username, uuid } from '$lib/shared';
     import CSI_Logo from '$lib/icons/upcsi.svg';
     import HAM_MENU from '$lib/icons/ham_menu.svg';
     import NavBar from '$lib/NavBar.svelte';
