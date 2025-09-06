@@ -1,7 +1,7 @@
 <script lang="ts">
-    import { filledSigsheet, gdrive_folder_id, username, uuid } from '$lib/shared';
     import { onMount } from 'svelte';
     import { supabase } from '$lib/supabaseClient';
+    import { uuid } from '$lib/shared';
 
     const { data } = $props();
 
