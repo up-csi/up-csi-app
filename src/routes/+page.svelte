@@ -27,7 +27,7 @@
     };
 
     let signatureSheet: CommitteeProgress[] = $state([]);
-    const quizProgress = '28/40';
+    let quizProgress = '28/40';
 
     function calculatePercentage(progress: string) {
         const [num, denom] = progress.split('/').map(Number);

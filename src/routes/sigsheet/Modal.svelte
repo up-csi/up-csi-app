@@ -16,9 +16,12 @@
     };
 
     const imageURL = writable<string | null>(null);
-
+    
+    let isSubmitting = false;
     async function handleSubmit(event: Event) {
         event.preventDefault();
+        if (isSubmitting) return; // guard double clicks
+        isSubmitting = true;
 
         const form = event.target as HTMLFormElement;
         const formData = new FormData(form);
@@ -40,6 +43,7 @@
                 console.log('ADDED TO FILLED SIGSHEET', $filledSigsheet);
                 alert('Data uploaded successfully!');
             }
+            isSubmitting = false;
             closeModal();
         } catch (error) {
             console.error('Unexpected error:', error);
