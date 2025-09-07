@@ -16,7 +16,7 @@
     };
 
     const imageURL = writable<string | null>(null);
-    
+
     let isSubmitting = false;
     async function handleSubmit(event: Event) {
         event.preventDefault();
