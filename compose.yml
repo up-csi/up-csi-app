@@ -1,0 +1,15 @@
+services:
+  www:
+    build:
+      context: .
+    restart: always
+    ports:
+      - ${CONTAINER_PORT:-3000}:3000
+    env_file:
+      - .env
+    healthcheck:
+      test: ['CMD-SHELL', 'wget -q0- http://localhost:${CONTAINER_PORT}/']
+      interval: 10s
+      timeout: 30s
+      retries: 5
+      start_period: 10s
