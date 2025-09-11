@@ -2,6 +2,7 @@ services:
   www:
     build:
       context: .
+    container_name: up-csi-app
     restart: always
     ports:
       - ${CONTAINER_PORT:-3000}:3000
