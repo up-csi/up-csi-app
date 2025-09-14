@@ -25,4 +25,11 @@ export interface IOptionQuestion {
     options: IOption[];
 }
 
+export interface Answer {
+    user_id: string;
+    question_id: number;
+    option_id?: number | null;
+    answer_text?: string | null;
+}
+
 export type Question = ITextQuestion | IOptionQuestion;
