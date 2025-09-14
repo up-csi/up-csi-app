@@ -7,6 +7,7 @@
         placeholder?: string;
     }
 
+    // eslint-disable-next-line prefer-const
     let { title, value = $bindable(), placeholder = '' }: Props = $props();
 </script>
 

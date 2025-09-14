@@ -1,4 +1,4 @@
-import type { ISection, Question } from './constiquiz-types.ts';
+import type { Answer, ISection, Question } from './constiquiz-types.ts';
 import type { PageServerLoad } from './$types';
 
 export const load: PageServerLoad = async ({ locals }) => {
@@ -48,25 +48,28 @@ export const load: PageServerLoad = async ({ locals }) => {
     };
 
     const fetchAnswers = async (): Promise<Answer[]> => {
-
-        const { data, error } = await supabase.from('constiquiz-answers').select(`
+        const { data, error } = await supabase
+            .from('constiquiz-answers')
+            .select(
+                `
             user_id,
             question_id,
             option_id,
             answer_text
-        `).eq('user_id', uuid);
+        `,
+            )
+            .eq('user_id', uuid);
 
         if (error) {
-            console.error(err);
-            throw err;
+            console.error(error);
+            throw error;
         }
 
         return data ?? [];
-}
-
+    };
 
     // fetch in parallel for faster results
     const [sections, questions, answers] = await Promise.all([fetchSections(), fetchQuestions(), fetchAnswers()]);
 
     return { sections, questions, answers };
-}
+};

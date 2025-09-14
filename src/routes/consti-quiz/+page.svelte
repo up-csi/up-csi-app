@@ -1,16 +1,15 @@
 <script lang="ts">
-    import type { User } from '@supabase/supabase-js';
     // Alphabetical imports
     import CheckboxQuestion from './CheckboxQuestion.svelte';
     import LongTextQuestion from './LongTextQuestion.svelte';
     import type { Question } from './constiquiz-types';
     import RadioQuestion from './RadioQuestion.svelte';
+    import SaveButton from './SaveButton.svelte';
     import Section from './Section.svelte';
     import SectionNav from './SectionNav.svelte';
     import ShortTextQuestion from './ShortTextQuestion.svelte';
     import { browser } from '$app/environment';
     import { onMount } from 'svelte';
-    import SaveButton from './SaveButton.svelte';
 
     const { data } = $props();
     const { user, sections, questions, answers } = data;
@@ -23,17 +22,13 @@
     // NOTE: for debugging purposes only, remove during production
     console.log('questions:', questions);
 
-    // State variables for messages
-    let saveError = $state('');
-    let saveSuccess = $state('');
-
     // filter questions by sections
-    const preambleQuestions = questions.filter((q: Question) => q.section.title === 'UP CSI Preamble');
-    const mvpQuestions = questions.filter((q: Question) => q.section.title === 'Mission, Vision, and Purpose');
-    const ecQuestions = questions.filter((q: Question) => q.section.title === 'Executive Board and Committee Members');
-    const tfQuestions = questions.filter((q: Question) => q.section.title === 'True or False');
-    const mcQuestions = questions.filter((q: Question) => q.section.title === 'Multiple Choice');
-    const bonusQuestions = questions.filter((q: Question) => q.section.title === 'Bonus');
+    const preambleQuestions = questions!.filter((q: Question) => q.section.title === 'UP CSI Preamble');
+    const mvpQuestions = questions!.filter((q: Question) => q.section.title === 'Mission, Vision, and Purpose');
+    const ecQuestions = questions!.filter((q: Question) => q.section.title === 'Executive Board and Committee Members');
+    const tfQuestions = questions!.filter((q: Question) => q.section.title === 'True or False');
+    const mcQuestions = questions!.filter((q: Question) => q.section.title === 'Multiple Choice');
+    const bonusQuestions = questions!.filter((q: Question) => q.section.title === 'Bonus');
 
     // quiz state
     const preambleAnswers = $state(Array(preambleQuestions.length).fill(''));
@@ -99,7 +94,7 @@
                 throw new Error(`Failed to save answers: ${res.statusText}`);
             }
 
-            const result = await res.json();
+            return await res.json();
         } catch (err) {
             console.error(err);
         }
@@ -116,7 +111,8 @@
 
                 if (!sectionToAnswers[section_id]) continue;
 
-                if (answer.option_id !== null) {
+                if (answer.option_id) {
+                    // @ts-expect-error - TODO: fix this
                     sectionToAnswers[section_id][ans_idx] = answer.option_id;
                 } else if (answer.answer_text) {
                     sectionToAnswers[section_id][ans_idx] = answer.answer_text;
@@ -151,15 +147,15 @@
 
                     <!-- Section dropdown -->
                     <div class="rounded-lg bg-[#262629] p-6">
-                        <SectionNav {sections} />
+                        <SectionNav sections={sections!} />
                     </div>
                 </aside>
 
                 <!-- Main Content -->
                 <main class="h-3/5 w-full overflow-y-auto bg-[#161619] p-4 pt-4 md:h-full md:w-3/5 md:p-8">
-                    {#each sections as { section_id, title, points } (section_id)}
+                    {#each sections! as { section_id, title, points } (section_id)}
                         <Section id={section_id.toString()} {title} {points}>
-                            {#each questions.filter(question => question.section.title === title) as question, i}
+                            {#each questions!.filter(question => question.section.title === title) as question, i}
                                 {#if question.type === 'long_text'}
                                     <LongTextQuestion
                                         title={question.title}

@@ -8,6 +8,7 @@
         rows?: number;
     }
 
+    // eslint-disable-next-line prefer-const
     let { title, value = $bindable(), placeholder = '', rows = 2 }: Props = $props();
 </script>
 

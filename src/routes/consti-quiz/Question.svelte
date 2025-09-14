@@ -39,7 +39,7 @@ A base component for all question components.
     -->
     {#if title}
         <header class="mb-2 md:mb-5">
-            <h2 class="text-lg md:text-xl font-bold">
+            <h2 class="text-lg font-bold md:text-xl">
                 {title}
             </h2>
         </header>

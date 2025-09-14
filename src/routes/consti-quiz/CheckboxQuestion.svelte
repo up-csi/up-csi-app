@@ -6,17 +6,18 @@
         label: string;
     }
 
-    let { title = '', value = $bindable(''), items = [] as Item[], other = false } = $props();
+    // eslint-disable-next-line prefer-const
+    let { title = '', value = $bindable(''), items = [] as Item[] } = $props();
 
     function addOption(option: string) {
-        const valueList: Array<string> = value.split(',').filter(v => v != '');
+        const valueList: Array<string> = value.split(',').filter(v => v !== '');
         valueList.push(option);
         value = valueList.join(',');
         console.log(valueList);
     }
 
     function removeOption(option: string) {
-        const valueList: Array<string> = value.split(',').filter(v => v != option);
+        const valueList: Array<string> = value.split(',').filter(v => v !== option);
         value = valueList.join(',');
         console.log(valueList);
     }
@@ -28,10 +29,11 @@
             <input
                 type="checkbox"
                 onchange={e => {
-                    if (e.target.checked) {
-                        addOption(item.id);
+                    const target = e.target as HTMLInputElement;
+                    if (target.checked) {
+                        addOption(item.id.toString());
                     } else {
-                        removeOption(item.id);
+                        removeOption(item.id.toString());
                     }
                 }}
                 class="form-checkbox h-5 w-5"
