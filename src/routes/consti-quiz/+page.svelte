@@ -84,13 +84,25 @@
         <div class="flex flex-1 flex-col bg-[#161619]">
             <!-- Banner at top (full width) -->
             <div class="bg-[#161619] p-8 pb-4">
-                <h1 class="text-5xl font-bold">Constitution Quiz</h1>
+                <h1 class="text-3xl font-bold md:text-5xl">Constitution Quiz</h1>
             </div>
 
             <!-- Content area -->
-            <div class="flex flex-1 overflow-hidden">
+            <div class="flex flex-1 flex-col overflow-hidden md:flex-row">
+                <!-- Quiz Navigation Sidebar -->
+                <aside
+                    class="mb-2 h-2/5 overflow-x-auto bg-[#161619] p-4 pt-4 text-center md:h-full md:w-2/5 md:overflow-y-auto md:p-8 md:text-left"
+                >
+                    <div class="mb-4 text-xl font-bold text-[#00C6D7] md:text-3xl">Table of Contents</div>
+
+                    <!-- Section dropdown -->
+                    <div class="rounded-lg bg-[#262629] p-6">
+                        <SectionNav {sections} />
+                    </div>
+                </aside>
+
                 <!-- Main Content -->
-                <main class="w-3/5 overflow-y-auto bg-[#161619] p-8 pt-4">
+                <main class="h-3/5 w-full overflow-y-auto bg-[#161619] p-4 pt-4 md:h-full md:w-3/5 md:p-8">
                     {#each sections as { section_id, title, points } (section_id)}
                         <Section id={section_id.toString()} {title} {points}>
                             {#each questions.filter(question => question.section.title === title) as question, i}

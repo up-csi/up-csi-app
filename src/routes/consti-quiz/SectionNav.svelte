@@ -6,8 +6,8 @@
     const { sections }: Props = $props();
 </script>
 
-<div class="rounded-lg bg-[#262629] p-6">
-    <h2 class="mb-6 text-2xl font-bold text-white">Quiz Navigation</h2>
+<div class="rounded-lg bg-[#262629] p-2 md:p-6">
+    <h2 class="mb-2 text-2xl font-bold text-white md:mb-6">Quiz Navigation</h2>
     {#each sections as { section_id, title, description }}
         <a
             href={`#${section_id}`}

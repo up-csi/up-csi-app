@@ -38,13 +38,13 @@ A base component for all question components.
                mutually exclusive properties
     -->
     {#if title}
-        <header class="mb-5">
-            <h2 class="text-xl font-bold">
+        <header class="mb-2 md:mb-5">
+            <h2 class="text-lg md:text-xl font-bold">
                 {title}
             </h2>
         </header>
     {:else if header}
-        <header class="mb-5">
+        <header class="mb-2 md:mb-5">
             {@render header?.()}
         </header>
     {/if}
