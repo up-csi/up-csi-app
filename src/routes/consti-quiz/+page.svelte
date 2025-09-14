@@ -10,9 +10,10 @@
     import ShortTextQuestion from './ShortTextQuestion.svelte';
     import { browser } from '$app/environment';
     import { onMount } from 'svelte';
+    import SaveButton from './SaveButton.svelte';
 
     const { data } = $props();
-    const { user, sections, questions } = data;
+    const { user, sections, questions, answers } = data;
 
     // NOTE: set to `false` to disable quiz rendering
     const isOpen = true;
@@ -23,8 +24,8 @@
     console.log('questions:', questions);
 
     // State variables for messages
-    const submissionError = $state('');
-    const submissionSuccess = $state('');
+    let saveError = $state('');
+    let saveSuccess = $state('');
 
     // filter questions by sections
     const preambleQuestions = questions.filter((q: Question) => q.section.title === 'UP CSI Preamble');
@@ -67,8 +68,61 @@
         }
     }
 
+    async function saveAnswersToServer() {
+        try {
+            const answersToAnswerObject = Object.entries(sectionToAnswers).flatMap(([sectionId, answerArray]) =>
+                answerArray.map((answer, index) => {
+                    const optionId = !isNaN(Number(answer)) && Number(answer) >= 1000 ? Number(answer) : null;
+                    const answerText = optionId === null ? answer : null;
+                    const questionId = Number(`${sectionId.slice(0, 1)}${index + 1}${sectionId.slice(2, 4)}`);
+
+                    return {
+                        user_id: user!.id,
+                        question_id: questionId,
+                        option_id: optionId,
+                        answer_text: answerText,
+                    };
+                }),
+            );
+
+            const res = await fetch('/api/answers', {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json',
+                },
+                body: JSON.stringify({
+                    answers: answersToAnswerObject,
+                }),
+            });
+
+            if (!res.ok) {
+                throw new Error(`Failed to save answers: ${res.statusText}`);
+            }
+
+            const result = await res.json();
+        } catch (err) {
+            console.error(err);
+        }
+    }
+
     onMount(() => {
         loadProgress();
+
+        if (answers) {
+            for (const answer of answers) {
+                const qidStr = answer.question_id.toString();
+                const section_id = `${qidStr[0]}000`;
+                const ans_idx = Number(qidStr[1]) - 1;
+
+                if (!sectionToAnswers[section_id]) continue;
+
+                if (answer.option_id !== null) {
+                    sectionToAnswers[section_id][ans_idx] = answer.option_id;
+                } else if (answer.answer_text) {
+                    sectionToAnswers[section_id][ans_idx] = answer.answer_text;
+                }
+            }
+        }
     });
 
     $effect(() => {
@@ -154,15 +208,8 @@
                     {/each}
                 </main>
 
-                <!-- Quiz Navigation Sidebar -->
-                <aside class="w-2/5 overflow-y-auto bg-[#161619] p-8 pt-4">
-                    <div class="mb-4 text-3xl font-bold text-[#00C6D7]">Table of Contents</div>
-
-                    <!-- Section dropdown -->
-                    <div class="rounded-lg bg-[#262629] p-6">
-                        <SectionNav {sections} />
-                    </div>
-                </aside>
+                <!-- Save Button -->
+                <SaveButton saveAnswers={saveAnswersToServer} />
             </div>
         </div>
     {/if}
