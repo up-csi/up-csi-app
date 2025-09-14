@@ -1,5 +1,5 @@
 <script lang="ts">
-    import { filledSigsheet, uuid } from '$lib/shared';
+    import { filledSigsheet, gdrive_folder_id, username, uuid } from '$lib/shared';
     import { writable } from 'svelte/store';
 
     const { member_id, name, role, closeModal, activeCategory } = $props();
@@ -17,13 +17,18 @@
 
     const imageURL = writable<string | null>(null);
 
+    let submitting = $state(false);
     async function handleSubmit(event: Event) {
         event.preventDefault();
+
+        if (submitting) return;
+        submitting = true;
 
         const form = event.target as HTMLFormElement;
         const formData = new FormData(form);
 
         try {
+            console.log('Start /api/upload.');
             const response = await fetch('/api/upload', {
                 method: 'POST',
                 body: formData,
@@ -36,11 +41,10 @@
             } else {
                 const data = await response.json();
                 console.log('Data uploaded successfully:', data);
+                filledSigsheet.add(member_id);
+                console.log('ADDED TO FILLED SIGSHEET', $filledSigsheet);
                 alert('Data uploaded successfully!');
             }
-
-            filledSigsheet.add(member_id);
-            console.log('ADDED TO FILLED SIGSHEET', $filledSigsheet);
             closeModal();
         } catch (error) {
             console.error('Unexpected error:', error);
@@ -130,6 +134,7 @@
                     name="image"
                     onchange={handleFileChange}
                     hidden
+                    required
                 />
                 <div class="items-center" id="img-view">
                     {#if $imageURL}
@@ -165,8 +170,13 @@
             </label>
             <button
                 class="dark:bg-csi-blue bg-opacity-10 dark:hover:bg-innov-orange h-60px cursor-pointer rounded-full px-6 py-2 text-xl font-semibold"
+                disabled={submitting}
             >
-                Submit
+                {#if submitting}
+                    Submitting...
+                {:else}
+                    Submit
+                {/if}
             </button>
         </div>
     </form>
