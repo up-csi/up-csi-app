@@ -7,6 +7,9 @@
     import RadioQuestion from './RadioQuestion.svelte';
     import SectionNav from './SectionNav.svelte';
     import ShortTextQuestion from './ShortTextQuestion.svelte';
+    import { onMount } from 'svelte';
+    
+    
 
     // Supabase client
     const supabase = createClient(env.PUBLIC_SUPABASE_URL, env.PUBLIC_SUPABASE_ANON_KEY);
@@ -19,6 +22,7 @@
     // State variables for messages
     let submissionError = $state('');
     let submissionSuccess = $state('');
+    let applicantId: string | null = null;
 
     // not used
     const mv1 = $state('');
@@ -109,6 +113,17 @@
             submissionError = '';
         }
     }
+
+    onMount(() => {
+        applicantId = data?.uuid ?? null;
+
+        if (!applicantId) {
+        console.error('No UUID found.');
+        } else {
+        console.log(' applicantId:', data.uuid);
+        }
+    });
+    
 </script>
 
 <div class="flex h-screen bg-[#161619] text-[#F9FAFB]">

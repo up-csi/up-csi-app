@@ -29,7 +29,8 @@
     };
 
     let signatureSheet: CommitteeProgress[] = $state([]);
-    const quizProgress = '28/40';
+    let quizProgress = $state('');  // default before load
+
 
     function calculatePercentage(progress: string) {
         const [num, denom] = progress.split('/').map(Number);
@@ -39,6 +40,33 @@
 
     onMount(async () => {
         const applicantId = $uuid;
+
+        // 1. Fetch quiz answers for this applicant
+        const { data: quizAnswers, error: quizError } = await supabase
+        .from('constiquiz-answers')
+        .select('answer_text, option_id')
+        .eq('user_id', applicantId);
+
+        if (quizError) {
+        console.error('Error fetching quiz answers:', quizError.message);
+        } else {
+        // 2. Count valid answers
+        const answeredCount = quizAnswers.filter(
+            (row) =>
+            (row.answer_text && row.answer_text.trim().toUpperCase() !== 'EMPTY') ||
+            row.option_id !== null
+        ).length;
+
+        // 3.  get the number of questions from the questions table
+        const { count: totalQuestions } = await supabase
+            .from('constiquiz-questions')
+            .select('*', { count: 'exact', head: true });
+
+
+        // 4. Build progress string
+        quizProgress = `${answeredCount}/${totalQuestions}`;
+        }
+
 
         // supposedly we should fetch the user ID like this:
         /*
