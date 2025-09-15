@@ -1,7 +1,6 @@
 <script>
-    import { BookCheck, LayoutDashboard, LogOut, NotebookPen, X } from '@lucide/svelte';
+    import { BookCheck, LayoutDashboard, LogOut, NotebookPen } from '@lucide/svelte';
     import { page } from '$app/state';
-    const Placeholder_Icon = `/assets/members/LinoPlaceholder.webp`;
     const options = ['Dashboard', 'Signature Sheet', 'Constitution Quiz'];
     const filenames = ['/', '/sigsheet/', '/consti-quiz/'];
     const icon_class = 'h-6 w-6';
@@ -9,18 +8,16 @@
     let { user, isNavBarOpen = $bindable() } = $props();
 </script>
 
-<div class="bg-csi-black fixed flex h-screen flex-initial flex-col px-2 pt-8 sm:px-8">
-    <div class="mx-8 flex hover:cursor-pointer sm:mx-1">
-        <X class="text-csi-white ml-auto {icon_class}" onclick={() => (isNavBarOpen = false)} />
-    </div>
+<div class="bg-csi-black md:pt-18 z-200 fixed flex h-screen flex-initial flex-col px-2 pt-24 sm:px-8">
+    <div class="mx-8 flex hover:cursor-pointer sm:mx-1"></div>
     <div class="mb-8 flex w-full flex-col items-center justify-center sm:p-4">
         <div class="w-screen text-center sm:w-48">
             <img
-                src={Placeholder_Icon}
+                src={user.user_metadata.avatar_url}
                 class="mx-auto mb-4 h-48 w-48 flex-shrink-0 rounded-full object-cover"
                 alt="Profile placeholder pic"
             />
-            <p class="text-csi-white text-2xl font-bold">{user.email.slice(0, user.email.indexOf('@'))}</p>
+            <p class="text-csi-white text-2xl font-bold">{user.user_metadata.full_name}</p>
         </div>
     </div>
 
@@ -47,7 +44,7 @@
         {/each}
     </div>
 
-    <form class="mt-auto mb-10" action="/logout" method="POST">
+    <form class="mb-10 mt-auto" action="/logout" method="POST">
         <div
             class="text-csi-white hover:bg-csi-neutral-100 hover:text-csi-black flex w-full cursor-pointer gap-2 rounded-full p-3 font-medium
                         opacity-50 ease-in-out hover:font-medium hover:opacity-100 hover:duration-100"
