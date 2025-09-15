@@ -32,7 +32,7 @@
 {#if !data.session}
     {@render children()}
 {:else}
-    <header class="bg-csi-black z-100 sticky top-0 flex w-full items-center px-16 py-4">
+    <header class="bg-csi-black sticky top-0 z-100 flex w-full items-center px-16 py-4">
         <button
             class="cursor-pointer"
             onclick={() => {
@@ -55,7 +55,7 @@
         {#if page.url.pathname !== '/login/'}
             {#if isNavBarOpen}
                 <div
-                    class="fixed left-0 top-0 z-50 h-screen w-64 transform transition-transform duration-700 ease-in-out"
+                    class="fixed top-0 left-0 z-50 h-screen w-64 transform transition-transform duration-700 ease-in-out"
                 >
                     <NavBar user={data.user} bind:isNavBarOpen />
                 </div>

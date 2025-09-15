@@ -8,7 +8,7 @@
     let { user, isNavBarOpen = $bindable() } = $props();
 </script>
 
-<div class="bg-csi-black md:pt-18 z-200 fixed flex h-screen flex-initial flex-col px-2 pt-24 sm:px-8">
+<div class="bg-csi-black fixed z-200 flex h-screen flex-initial flex-col px-2 pt-24 sm:px-8 md:pt-18">
     <div class="mx-8 flex hover:cursor-pointer sm:mx-1"></div>
     <div class="mb-8 flex w-full flex-col items-center justify-center sm:p-4">
         <div class="w-screen text-center sm:w-48">
@@ -44,7 +44,7 @@
         {/each}
     </div>
 
-    <form class="mb-10 mt-auto" action="/logout" method="POST">
+    <form class="mt-auto mb-10" action="/logout" method="POST">
         <div
             class="text-csi-white hover:bg-csi-neutral-100 hover:text-csi-black flex w-full cursor-pointer gap-2 rounded-full p-3 font-medium
                         opacity-50 ease-in-out hover:font-medium hover:opacity-100 hover:duration-100"
