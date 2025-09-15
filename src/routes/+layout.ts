@@ -1,3 +1,4 @@
+import type { Answer, ISection, Question } from './consti-quiz/constiquiz-types.ts';
 import { PUBLIC_SUPABASE_ANON_KEY, PUBLIC_SUPABASE_URL } from '$env/static/public';
 import { createBrowserClient, createServerClient, isBrowser } from '@supabase/ssr';
 
@@ -87,5 +88,71 @@ export async function load({ data, depends, fetch }) {
         console.error('Unexpected error fetching gdrive folder:', gDriveError);
     }
 
-    return { session, supabase, user, uuid, username, filledSigsheet, gdrive_folder_id };
+    // Functions for fetching constiquiz
+    const fetchSections = async (): Promise<ISection[]> => {
+        const { data, error } = await supabase.from('constiquiz-sections').select(`
+	    section_id,
+	    title,
+	    points
+	`);
+
+        if (error) {
+            // TODO: handle error
+            console.error(error);
+            throw error;
+        }
+
+        return data ?? [];
+    };
+
+    const fetchQuestions = async (): Promise<Question[]> => {
+        const { data, error } = await supabase.from('constiquiz-questions').select(`
+                title,
+                point_value,
+                type,
+                section:"constiquiz-sections"!inner (
+                    section_id,
+                    title,
+                    points
+                ),
+                options:"constiquiz-options" (
+                    option_id,
+                    title
+                )
+            `);
+
+        if (error || !data) {
+            console.error(error);
+            throw error;
+        }
+
+        // @ts-expect-error - no idea how to fix lint of this
+        return data ?? [];
+    };
+
+    const fetchAnswers = async (): Promise<Answer[]> => {
+        const { data, error } = await supabase
+            .from('constiquiz-answers')
+            .select(
+                `
+            user_id,
+            question_id,
+            option_id,
+            answer_text
+        `,
+            )
+            .eq('user_id', uuid);
+
+        if (error) {
+            console.error(error);
+            throw error;
+        }
+
+        return data ?? [];
+    };
+
+    // fetch in parallel for faster results
+    const [sections, questions, answers] = await Promise.all([fetchSections(), fetchQuestions(), fetchAnswers()]);
+
+    return { session, supabase, user, uuid, username, filledSigsheet, gdrive_folder_id, sections, questions, answers };
 }
