@@ -40,7 +40,7 @@
     }
 </script>
 
-<div class="md:left-1/5 fixed bottom-8 left-1/2 z-30 flex -translate-x-1/2 transform flex-col items-center space-y-2">
+<div class="fixed bottom-8 left-1/2 z-30 flex -translate-x-1/2 transform flex-col items-center space-y-2 md:left-1/5">
     <button
         onclick={handleSave}
         class="bg-csi-blue rounded-lg px-4 py-2 font-semibold text-white shadow-lg transition-colors hover:bg-blue-600 disabled:cursor-not-allowed disabled:opacity-50"
