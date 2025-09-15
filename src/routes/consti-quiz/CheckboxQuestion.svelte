@@ -3,29 +3,42 @@
 
     interface Item {
         id: number;
-        value: string;
-        label?: string;
+        label: string;
     }
 
-    export let title = '';
-    export let name = '';
-    export let value: string[] = [];
-    export let items: Item[] = [];
-    export let other = false;
+    // eslint-disable-next-line prefer-const
+    let { title = '', value = $bindable(''), items = [] as Item[] } = $props();
+
+    function addOption(option: string) {
+        const valueList: Array<string> = value.split(',').filter(v => v !== '');
+        valueList.push(option);
+        value = valueList.join(',');
+        console.log(valueList);
+    }
+
+    function removeOption(option: string) {
+        const valueList: Array<string> = value.split(',').filter(v => v !== option);
+        value = valueList.join(',');
+        console.log(valueList);
+    }
 </script>
 
 <Question {title}>
-    {#each items as item (item.id)}
+    {#each items as item, i (i)}
         <label class="flex items-center space-x-3">
-            <input type="checkbox" {name} bind:group={value} value={item.value} class="form-checkbox h-5 w-5" />
-            <span class="text-md">{item.label ?? item.value}</span>
+            <input
+                type="checkbox"
+                onchange={e => {
+                    const target = e.target as HTMLInputElement;
+                    if (target.checked) {
+                        addOption(item.id.toString());
+                    } else {
+                        removeOption(item.id.toString());
+                    }
+                }}
+                class="form-checkbox h-5 w-5"
+            />
+            <span class="text-md">{item.label}</span>
         </label>
     {/each}
-    {#if other}
-        <label class="flex items-center space-x-3">
-            <input type="checkbox" {name} bind:group={value} value="other" class="form-checkbox h-5 w-5" />
-            <span class="text-md">Other:</span>
-            <input type="text" placeholder="Enter response..." />
-        </label>
-    {/if}
 </Question>

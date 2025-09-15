@@ -37,7 +37,7 @@ export const GET = async ({ url, locals: { supabase } }) => {
             throw redirect(303, `/login/error?code=non_csi`);
         }
 
-        if (error || data !== null) {
+        if (error || data === null) {
             console.error('Database query error:', error);
             await supabase.auth.signOut();
             throw redirect(303, `/login/error?code=db_error`);

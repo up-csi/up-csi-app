@@ -3,29 +3,32 @@
 
     interface Item {
         id: number;
-        value: string;
-        label?: string;
+        label: string;
     }
 
-    export let title = '';
-    export let name = '';
-    export let value = '';
-    export let items: Item[] = [];
-    export let other = false;
+    // eslint-disable-next-line prefer-const
+    let { title = '', value = $bindable(''), items = [] as Item[], other = false } = $props();
+    let otherValue = $state('');
 </script>
 
 <Question {title}>
-    {#each items as item (item.id)}
+    {#each items as item, i (i)}
         <label class="flex items-center space-x-3">
-            <input type="radio" {name} bind:group={value} value={item.value} class="form-radio h-5 w-5" />
-            <span class="text-md">{item.label ?? item.value}</span>
+            <input type="radio" bind:group={value} value={item.id} class="form-radio h-5 w-5" />
+            <span class="text-md">{item.label}</span>
         </label>
     {/each}
     {#if other}
         <label class="flex items-center space-x-3">
-            <input type="radio" {name} bind:group={value} value="other" class="form-radio h-5 w-5" />
+            <input type="radio" bind:group={value} value={otherValue} class="form-radio h-5 w-5" />
             <span class="text-md">Other:</span>
-            <input type="text" placeholder="Enter response..." />
+            <input
+                type="text"
+                bind:value={otherValue}
+                placeholder="Enter response..."
+                onfocus={() => (value = otherValue)}
+                oninput={() => (value = otherValue)}
+            />
         </label>
     {/if}
 </Question>
