@@ -11,7 +11,7 @@ export async function POST({ locals, request }) {
     const uuid = user.id;
 
     const body = await request.json();
-    const { answers } = body.answers;
+    const { answers } = body;
 
     if (!Array.isArray(answers) || answers.length === 0) {
         return json({ success: false, error: 'No answers provided' }, { status: 400 });
