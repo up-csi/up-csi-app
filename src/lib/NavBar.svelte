@@ -1,27 +1,22 @@
 <script>
-    import { BookCheck, LayoutDashboard, LogOut, NotebookPen, X } from '@lucide/svelte';
+    import { BookCheck, LayoutDashboard, LogOut, NotebookPen } from '@lucide/svelte';
     import { page } from '$app/state';
-    const Placeholder_Icon = `/assets/members/LinoPlaceholder.webp`;
     const options = ['Dashboard', 'Signature Sheet', 'Constitution Quiz'];
     const filenames = ['/', '/sigsheet/', '/consti-quiz/'];
     const icon_class = 'h-6 w-6';
     // eslint-disable-next-line prefer-const
     let { user, isNavBarOpen = $bindable() } = $props();
+    const linoPlaceholder = '/assets/members/LinoPlaceholder.webp';
 </script>
 
-<div class="bg-csi-black fixed flex h-screen flex-initial flex-col px-2 pt-8 sm:px-8">
-    <div class="mx-8 flex hover:cursor-pointer sm:mx-1">
-        <X class="text-csi-white ml-auto {icon_class}" onclick={() => (isNavBarOpen = false)} />
-    </div>
-    <div class="mb-8 flex w-full flex-col items-center justify-center sm:p-4">
-        <div class="w-screen text-center sm:w-48">
-            <img
-                src={Placeholder_Icon}
-                class="mx-auto mb-4 h-48 w-48 flex-shrink-0 rounded-full object-cover"
-                alt="Profile placeholder pic"
-            />
-            <p class="text-csi-white text-2xl font-bold">{user.email.slice(0, user.email.indexOf('@'))}</p>
-        </div>
+<div class="bg-csi-black fixed z-200 flex h-screen w-screen flex-initial flex-col px-2 pt-24 sm:w-64 sm:px-8 md:pt-24">
+    <div class="mx-auto flex max-w-64 justify-start gap-4 pb-8 text-left">
+        <img
+            src={user.user_metadata.avatar_url ?? linoPlaceholder}
+            class="mx-auto h-16 w-16 flex-shrink-0 grow-0 rounded-full object-cover"
+            alt="Profile placeholder pic"
+        />
+        <p class="text-csi-white text-md my-auto font-semibold">{user.user_metadata.full_name}</p>
     </div>
 
     <div class="flex flex-1 flex-col overflow-y-auto">
