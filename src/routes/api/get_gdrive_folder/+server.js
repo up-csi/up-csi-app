@@ -4,7 +4,6 @@ import { google } from 'googleapis';
 import { supabase } from '$lib/supabaseClient';
 
 export async function POST({ request }) {
-
     try {
         const { uuid, username } = await request.json();
 
