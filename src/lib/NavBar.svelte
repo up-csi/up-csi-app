@@ -6,12 +6,13 @@
     const icon_class = 'h-6 w-6';
     // eslint-disable-next-line prefer-const
     let { user, isNavBarOpen = $bindable() } = $props();
+    const linoPlaceholder = '/assets/members/LinoPlaceholder.webp';
 </script>
 
 <div class="bg-csi-black fixed z-200 flex h-screen w-screen flex-initial flex-col px-2 pt-24 sm:w-64 sm:px-8 md:pt-24">
     <div class="mx-auto flex max-w-64 justify-start gap-4 pb-8 text-left">
         <img
-            src={user.user_metadata.avatar_url}
+            src={user.user_metadata.avatar_url ?? linoPlaceholder}
             class="mx-auto h-16 w-16 flex-shrink-0 grow-0 rounded-full object-cover"
             alt="Profile placeholder pic"
         />
