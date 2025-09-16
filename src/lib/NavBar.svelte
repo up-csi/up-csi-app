@@ -8,17 +8,14 @@
     let { user, isNavBarOpen = $bindable() } = $props();
 </script>
 
-<div class="bg-csi-black fixed z-200 flex h-screen flex-initial flex-col px-2 pt-24 sm:px-8 md:pt-18">
-    <div class="mx-8 flex hover:cursor-pointer sm:mx-1"></div>
-    <div class="mb-8 flex w-full flex-col items-center justify-center sm:p-4">
-        <div class="flex w-screen justify-start gap-4 text-left sm:w-48">
-            <img
-                src={user.user_metadata.avatar_url}
-                class="mx-auto h-16 w-16 flex-shrink-0 rounded-full object-cover"
-                alt="Profile placeholder pic"
-            />
-            <p class="text-csi-white text-md my-auto font-semibold">{user.user_metadata.full_name}</p>
-        </div>
+<div class="bg-csi-black fixed z-200 flex h-screen w-screen flex-initial flex-col px-2 pt-24 sm:w-64 sm:px-8 md:pt-24">
+    <div class="mx-auto flex max-w-64 justify-start gap-4 pb-8 text-left">
+        <img
+            src={user.user_metadata.avatar_url}
+            class="mx-auto h-16 w-16 flex-shrink-0 grow-0 rounded-full object-cover"
+            alt="Profile placeholder pic"
+        />
+        <p class="text-csi-white text-md my-auto font-semibold">{user.user_metadata.full_name}</p>
     </div>
 
     <div class="flex flex-1 flex-col overflow-y-auto">
