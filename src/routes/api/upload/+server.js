@@ -4,13 +4,6 @@ import { google } from 'googleapis';
 import { supabase } from '../../../lib/supabaseClient';
 
 export async function POST({ request }) {
-    console.log('Received POST request at /api/upload');
-
-    // Add debugging logs to verify environment variables
-    console.log('Google API Credentials:', {
-        client_email: PUBLIC_GOOGLE_SERVICE_EMAIL,
-        private_key: PUBLIC_GOOGLE_PRIVATE_KEY ? 'Provided' : 'Not Provided',
-    });
 
     try {
         const formData = await request.formData();
@@ -23,8 +16,6 @@ export async function POST({ request }) {
         const answer = formData.get('answer');
         const imageFile = formData.get('image');
 
-        // Add debugging logs to verify folder permissions
-        console.log('Google Drive Folder ID:', gdrive_folder_id);
 
         if (!question || !answer || !imageFile || !(imageFile instanceof File)) {
             console.error('Validation error: Missing or invalid required fields');
@@ -64,19 +55,13 @@ export async function POST({ request }) {
             fileUrl = null; // Initialize variables
 
         try {
-            console.log('Uploading file to Google Drive with metadata:', fileMetadata);
-            console.log('File mimeType:', media.mimeType);
-
-            console.log('driveResponse start');
             const driveResponse = await drive.files.create({
                 requestBody: fileMetadata,
                 media: media,
                 fields: 'id',
             });
-            console.log('driveResponse success');
             fileId = driveResponse.data.id;
             fileUrl = `https://drive.google.com/uc?id=${fileId}`;
-            console.log('File uploaded successfully. File ID:', fileId);
         } catch (driveError) {
             console.error('Error uploading to Google Drive:', {
                 message: driveError instanceof Error ? driveError.message : 'Unknown error',
@@ -109,15 +94,6 @@ export async function POST({ request }) {
             );
         }
 
-        // Save data to Supabase
-        console.log('Starting to save data to Supabase with the following details:', {
-            uuid,
-            member_id,
-            question,
-            answer,
-            image_url: fileUrl,
-        });
-
         try {
             const { data, error } = await supabase
                 .from('sigsheet') // table name in supabase
@@ -134,13 +110,6 @@ export async function POST({ request }) {
                 throw new Error(error.message);
             }
 
-            console.log('Data successfully saved to Supabase:', {
-                question,
-                answer,
-                image_url: fileUrl,
-                applicant_id: uuid,
-                member_id,
-            });
 
             return new Response(JSON.stringify({ message: 'Data saved successfully', data }), {
                 status: 200,

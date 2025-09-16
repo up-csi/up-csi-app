@@ -1,11 +1,6 @@
 <script lang="ts">
     const { filled, member } = $props();
 
-    // function getImage(imgname: string) {
-    //     return new URL(`../../lib/assets/members/${imgname}.webp`, import.meta.url).href;
-    // }
-
-    // const memberimg = getImage(member.photo);
     const memberimg = `/assets/members/${member.photo}.webp`;
 </script>
 

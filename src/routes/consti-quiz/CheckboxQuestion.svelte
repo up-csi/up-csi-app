@@ -13,13 +13,11 @@
         const valueList: Array<string> = value.split(',').filter(v => v !== '');
         valueList.push(option);
         value = valueList.join(',');
-        console.log(valueList);
     }
 
     function removeOption(option: string) {
         const valueList: Array<string> = value.split(',').filter(v => v !== option);
         value = valueList.join(',');
-        console.log(valueList);
     }
 </script>
 

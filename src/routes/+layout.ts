@@ -43,13 +43,10 @@ export async function load({ data, depends, fetch }) {
     }
 
     const uuid = user.id;
-    console.log('Fetched uuid:', uuid);
 
     const username = user.email?.split('@')[0] ?? '';
-    console.log('Fetched username:', username);
 
     // Fetch filledSigsheet
-    console.log('Fetching sigsheet from Supabase with ID:', uuid);
     let filledSigsheet: Set<number> = new Set();
     try {
         const { data: sigRows, error: sigError } = await supabase
@@ -60,13 +57,11 @@ export async function load({ data, depends, fetch }) {
         if (sigError) throw sigError;
 
         filledSigsheet = new Set(sigRows?.map(row => row.member_id) ?? []);
-        console.log(`Fetched filledSigsheet: sigsheet size ${filledSigsheet.size}`);
     } catch (sigError) {
         console.error('Error fetching sigsheet: ', sigError);
     }
 
     // Fetch gdrive_folder_id
-    console.log('Fetching gdrive_folder_id for Applicant:', uuid);
     let gdrive_folder_id: string = '';
     try {
         const response = await fetch('/api/get_gdrive_folder', {

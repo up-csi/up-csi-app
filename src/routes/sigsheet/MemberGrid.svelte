@@ -7,8 +7,6 @@
     import Modal from './Modal.svelte';
     import { filledSigsheet } from '$lib/shared';
 
-    console.log('FILLED SIGSHEET: ', $filledSigsheet);
-
     const categories = ['Exec', 'M&I', 'Service', 'Innov', 'Engg', 'Exte', 'B&C'];
 
     const categoryColors: Record<string, string> = {
