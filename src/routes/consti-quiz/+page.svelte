@@ -63,6 +63,30 @@
         }
     }
 
+    async function submitAnswersToServer() {
+        try {
+            const res = await fetch('/api/answers/submit', {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json',
+                },
+            });
+
+            if (!res.ok) {
+                throw new Error(`Failed to submit answers: ${res.statusText}`);
+            }
+
+            const json = await res.json();
+
+            // console.log(json.message);
+            // console.log(json.updates);
+
+            return json;
+        } catch (error) {
+            console.error(error);
+        }
+    }
+
     async function saveAnswersToServer() {
         try {
             const answersToAnswerObject = Object.entries(sectionToAnswers).flatMap(([sectionId, answerArray]) =>
@@ -205,7 +229,7 @@
                 </main>
 
                 <!-- Save Button -->
-                <SaveButton saveAnswers={saveAnswersToServer} />
+                <SaveButton saveAnswers={saveAnswersToServer} submitAnswers={submitAnswersToServer} />
             </div>
         </div>
     {/if}
