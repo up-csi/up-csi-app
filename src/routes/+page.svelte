@@ -30,8 +30,7 @@
     };
 
     let signatureSheet: CommitteeProgress[] = $state([]);
-    let quizProgress = $state('');  // default before load
-
+    let quizProgress = $state(''); // default before load
 
     function calculatePercentage(progress: string) {
         const [num, denom] = progress.split('/').map(Number);
@@ -39,20 +38,15 @@
         return 0;
     }
 
-    
     const answeredCount = (answers ?? []).filter(
-        (row) =>
-        (row.answer_text && row.answer_text.trim().toUpperCase() !== 'EMPTY') ||
-        row.option_id !== null
+        row => (row.answer_text && row.answer_text.trim().toUpperCase() !== 'EMPTY') || row.option_id !== null,
     ).length;
 
     const totalQuestions = questions?.length; // fetch this once in layout
     quizProgress = `${answeredCount}/${totalQuestions}`;
-    
+
     onMount(async () => {
         const applicantId = $uuid;
-
-
 
         // supposedly we should fetch the user ID like this:
         /*
