@@ -65,11 +65,6 @@
     // subtract 10 from bonus
     const totalPoints = 80;
 
-    // NOTE: for debugging purposes only, remove during production
-    console.log('sections:', sections);
-    // NOTE: for debugging purposes only, remove during production
-    console.log('questions:', questions);
-
     // filter questions by sections
     const preambleQuestions = questions!.filter((q: Question) => q.section.title === 'UP CSI Preamble');
     const mvpQuestions = questions!.filter((q: Question) => q.section.title === 'Mission, Vision, and Purpose');
