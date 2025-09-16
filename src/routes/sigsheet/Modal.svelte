@@ -138,7 +138,7 @@
                         <img
                             src={$imageURL}
                             alt="selfie with member"
-                            class="size-50 aspect-square rounded-2xl object-cover"
+                            class="aspect-square size-50 rounded-2xl object-cover"
                         />
                     {:else}
                         <svg
@@ -147,7 +147,7 @@
                             viewBox="0 0 24 24"
                             stroke-width="1.5"
                             stroke="#00C6D7"
-                            class="size-30 mx-[10vw] justify-center"
+                            class="mx-[10vw] size-30 justify-center"
                         >
                             <path
                                 stroke-linecap="round"
@@ -166,7 +166,7 @@
                 </div>
             </label>
             <button
-                class="dark:bg-csi-blue dark:hover:bg-innov-orange h-60px cursor-pointer rounded-full bg-opacity-10 px-6 py-2 text-xl font-semibold"
+                class="dark:bg-csi-blue dark:hover:bg-innov-orange h-60px bg-opacity-10 cursor-pointer rounded-full px-6 py-2 text-xl font-semibold"
                 disabled={submitting}
             >
                 {#if submitting}
