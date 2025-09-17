@@ -2,14 +2,14 @@
     import { BookCheck, LayoutDashboard, LogOut, NotebookPen } from '@lucide/svelte';
     import { page } from '$app/state';
     const options = ['Dashboard', 'Signature Sheet', 'Constitution Quiz'];
-    const filenames = ['/', '/sigsheet/', '/consti-quiz/'];
+    const filenames = ['/', '/sigsheet', '/consti-quiz'];
     const icon_class = 'h-6 w-6';
     // eslint-disable-next-line prefer-const
     let { user, isNavBarOpen = $bindable() } = $props();
     const linoPlaceholder = '/assets/members/LinoPlaceholder.webp';
 </script>
 
-<div class="bg-csi-black fixed z-200 flex h-screen w-screen flex-initial flex-col px-2 pt-24 sm:w-64 sm:px-8 md:pt-24">
+<div class="bg-csi-black z-200 fixed flex h-screen w-screen flex-initial flex-col px-2 pt-24 sm:w-64 sm:px-8 md:pt-24">
     <div class="mx-auto flex max-w-64 justify-start gap-4 pb-8 text-left">
         <img
             src={user.user_metadata.avatar_url ?? linoPlaceholder}
@@ -21,7 +21,13 @@
 
     <div class="flex flex-1 flex-col overflow-y-auto">
         {#each options as option, i (option)}
-            <a class="my-2 flex w-full" href={filenames[i]}>
+            <a
+                class="my-2 flex w-full"
+                href={filenames[i]}
+                onclick={() => {
+                    isNavBarOpen = false;
+                }}
+            >
                 <div
                     class="text-csi-white flex w-full items-center p-3 font-medium
                         {page.url.pathname !== filenames[i]
@@ -42,7 +48,7 @@
         {/each}
     </div>
 
-    <form class="mt-auto mb-10" action="/logout" method="POST">
+    <form class="mb-10 mt-auto" action="/logout" method="POST">
         <div
             class="text-csi-white hover:bg-csi-neutral-100 hover:text-csi-black flex w-full cursor-pointer gap-2 rounded-full p-3 font-medium
                         opacity-50 ease-in-out hover:font-medium hover:opacity-100 hover:duration-100"
