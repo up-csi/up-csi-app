@@ -68,6 +68,62 @@
     // subtract 10 from bonus
     const totalPoints = 80;
 
+    const questionIdToPoints = {
+        '1100': 1,
+        '1200': 1,
+        '1300': 1,
+        '1400': 1,
+        '1500': 1,
+
+        '2100': 6,
+        '2200': 6,
+        '2300': 4,
+        '2400': 1,
+
+        '3100': 14,
+        '3200': 12,
+        '3300': 2,
+
+        '4100': 2,
+        '4200': 2,
+        '4300': 2,
+        '4400': 2,
+        '4500': 2,
+        '4600': 2,
+        '4700': 2,
+        '4800': 2,
+        '4900': 2,
+
+        '5100': 2,
+        '5200': 2,
+        '5300': 2,
+        '5400': 4,
+        '5500': 2,
+
+        '6100': 2,
+        '6200': 2,
+        '6300': 2,
+        '6400': 2,
+        '6500': 2,
+    };
+
+    // points left to be scored
+    const uncheckedPoints = answers!
+        .filter(a => !a.is_checked)
+        // @ts-expect-error - nakakatamad
+        .reduce((total, a) => total + questionIdToPoints[a.question_id], 0);
+
+    // points of correct answers that are already checked
+    const checkedPoints = answers!.filter(a => a.is_checked).reduce((total, a) => total + a.points, 0);
+
+    // subtract 10 from bonus
+    const totalPoints = 80;
+
+    // NOTE: for debugging purposes only, remove during production
+    console.log('sections:', sections);
+    // NOTE: for debugging purposes only, remove during production
+    console.log('questions:', questions);
+
     // filter questions by sections
     const preambleQuestions = questions!.filter((q: Question) => q.section.title === 'UP CSI Preamble');
     const mvpQuestions = questions!.filter((q: Question) => q.section.title === 'Mission, Vision, and Purpose');
