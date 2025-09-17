@@ -27,6 +27,7 @@
         Engineering: 'bg-red-500',
         'External Relations': 'bg-blue-500',
         'Branding & Creatives': 'bg-green-500',
+        'Co-Applicants': 'bg-white',
     };
 
     let signatureSheet: CommitteeProgress[] = $state([]);
@@ -76,7 +77,10 @@
         const committeeCounts: Record<string, number> = {};
         (sig_data as unknown as SigsheetRow[]).forEach(row => {
             const committee = row.members?.member_committee;
-            if (!committee) return;
+            if (!committee) {
+                committeeCounts['Co-Applicants'] = (committeeCounts['Co-Applicants'] || 0) + 1;
+                return;
+            }
             committeeCounts[committee] = (committeeCounts[committee] || 0) + 1;
         });
 
@@ -101,6 +105,7 @@
             Engineering: 0,
             'External Relations': 0,
             'Branding & Creatives': 0,
+            'Co-Applicants': 6,
         };
         memberData.forEach((row: { member_committee: string }) => {
             const committee = row.member_committee;
