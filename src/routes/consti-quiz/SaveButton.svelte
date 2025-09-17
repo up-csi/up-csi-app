@@ -2,49 +2,65 @@
     const { saveAnswers, submitAnswers } = $props();
 
     let isSaving = $state(false);
-    const isSubmitting = $state(false);
+    let isSubmitting = $state(false);
     let saveMessage = $state('');
-    let messageTimeout: ReturnType<typeof setTimeout> | null = null;
+    const messageTimeout: ReturnType<typeof setTimeout> | null = null;
 
     async function handleSave() {
         isSaving = true;
         saveMessage = '';
         try {
-            await saveAnswers();
-            saveMessage = 'Progress saved successfully!';
+            const { message } = await saveAnswers();
+            saveMessage = message;
 
             if (messageTimeout) {
                 clearTimeout(messageTimeout);
             }
-
-            // hide message after 3 seconds
-            messageTimeout = setTimeout(() => {
-                saveMessage = '';
-            }, 2000);
         } catch (err) {
             console.error(err);
-            saveMessage = 'Failed to save progress.';
+            saveMessage = 'Failed to save progress';
 
             if (messageTimeout) {
                 clearTimeout(messageTimeout);
             }
-
-            // hide message after 3 seconds
+        } finally {
+            // hide message after 2 seconds
             setTimeout(() => {
                 saveMessage = '';
             }, 2000);
-        } finally {
-            setTimeout(() => {
-                isSaving = false;
-            }, 2000);
+            isSaving = false;
         }
     }
 
     async function handleSubmit() {
+        isSubmitting = true;
+        saveMessage = '';
+
+        // save answers first
+        await saveAnswers();
+
         try {
-            await submitAnswers();
+            const { message } = await submitAnswers();
+            saveMessage = message;
+
+            if (messageTimeout) {
+                clearTimeout(messageTimeout);
+            }
         } catch (error) {
             console.error(error);
+            saveMessage = 'Failed to submit answers';
+
+            if (messageTimeout) {
+                clearTimeout(messageTimeout);
+            }
+        } finally {
+            // hide message after 2 seconds
+            setTimeout(() => {
+                saveMessage = '';
+            }, 2000);
+
+            isSubmitting = false;
+            window.location.reload();
         }
     }
 </script>
@@ -62,9 +78,7 @@
         </button>
 
         <button
-            onclick={async () => {
-                await handleSubmit();
-            }}
+            onclick={handleSubmit}
             class="bg-csi-grey rounded-lg px-4 py-2 font-semibold text-white shadow-lg transition-colors hover:bg-blue-600 disabled:cursor-not-allowed disabled:opacity-50"
             disabled={isSubmitting}
         >
