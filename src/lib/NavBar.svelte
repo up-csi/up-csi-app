@@ -9,7 +9,7 @@
     const linoPlaceholder = '/assets/members/LinoPlaceholder.webp';
 </script>
 
-<div class="bg-csi-black z-200 fixed flex h-screen w-screen flex-initial flex-col px-2 pt-24 sm:w-64 sm:px-8 md:pt-24">
+<div class="bg-csi-black fixed z-200 flex h-screen w-screen flex-initial flex-col px-2 pt-24 sm:w-64 sm:px-8 md:pt-24">
     <div class="mx-auto flex max-w-64 justify-start gap-4 pb-8 text-left">
         <img
             src={user.user_metadata.avatar_url ?? linoPlaceholder}
@@ -48,7 +48,7 @@
         {/each}
     </div>
 
-    <form class="mb-10 mt-auto" action="/logout" method="POST">
+    <form class="mt-auto mb-10" action="/logout" method="POST">
         <div
             class="text-csi-white hover:bg-csi-neutral-100 hover:text-csi-black flex w-full cursor-pointer gap-2 rounded-full p-3 font-medium
                         opacity-50 ease-in-out hover:font-medium hover:opacity-100 hover:duration-100"
