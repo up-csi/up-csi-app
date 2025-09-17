@@ -4,6 +4,7 @@
     import { uuid } from '$lib/shared';
 
     const { data } = $props();
+    const { answers, questions } = data;
 
     type CommitteeProgress = {
         name: string;
@@ -29,13 +30,20 @@
     };
 
     let signatureSheet: CommitteeProgress[] = $state([]);
-    const quizProgress = '28/40';
+    let quizProgress = $state(''); // default before load
 
     function calculatePercentage(progress: string) {
         const [num, denom] = progress.split('/').map(Number);
         if (num && denom) return (num / denom) * 100;
         return 0;
     }
+
+    const answeredCount = (answers ?? []).filter(
+        row => (row.answer_text && row.answer_text.trim().toUpperCase() !== 'EMPTY') || row.option_id !== null,
+    ).length;
+
+    const totalQuestions = questions?.length; // fetch this once in layout
+    quizProgress = `${answeredCount}/${totalQuestions}`;
 
     onMount(async () => {
         const applicantId = $uuid;
