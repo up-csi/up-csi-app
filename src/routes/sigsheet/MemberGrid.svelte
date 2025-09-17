@@ -57,6 +57,9 @@
 
     function closeModal() {
         showModal = false;
+        if (activeCategory === "CoApp") {
+            activeCategory = "Exec";
+        }
     }
 </script>
 
