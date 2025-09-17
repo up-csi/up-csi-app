@@ -42,6 +42,19 @@
         selectedMember = member;
     }
 
+    let coApp_obj = {
+        member_id: 0,
+        name: "",
+        role: "",
+        category: "CoApp",
+        photo: "",
+    };
+
+    function openCoAppModal() {
+        selectedMember = coApp_obj;
+        showModal = true;
+    }
+
     function closeModal() {
         showModal = false;
     }
@@ -58,6 +71,7 @@
     </h1>
 
     <div class="flex flex-col-reverse gap-3 min-[375px]:gap-4 min-[390px]:gap-6 min-[834px]:flex-row">
+        {#if activeCategory !== "CoApp"}
         <div
             class="grid w-full grid-cols-2 gap-1.5 min-[375px]:gap-3 min-[390px]:gap-4 min-[480px]:grid-cols-4 min-[834px]:flex-1 min-[834px]:grid-cols-4 min-[834px]:gap-4 min-[1280px]:grid-cols-4"
         >
@@ -95,6 +109,7 @@
                 class:opacity-100={activeCategory === "CoApp"}
                 class:bg-transparent={activeCategory === "CoApp"}
                 style:border-color={activeCategory === "CoApp" ? categoryColors["CoApp"] : '#2C2C2E'}
+                onclick={() => {activeCategory = "CoApp"; openCoAppModal();}}
             >
                 <span
                     class="bg-mni-pink aspect-square w-[1.5rem] flex-shrink-0 rounded-full min-[390px]:w-[1.5rem]"
@@ -104,6 +119,7 @@
             </button>
 
         </div>
+        {/if}
     </div>
     {#if showModal}
         <div class="flex-center fixed inset-0 justify-center bg-black/50">
