@@ -44,6 +44,9 @@ export async function POST({ locals }) {
         .in('option_id', optionIds);
 
     // Prepare updates
+    if (!questions || !options) {
+        return json({ message: 'Failed checking answers' });
+    }
     const updates = savedAnswers.map(a => {
         const question = questions.find(q => q.question_id === a.question_id);
         let points = 0;
