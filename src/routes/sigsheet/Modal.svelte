@@ -62,7 +62,7 @@
 </script>
 
 <main
-    class="font-inter fixed inset-0 mx-[20vw] my-[15vh] items-center justify-center rounded-xl p-2 pb-6 shadow dark:bg-[#2f2f32]"
+    class="font-inter fixed inset-0 mx-[20vw] my-[15vh] items-center justify-center rounded-xl bg-[#2f2f32] p-2 pb-6 shadow"
 >
     <div class="mb-3 grid justify-items-end">
         <button aria-label="X" onclick={closeModal} class="text-csi-white hover:text-csi-blue cursor-pointer">
@@ -96,23 +96,23 @@
 
         <div class="mx-10 md:mr-3">
             <h2 class="pb-1 text-4xl font-bold" style="color:{categoryColors[activeCategory]}">{name}</h2>
-            <h3 class="dark:text-csi-white text-sm">{role}</h3>
+            <h3 class="text-csi-white text-sm">{role}</h3>
 
-            <label for="question" class="dark:text-csi-white mb-1 block pt-5 text-2xl font-bold">Your Question</label>
+            <label for="question" class="text-csi-white mb-1 block pt-5 text-2xl font-bold">Your Question</label>
             <textarea
                 id="question"
                 name="question"
-                class="dark:text-csi-white mb-3 w-full rounded-xl px-4 py-2 text-sm font-light md:h-10 dark:bg-[#161619]"
+                class="text-csi-white mb-3 w-full rounded-xl bg-[#161619] px-4 py-2 text-sm font-light md:h-10"
                 placeholder="Type your question here ..."
                 style="height: 100px; resize: none"
                 required
             ></textarea>
 
-            <label for="answer" class="dark:text-csi-white mb-1 block text-2xl font-bold">Their Answer</label>
+            <label for="answer" class="text-csi-white mb-1 block text-2xl font-bold">Their Answer</label>
             <textarea
                 id="answer"
                 name="answer"
-                class="dark:text-csi-white mb-3 w-full rounded-xl px-4 py-2 text-sm font-light md:h-10 dark:bg-[#161619]"
+                class="text-csi-white mb-3 w-full rounded-xl bg-[#161619] px-4 py-2 text-sm font-light md:h-10"
                 placeholder="Type their answer here ..."
                 style="height: 100px; resize: none"
                 required
@@ -169,7 +169,7 @@
                 </div>
             </label>
             <button
-                class="dark:bg-csi-blue bg-opacity-10 dark:hover:bg-innov-orange h-60px cursor-pointer rounded-full px-6 py-2 text-xl font-semibold"
+                class="bg-csi-blue bg-opacity-10 hover:bg-innov-orange h-60px cursor-pointer rounded-full px-6 py-2 text-xl font-semibold"
                 disabled={submitting}
             >
                 {#if submitting}
