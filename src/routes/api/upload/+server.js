@@ -4,7 +4,6 @@ import { google } from 'googleapis';
 import { supabase } from '../../../lib/supabaseClient';
 
 export async function POST({ request }) {
-
     try {
         const formData = await request.formData();
         const uuid = formData.get('uuid');
@@ -15,7 +14,6 @@ export async function POST({ request }) {
         const question = formData.get('question');
         const answer = formData.get('answer');
         const imageFile = formData.get('image');
-
 
         if (!question || !answer || !imageFile || !(imageFile instanceof File)) {
             console.error('Validation error: Missing or invalid required fields');
@@ -113,7 +111,6 @@ export async function POST({ request }) {
                 console.error('Error inserting into Supabase:', error);
                 throw new Error(error.message);
             }
-
 
             return new Response(JSON.stringify({ message: 'Data saved successfully', data }), {
                 status: 200,
