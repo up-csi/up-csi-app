@@ -81,7 +81,7 @@ export const members: mem[] = [
     { member_id: 47, name: 'Michael Real', role: '', category: 'Engg', photo: 'MichaelReal' },
     { member_id: 50, name: 'Yenyen Galinato', role: '', category: 'Engg', photo: 'YenyenGalinato' },
     { member_id: 59, name: 'Jacky Abucay', role: '', category: 'Engg', photo: 'JackyAbucay' },
-    { member_id: 73, name: 'Marius Barcenas', role: '', category: 'Engg', photo: 'LinoPlaceholder' },
+    { member_id: 73, name: 'Marius Barcenas', role: '', category: 'Engg', photo: 'MariusBarcenas' },
 
     { member_id: 51, name: 'Alyssa Añonuevo', role: '', category: 'Exte', photo: 'AlyssaAñonuevo' },
     { member_id: 6, name: 'Sean Tolentino', role: '', category: 'Exte', photo: 'SeanKenjiTolentino' },
