@@ -1,6 +1,6 @@
-import { json } from '@sveltejs/kit';
+import { json, redirect } from '@sveltejs/kit';
 
-export async function POST({ locals }) {
+export async function POST({ locals, url }) {
     const { supabase } = locals;
     const { user } = await locals.safeGetSession();
 
@@ -25,9 +25,8 @@ export async function POST({ locals }) {
     // Check if all questions have either option_id or answer_text
     // as non-null or non-empty
     const notAllAnswered = savedAnswers.reduce((hasNotAnswered, currAnswer) => hasNotAnswered || ((currAnswer.answer_text === null || currAnswer.answer_text === 'EMPTY') && currAnswer.option_id === null), false)
-    console.log('not all ans:', notAllAnswered);
     if (notAllAnswered) {
-        return json({ message: "Quiz not yet finished", updates: notAllAnswered });
+        return json({ message: "Quiz not yet finished" });
     }
 
     // Fetch questions with point values
@@ -66,7 +65,7 @@ export async function POST({ locals }) {
     });
 
     if (!updates || updates.length !== savedAnswers.length) {
-        return json({ message: "Error with updating answers" });
+        return json({ message: "Error with updating answers" }, { status: 406 });
     }
 
     // Batch update answers
@@ -74,5 +73,19 @@ export async function POST({ locals }) {
         await supabase.from('constiquiz-answers').update({ points: u.points, is_checked: u.is_checked }).eq('answer_id', u.id);
     }
 
-    return json({ message: "Answers checked", updates });
+    // check if we made a submission before
+    // NOTE: this shouldn't happen much as submit button should not appear when user has submitted 
+    
+    const { data, error } = await supabase.from('constiquiz-submissions').select('*').eq('user_id', user.id); 
+    if ((data && data.length > 0) || error) {
+        return json({ message: "User has submitted already" });
+    }
+
+    // assume that once we reach this, we have successfully updated the database
+    // user can only submit once hence we must add them to the constiquiz_submissions
+    await supabase.from('constiquiz-submissions').insert({
+      user_id: user.id
+    });
+
+    return json({ message: "Answers successfully submitted!" });
 };

@@ -12,10 +12,7 @@
     import { onMount } from 'svelte';
 
     const { data } = $props();
-    const { user, sections, questions, answers } = data;
-
-    // NOTE: set to `false` to disable quiz rendering
-    const isOpen = true;
+    const { user, sections, questions, answers, hasSubmitted } = data;
 
     // NOTE: for debugging purposes only, remove during production
     console.log('sections:', sections);
@@ -151,8 +148,11 @@
 </script>
 
 <div class="flex h-screen bg-[#161619] text-[#F9FAFB]">
-    {#if !isOpen}
-        <p>Come again next time!</p>
+    {#if hasSubmitted}
+        <div>
+            <h1>You're done</h1>
+            <p>TODO: show correct answers and score</p>
+        </div>
     {:else}
         <!-- Right side container (flexbox column) -->
         <div class="flex flex-1 flex-col bg-[#161619]">
