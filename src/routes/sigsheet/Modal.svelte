@@ -140,12 +140,13 @@
                         hidden
                         required
                     />
-                    <div class="items-center" id="img-view">
+
+                    <div class="flex w-full items-center justify-center">
                         {#if $imageURL}
                             <img
                                 src={$imageURL}
                                 alt="selfie with member"
-                                class="size-50 aspect-square rounded-2xl object-cover"
+                                class="aspect-square h-40 w-40 max-w-full rounded-2xl object-cover md:h-56 md:w-56"
                             />
                         {:else}
                             <div class="flex flex-col items-center justify-center px-4">
