@@ -133,7 +133,9 @@ export async function load({ data, depends, fetch }) {
             user_id,
             question_id,
             option_id,
-            answer_text
+            answer_text,
+            is_checked,
+            points
         `,
             )
             .eq('user_id', uuid);
