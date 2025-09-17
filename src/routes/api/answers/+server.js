@@ -18,7 +18,7 @@ export async function POST({ locals, request }) {
     }
 
     // update existing answers
-    const { data, error } = await supabase.from('constiquiz-answers').upsert(
+    const { error } = await supabase.from('constiquiz-answers').upsert(
         answers.map(a => ({
             user_id: uuid,
             question_id: a.question_id,
@@ -34,5 +34,5 @@ export async function POST({ locals, request }) {
         return json({ success: false, error: error.message }, { status: 500 });
     }
 
-    return json({ data });
+    return json({ message: 'Answers successfully saved!' });
 }
