@@ -86,17 +86,31 @@
         <form class="grid grid-cols-1 gap-6 md:grid-cols-2" onsubmit={handleSubmit}>
             <!-- hidden inputs -->
             <input type="text" name="gdrive_folder_id" value={$gdrive_folder_id} hidden required />
-            <input type="text" name="member_id" value={member_id} hidden required />
-            <input type="text" name="member_name" value={name} hidden required />
             <input type="text" name="username" value={$username} hidden required />
             <input type="text" name="uuid" value={$uuid} hidden required />
 
             <!-- Left column -->
             <div class="mx-2">
-                <h2 class="pb-1 text-2xl font-bold md:text-4xl" style="color:{categoryColors[activeCategory]}">
-                    {name}
-                </h2>
-                <h3 class="text-csi-white text-sm">{role}</h3>
+                {#if activeCategory !== "CoApp"}
+                    <h2 class="pb-1 text-2xl font-bold md:text-4xl" style="color:{categoryColors[activeCategory]}">
+                        {name}
+                    </h2>
+                    <h3 class="text-csi-white text-sm">{role}</h3>
+                    <input type="text" name="member_id" value={member_id} hidden required />
+                    <input type="text" name="member_name" value={name} hidden required />
+                {:else}
+                    <label for="member_name" class="text-csi-white mb-1 block text-lg font-bold md:text-2xl">
+                        Co-App Name
+                    </label>
+                    <input
+                        id="member_name"
+                        name="member_name"
+                        class="text-csi-white mb-3 w-full rounded-xl bg-[#161619] px-4 py-2 text-sm font-light"
+                        placeholder="Type co-applicant's name here"
+                        style="height: 25px; resize: none"
+                        required
+                    />
+                {/if}
 
                 <label for="question" class="text-csi-white mb-1 block pt-5 text-lg font-bold md:text-2xl">
                     Your Question
