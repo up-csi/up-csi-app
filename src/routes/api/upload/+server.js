@@ -127,6 +127,7 @@ export async function POST({ request }) {
                     image_url: fileUrl, // Use the correct file URL
                     applicant_id: uuid,
                     member_id,
+                    member_name,
                 });
 
             if (error) {
@@ -140,6 +141,7 @@ export async function POST({ request }) {
                 image_url: fileUrl,
                 applicant_id: uuid,
                 member_id,
+                member_name,
             });
 
             return new Response(JSON.stringify({ message: 'Data saved successfully', data }), {
