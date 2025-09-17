@@ -12,21 +12,21 @@ export async function POST({ locals, url }) {
     const { data: savedAnswers, error: ansError } = await supabase
         .from('constiquiz-answers')
         .select('*')
-        .eq('user_id', user.id)
+        .eq('user_id', user.id);
 
     if (ansError) {
         return json({ error: ansError.message }, { status: 500 });
     }
 
     if (!savedAnswers || savedAnswers.length === 0) {
-        return json({ message: "No answers found" });
+        return json({ message: 'No answers found' });
     }
 
     // Check if all questions have either option_id or answer_text
     // as non-null or non-empty
-    const notAllAnswered = savedAnswers.reduce((hasNotAnswered, currAnswer) => hasNotAnswered || ((currAnswer.answer_text === null || currAnswer.answer_text === 'EMPTY') && currAnswer.option_id === null), false)
+    const notAllAnswered = savedAnswers.some(a => !a.answer_text?.trim() && a.option_id === null);
     if (notAllAnswered) {
-        return json({ message: "Quiz not yet finished" });
+        return json({ message: 'Quiz not yet finished' });
     }
 
     // Fetch questions with point values
@@ -65,27 +65,30 @@ export async function POST({ locals, url }) {
     });
 
     if (!updates || updates.length !== savedAnswers.length) {
-        return json({ message: "Error with updating answers" }, { status: 406 });
+        return json({ message: 'Error with updating answers' }, { status: 406 });
     }
 
     // Batch update answers
     for (const u of updates) {
-        await supabase.from('constiquiz-answers').update({ points: u.points, is_checked: u.is_checked }).eq('answer_id', u.id);
+        await supabase
+            .from('constiquiz-answers')
+            .update({ points: u.points, is_checked: u.is_checked })
+            .eq('answer_id', u.id);
     }
 
     // check if we made a submission before
-    // NOTE: this shouldn't happen much as submit button should not appear when user has submitted 
-    
-    const { data, error } = await supabase.from('constiquiz-submissions').select('*').eq('user_id', user.id); 
+    // NOTE: this shouldn't happen much as submit button should not appear when user has submitted
+
+    const { data, error } = await supabase.from('constiquiz-submissions').select('*').eq('user_id', user.id);
     if ((data && data.length > 0) || error) {
-        return json({ message: "User has submitted already" });
+        return json({ message: 'User has submitted already' });
     }
 
     // assume that once we reach this, we have successfully updated the database
     // user can only submit once hence we must add them to the constiquiz_submissions
     await supabase.from('constiquiz-submissions').insert({
-      user_id: user.id
+        user_id: user.id,
     });
 
-    return json({ message: "Answers successfully submitted!" });
-};
+    return json({ message: 'Answers successfully submitted!' });
+}

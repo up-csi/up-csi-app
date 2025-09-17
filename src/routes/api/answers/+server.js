@@ -34,5 +34,5 @@ export async function POST({ locals, request }) {
         return json({ success: false, error: error.message }, { status: 500 });
     }
 
-    return json({ message: "Answers successfully saved!" });
+    return json({ message: 'Answers successfully saved!' });
 }
