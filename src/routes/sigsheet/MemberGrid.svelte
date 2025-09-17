@@ -19,6 +19,7 @@
         Engg: 'var(--color-engg-blue)',
         Exte: 'var(--color-exte-blue)',
         'B&C': 'var(--color-bnc-green)',
+        CoApp: 'var(--color-csi-white)',
     };
 
     const categoryHeaders: Record<string, string> = {
@@ -29,6 +30,7 @@
         Engg: 'Engineering Committee',
         Exte: 'External Relations Committee',
         'B&C': 'Branding & Creatives Committee',
+        CoApp: 'Co-Applicant',
     };
 
     let activeCategory = $state('Exec');
@@ -86,6 +88,21 @@
                     <span class="flex items-center">{category}</span>
                 </button>
             {/each}
+
+            <button
+                class="border-csi-black text-csi-white bg-csi-grey flex w-fit cursor-pointer items-center gap-2 rounded-full border-2 border-[#2C2C2E] px-[0.8rem] py-2 text-sm font-bold opacity-80 transition-colors duration-300 min-[390px]:gap-2 min-[390px]:px-[0.7rem] min-[390px]:py-1.5 min-[390px]:text-sm min-[640px]:px-[0.9rem] min-[640px]:py-2 min-[640px]:text-base"
+                aria-label="co-app sigsheet"
+                class:opacity-100={activeCategory === "CoApp"}
+                class:bg-transparent={activeCategory === "CoApp"}
+                style:border-color={activeCategory === "CoApp" ? categoryColors["CoApp"] : '#2C2C2E'}
+            >
+                <span
+                    class="bg-mni-pink aspect-square w-[1.5rem] flex-shrink-0 rounded-full min-[390px]:w-[1.5rem]"
+                    style:background-color={categoryColors["CoApp"]}
+                ></span>
+                <span class="flex items-center">Co-App</span>
+            </button>
+
         </div>
     </div>
     {#if showModal}
