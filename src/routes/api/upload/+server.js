@@ -101,6 +101,7 @@ export async function POST({ request }) {
                     image_url: fileUrl, // Use the correct file URL
                     applicant_id: uuid,
                     member_id,
+                    member_name,
                 });
 
             if (error) {
