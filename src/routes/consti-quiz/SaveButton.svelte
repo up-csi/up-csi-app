@@ -40,11 +40,16 @@
         await saveAnswers();
 
         try {
-            const { message } = await submitAnswers();
+            const data = await submitAnswers();
+            const { message } = data;
             saveMessage = message;
 
             if (messageTimeout) {
                 clearTimeout(messageTimeout);
+            }
+
+            if (data.submitted) {
+                window.location.reload();
             }
         } catch (error) {
             console.error(error);
@@ -60,7 +65,6 @@
             }, 2000);
 
             isSubmitting = false;
-            window.location.reload();
         }
     }
 </script>
@@ -72,7 +76,7 @@
                 await handleSave();
             }}
             class="bg-csi-blue rounded-lg px-4 py-2 font-semibold text-white shadow-lg transition-colors hover:bg-blue-600 disabled:cursor-not-allowed disabled:opacity-50"
-            disabled={isSaving}
+            disabled={isSaving || isSubmitting}
         >
             {isSaving ? 'Saving...' : 'Save Answers'}
         </button>
@@ -80,7 +84,7 @@
         <button
             onclick={handleSubmit}
             class="bg-csi-grey rounded-lg px-4 py-2 font-semibold text-white shadow-lg transition-colors hover:bg-blue-600 disabled:cursor-not-allowed disabled:opacity-50"
-            disabled={isSubmitting}
+            disabled={isSubmitting || isSaving}
         >
             {isSubmitting ? 'Submitting...' : 'Submit Answers'}
         </button>

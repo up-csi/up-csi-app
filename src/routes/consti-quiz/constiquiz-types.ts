@@ -30,6 +30,8 @@ export interface Answer {
     question_id: number;
     option_id?: number | null;
     answer_text?: string | null;
+    is_checked: bool;
+    points: int;
 }
 
 export type Question = ITextQuestion | IOptionQuestion;
