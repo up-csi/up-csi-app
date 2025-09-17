@@ -61,11 +61,9 @@
     }
 </script>
 
-<main
-    class="font-inter fixed inset-0 flex items-center justify-center p-4"
->
+<main class="font-inter fixed inset-0 flex items-center justify-center p-4">
     <div
-        class="relative w-[95%] max-w-3xl max-h-[90vh] overflow-y-auto overflow-x-hidden rounded-xl bg-[#2f2f32] p-6 shadow-lg"
+        class="relative mt-[15vh] mb-[5vh] max-h-[75vh] w-[95%] max-w-3xl overflow-x-hidden overflow-y-auto rounded-xl bg-[#2f2f32] p-6 shadow-lg md:mt-0 md:mb-0"
     >
         <!-- Close button -->
         <div class="mb-3 flex justify-end">
@@ -88,7 +86,7 @@
         </div>
 
         <!-- Form -->
-        <form class="grid gap-6 grid-cols-1 md:grid-cols-2" onsubmit={handleSubmit}>
+        <form class="grid grid-cols-1 gap-6 md:grid-cols-2" onsubmit={handleSubmit}>
             <!-- hidden inputs -->
             <input type="text" name="gdrive_folder_id" value={$gdrive_folder_id} hidden required />
             <input type="text" name="member_id" value={member_id} hidden required />
@@ -98,12 +96,12 @@
 
             <!-- Left column -->
             <div class="mx-2">
-                <h2 class="pb-1 text-2xl md:text-4xl font-bold" style="color:{categoryColors[activeCategory]}">
+                <h2 class="pb-1 text-2xl font-bold md:text-4xl" style="color:{categoryColors[activeCategory]}">
                     {name}
                 </h2>
                 <h3 class="text-csi-white text-sm">{role}</h3>
 
-                <label for="question" class="text-csi-white mb-1 block pt-5 text-lg md:text-2xl font-bold">
+                <label for="question" class="text-csi-white mb-1 block pt-5 text-lg font-bold md:text-2xl">
                     Your Question
                 </label>
                 <textarea
@@ -115,7 +113,7 @@
                     required
                 ></textarea>
 
-                <label for="answer" class="text-csi-white mb-1 block text-lg md:text-2xl font-bold">
+                <label for="answer" class="text-csi-white mb-1 block text-lg font-bold md:text-2xl">
                     Their Answer
                 </label>
                 <textarea
@@ -130,71 +128,71 @@
 
             <!-- Right column -->
             <div class="mx-2 flex flex-col items-center justify-center gap-5">
-            <!-- Image uploader -->
-            <label
-                for="img-input"
-                class="flex w-full min-h-[200px] flex-col items-center justify-center rounded-lg border-2 border-dashed border-csi-blue p-6 box-border"
-                style="background-color: rgba(0, 198, 215, 0.07);"
-            >
-                <input
-                type="file"
-                accept="image/*"
-                id="img-input"
-                name="image"
-                onchange={handleFileChange}
-                hidden
-                required
-                />
-
-                <div class="flex items-center justify-center w-full">
-                {#if $imageURL}
-                    <img
-                    src={$imageURL}
-                    alt="selfie with member"
-                    class="aspect-square w-40 h-40 md:w-56 md:h-56 rounded-2xl object-cover max-w-full"
+                <!-- Image uploader -->
+                <label
+                    for="img-input"
+                    class="border-csi-blue box-border flex min-h-[200px] w-full flex-col items-center justify-center rounded-lg border-2 border-dashed p-6"
+                    style="background-color: rgba(0, 198, 215, 0.07);"
+                >
+                    <input
+                        type="file"
+                        accept="image/*"
+                        id="img-input"
+                        name="image"
+                        onchange={handleFileChange}
+                        hidden
+                        required
                     />
-                {:else}
-                    <div class="flex flex-col items-center justify-center px-4">
-                    <!-- Responsive SVG size using Tailwind -->
-                    <svg
-                        xmlns="http://www.w3.org/2000/svg"
-                        fill="none"
-                        viewBox="0 0 24 24"
-                        stroke-width="1.0"
-                        stroke="#00C6D7"
-                        class="aspect-square w-30 h-30 md:w-30 md:h-30 md:my-6 rounded-2xl object-cover max-w-full"
-                    >
-                        <path
-                            stroke-linecap="round"
-                            stroke-linejoin="round"
-                            d="M6.827 6.175A2.31 2.31 0 0 1 5.186 7.23c-.38.054-.757.112-1.134.175C2.999 7.58 2.25 8.507 2.25 9.574V18a2.25 2.25 0 0 0 2.25 2.25h15A2.25 2.25 0 0 0 21.75 18V9.574c0-1.067-.75-1.994-1.802-2.169a47.865 47.865 0 0 0-1.134-.175 2.31 2.31 0 0 1-1.64-1.055l-.822-1.316a2.192 2.192 0 0 0-1.736-1.039 48.774 48.774 0 0 0-5.232 0 2.192 2.192 0 0 0-1.736 1.039l-.821 1.316Z"
-                        />
-                        <path
-                            stroke-linecap="round"
-                            stroke-linejoin="round"
-                            d="M16.5 12.75a4.5 4.5 0 1 1-9 0 4.5 4.5 0 0 1 9 0ZM18.75 10.5h.008v.008h-.008V10.5Z"
-                        />
-                    </svg>
 
-                    <p class="text-csi-blue mt-2 text-sm md:text-base text-center">
-                        Drop file here or click to take a picture
-                    </p>
+                    <div class="flex w-full items-center justify-center">
+                        {#if $imageURL}
+                            <img
+                                src={$imageURL}
+                                alt="selfie with member"
+                                class="aspect-square h-40 w-40 max-w-full rounded-2xl object-cover md:h-56 md:w-56"
+                            />
+                        {:else}
+                            <div class="flex flex-col items-center justify-center px-4">
+                                <!-- Responsive SVG size using Tailwind -->
+                                <svg
+                                    xmlns="http://www.w3.org/2000/svg"
+                                    fill="none"
+                                    viewBox="0 0 24 24"
+                                    stroke-width="1.0"
+                                    stroke="#00C6D7"
+                                    class="aspect-square h-30 w-30 max-w-full rounded-2xl object-cover md:my-6 md:h-30 md:w-30"
+                                >
+                                    <path
+                                        stroke-linecap="round"
+                                        stroke-linejoin="round"
+                                        d="M6.827 6.175A2.31 2.31 0 0 1 5.186 7.23c-.38.054-.757.112-1.134.175C2.999 7.58 2.25 8.507 2.25 9.574V18a2.25 2.25 0 0 0 2.25 2.25h15A2.25 2.25 0 0 0 21.75 18V9.574c0-1.067-.75-1.994-1.802-2.169a47.865 47.865 0 0 0-1.134-.175 2.31 2.31 0 0 1-1.64-1.055l-.822-1.316a2.192 2.192 0 0 0-1.736-1.039 48.774 48.774 0 0 0-5.232 0 2.192 2.192 0 0 0-1.736 1.039l-.821 1.316Z"
+                                    />
+                                    <path
+                                        stroke-linecap="round"
+                                        stroke-linejoin="round"
+                                        d="M16.5 12.75a4.5 4.5 0 1 1-9 0 4.5 4.5 0 0 1 9 0ZM18.75 10.5h.008v.008h-.008V10.5Z"
+                                    />
+                                </svg>
+
+                                <p class="text-csi-blue mt-2 text-center text-sm md:text-base">
+                                    Drop file here or click to take a picture
+                                </p>
+                            </div>
+                        {/if}
                     </div>
-                {/if}
-                </div>
-            </label>
+                </label>
 
-            <!-- Submit button -->
-            <button
-                class="bg-csi-blue bg-opacity-10 hover:bg-innov-orange w-50 max-w-xs rounded-full px-6 py-3 text-lg font-semibold mb-3"
-                disabled={submitting}
-            >
-                {#if submitting}
-                Submitting...
-                {:else}
-                Submit
-                {/if}
-            </button>
+                <!-- Submit button -->
+                <button
+                    class="bg-csi-blue bg-opacity-10 hover:bg-innov-orange mb-3 w-50 max-w-xs rounded-full px-6 py-3 text-lg font-semibold"
+                    disabled={submitting}
+                >
+                    {#if submitting}
+                        Submitting...
+                    {:else}
+                        Submit
+                    {/if}
+                </button>
             </div>
         </form>
     </div>
