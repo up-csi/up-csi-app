@@ -2,7 +2,7 @@
     import { BookCheck, LayoutDashboard, LogOut, NotebookPen } from '@lucide/svelte';
     import { page } from '$app/state';
     const options = ['Dashboard', 'Signature Sheet', 'Constitution Quiz'];
-    const filenames = ['/', '/sigsheet/', '/consti-quiz/'];
+    const filenames = ['/', '/sigsheet', '/consti-quiz'];
     const icon_class = 'h-6 w-6';
     // eslint-disable-next-line prefer-const
     let { user, isNavBarOpen = $bindable() } = $props();
@@ -21,7 +21,13 @@
 
     <div class="flex flex-1 flex-col overflow-y-auto">
         {#each options as option, i (option)}
-            <a class="my-2 flex w-full" href={filenames[i]}>
+            <a
+                class="my-2 flex w-full"
+                href={filenames[i]}
+                onclick={() => {
+                    isNavBarOpen = false;
+                }}
+            >
                 <div
                     class="text-csi-white flex w-full items-center p-3 font-medium
                         {page.url.pathname !== filenames[i]
