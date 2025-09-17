@@ -69,7 +69,7 @@
     }
 </script>
 
-<div class="md:left-1/5 fixed bottom-8 left-1/2 z-30 flex -translate-x-1/2 transform flex-col items-center space-y-2">
+<div class="fixed bottom-8 left-1/2 z-30 flex -translate-x-1/2 transform flex-col items-center space-y-2 md:left-1/5">
     <div class="flex gap-4">
         <button
             onclick={async () => {
