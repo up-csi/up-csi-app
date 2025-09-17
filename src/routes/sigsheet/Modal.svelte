@@ -91,7 +91,7 @@
 
             <!-- Left column -->
             <div class="mx-2">
-                {#if activeCategory !== "CoApp"}
+                {#if activeCategory !== 'CoApp'}
                     <h2 class="pb-1 text-2xl font-bold md:text-4xl" style="color:{categoryColors[activeCategory]}">
                         {name}
                     </h2>
