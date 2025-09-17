@@ -28,7 +28,6 @@
         const formData = new FormData(form);
 
         try {
-            console.log('Start /api/upload.');
             const response = await fetch('/api/upload', {
                 method: 'POST',
                 body: formData,
@@ -40,9 +39,7 @@
                 alert(error.error);
             } else {
                 const data = await response.json();
-                console.log('Data uploaded successfully:', data);
                 filledSigsheet.add(member_id);
-                console.log('ADDED TO FILLED SIGSHEET', $filledSigsheet);
                 alert('Data uploaded successfully!');
             }
             closeModal();
