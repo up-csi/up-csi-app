@@ -93,26 +93,6 @@ export async function POST({ request }) {
         }
 
         try {
-            // Check if co-app name exists
-            let valid_signatory = true;
-            if (Number(member_id) === 0) {
-                const { data: coapp_data, error: coapp_error } = await supabase
-                    .from('profiles')
-                    .select('full_name')
-                    .eq('full_name', member_name)
-                    .limit(1);
-
-                if (coapp_error) {
-                    console.error('Supabase error:', coapp_error);
-                    throw new Error(coapp_error.message);
-                } else if (!coapp_data || coapp_data.length === 0) {
-                    valid_signatory = false;
-                }
-            }
-            if (valid_signatory === false) {
-                throw Error('Invalid signatory name');
-            }
-
             const { data, error } = await supabase
                 .from('sigsheet') // table name in supabase
                 .insert({
