@@ -36,7 +36,7 @@
             if (!response.ok) {
                 const error = await response.json();
                 console.error('Error uploading data:', error);
-                alert('Failed to upload data. Please try again.');
+                alert(error.error);
             } else {
                 await response.json();
                 filledSigsheet.add(member_id);

@@ -136,7 +136,7 @@ export async function POST({ request }) {
             });
         } catch (supabaseError) {
             console.error('Error saving to Supabase:', supabaseError);
-            return new Response(JSON.stringify({ error: 'Error saving to Supabase' }), {
+            return new Response(JSON.stringify({ error: `${supabaseError}` }), {
                 status: 500,
                 headers: { 'Content-Type': 'application/json' },
             });
