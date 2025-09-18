@@ -14,7 +14,7 @@
 
     // Sync $lib variables to data props
     if (data?.uuid) uuid.set(data.uuid);
-    if (data?.username) username.set(data.username);
+    if (data?.user?.user_metadata.full_name) username.set(data.user.user_metadata.full_name);
     if (data?.filledSigsheet) filledSigsheet.set(data.filledSigsheet);
     if (data?.gdrive_folder_id) gdrive_folder_id.set(data.gdrive_folder_id);
 
