@@ -1,7 +1,7 @@
 <script lang="ts">
     import { onMount } from 'svelte';
     import { supabase } from '$lib/supabaseClient';
-    import { uuid } from '$lib/shared';
+    import { username, uuid } from '$lib/shared';
 
     const { data } = $props();
     const { answers, questions } = data;
@@ -167,7 +167,7 @@
 {#if data.session}
     <div class="font-inter h-screen flex-1 flex-row bg-[#161619] px-4 py-6 sm:px-6 lg:px-10">
         <h1 class="text-csi-white mb-2 text-center text-4xl font-bold lg:ml-12 lg:text-left">
-            Hello, {data.user?.email?.split('@')[0]}!
+            Hello, {$username}!
         </h1>
         <h2 class="text-csi-white text-center text-2xl font-bold lg:ml-12 lg:text-left">Your Dashboard</h2>
 

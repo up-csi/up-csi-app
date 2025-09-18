@@ -106,7 +106,7 @@
                         id="member_name"
                         name="member_name"
                         class="text-csi-white mb-3 w-full rounded-xl bg-[#161619] px-4 py-2 text-sm font-light"
-                        placeholder="Type co-applicant's name here"
+                        placeholder="Type co-applicant's dashboard username here"
                         style="height: 25px; resize: none"
                         required
                     />
