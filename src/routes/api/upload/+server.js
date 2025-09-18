@@ -94,7 +94,6 @@ export async function POST({ request }) {
 
         try {
             // Check if co-app name exists
-            let valid_signatory = true;
             if (Number(member_id) === 0) {
                 const { data: coapp_data, error: coapp_error } = await supabase
                     .from('profiles')
@@ -106,11 +105,9 @@ export async function POST({ request }) {
                     console.error('Supabase error:', coapp_error);
                     throw new Error(coapp_error.message);
                 } else if (!coapp_data || coapp_data.length === 0) {
-                    valid_signatory = false;
+                   console.error('Error: Co-App does not exist');
+                   throw Error("Co-App entered does not exist. Look at the Co-App's dashboard for their username.");
                 }
-            }
-            if (valid_signatory === false) {
-                throw Error('Invalid signatory name');
             }
 
             const { data, error } = await supabase
@@ -125,6 +122,9 @@ export async function POST({ request }) {
                 });
 
             if (error) {
+                if (error.message.includes("unique_applicantid_signatoryname_pair")) {
+                    throw new Error("You have already have this co-applicant's signature. Try someone else");
+                }
                 console.error('Error inserting into Supabase:', error);
                 throw new Error(error.message);
             }
