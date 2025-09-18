@@ -1,5 +1,5 @@
 <script lang="ts">
-    import { filledSigsheet, gdrive_folder_id, username, uuid } from '$lib/shared';
+    import { applicant_names_list, filledSigsheet, gdrive_folder_id, username, uuid } from '$lib/shared';
     import { writable } from 'svelte/store';
 
     const { member_id, name, role, closeModal, activeCategory } = $props();
@@ -59,6 +59,19 @@
             imageURL.set(URL.createObjectURL(file));
         }
     }
+
+    let isDropdownOpen = $state(false);
+    let selectedCoApp = $state("");
+
+    function toggleDropdown() {
+        isDropdownOpen = !isDropdownOpen;
+    }
+
+    function selectCoAppName(co_app_name: string) {
+        selectedCoApp = co_app_name;
+        toggleDropdown();
+    }
+
 </script>
 
 <main class="font-inter fixed inset-0 flex items-center justify-center p-4">
@@ -102,17 +115,40 @@
                     <input type="text" name="member_id" value={member_id} hidden required />
                     <input type="text" name="member_name" value={name} hidden required />
                 {:else}
-                    <label for="member_name" class="text-csi-white mb-1 block text-lg font-bold md:text-2xl">
-                        Co-App Name
-                    </label>
-                    <input
-                        id="member_name"
-                        name="member_name"
-                        class="text-csi-white mb-3 w-full rounded-xl bg-[#161619] px-4 py-2 text-sm font-light"
-                        placeholder="Type co-applicant's dashboard username here"
-                        style="height: 25px; resize: none"
-                        required
-                    />
+                    <div class="relative w-full">
+                        <!-- Dropdown button -->
+                        <button 
+                            type="button"
+                            class="w-full rounded-lg bg-[#161619] px-4 py-2 text-left text-csi-white font-medium"
+                            onclick={toggleDropdown}
+                        >
+                            {#if selectedCoApp}
+                                { selectedCoApp }
+                            {:else} 
+                                Select co-applicant 
+                            {/if}
+                        </button>
+
+                        <!-- Dropdown menu -->
+                        {#if isDropdownOpen}
+                            <ul
+                                class="absolute z-10 mt-1 max-h-40 w-full overflow-y-auto rounded-lg bg-[#2f2f32] shadow-lg"
+                            >
+                                {#each $applicant_names_list as co_app_name}
+                                    <li>
+                                        <button
+                                            type="button"
+                                            class="w-full px-4 py-2 text-left text-csi-white hover:bg-csi-blue hover:text-black"
+                                            onclick={() => selectCoAppName(co_app_name)}
+                                        >
+                                            {co_app_name}
+                                        </button>
+                                    </li>
+                                {/each}
+                            </ul>
+                        {/if}
+                    </div>
+                    <input type="text" name="member_name" value={selectedCoApp} hidden required />
                 {/if}
 
                 <label for="question" class="text-csi-white mb-1 block pt-5 text-lg font-bold md:text-2xl">
