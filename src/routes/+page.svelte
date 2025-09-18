@@ -1,7 +1,7 @@
 <script lang="ts">
+    import { username, uuid } from '$lib/shared';
     import { onMount } from 'svelte';
     import { supabase } from '$lib/supabaseClient';
-    import { username, uuid } from '$lib/shared';
 
     const { data } = $props();
     const { answers, questions } = data;
