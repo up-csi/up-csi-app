@@ -105,7 +105,7 @@ export async function POST({ request }) {
                 });
 
             if (error) {
-                if (error.message.includes("unique_applicantid_signatoryname_pair")) {
+                if (error.message.includes('unique_applicantid_signatoryname_pair')) {
                     throw new Error("You have already have this co-applicant's signature. Try someone else");
                 }
                 console.error('Error inserting into Supabase:', error);

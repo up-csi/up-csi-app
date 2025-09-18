@@ -58,7 +58,7 @@
     }
 
     let isDropdownOpen = $state(false);
-    let selectedCoApp = $state("");
+    let selectedCoApp = $state('');
 
     function toggleDropdown() {
         isDropdownOpen = !isDropdownOpen;
@@ -68,7 +68,6 @@
         selectedCoApp = co_app_name;
         toggleDropdown();
     }
-
 </script>
 
 <main class="font-inter fixed inset-0 flex items-center justify-center p-4">
@@ -114,15 +113,15 @@
                 {:else}
                     <div class="relative w-full">
                         <!-- Dropdown button -->
-                        <button 
+                        <button
                             type="button"
-                            class="w-full rounded-lg bg-[#161619] px-4 py-2 text-left text-csi-white font-medium"
+                            class="text-csi-white w-full rounded-lg bg-[#161619] px-4 py-2 text-left font-medium"
                             onclick={toggleDropdown}
                         >
                             {#if selectedCoApp}
-                                { selectedCoApp }
-                            {:else} 
-                                Select co-applicant 
+                                {selectedCoApp}
+                            {:else}
+                                Select co-applicant
                             {/if}
                         </button>
 
@@ -135,7 +134,7 @@
                                     <li>
                                         <button
                                             type="button"
-                                            class="w-full px-4 py-2 text-left text-csi-white hover:bg-csi-blue hover:text-black"
+                                            class="text-csi-white hover:bg-csi-blue w-full px-4 py-2 text-left hover:text-black"
                                             onclick={() => selectCoAppName(co_app_name)}
                                         >
                                             {co_app_name}
