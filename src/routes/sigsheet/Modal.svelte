@@ -37,7 +37,7 @@
             if (!response.ok) {
                 const error = await response.json();
                 console.error('Error uploading data:', error);
-                alert('Failed to upload data. Please try again.');
+                alert(error.error);
             } else {
                 const data = await response.json();
                 console.log('Data uploaded successfully:', data);
