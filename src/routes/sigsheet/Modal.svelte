@@ -1,5 +1,5 @@
 <script lang="ts">
-    import { filledSigsheet, gdrive_folder_id, username, uuid } from '$lib/shared';
+    import { applicant_names_list, filledSigsheet, gdrive_folder_id, username, uuid } from '$lib/shared';
     import { writable } from 'svelte/store';
 
     const { member_id, name, role, closeModal, activeCategory } = $props();
@@ -37,7 +37,7 @@
             if (!response.ok) {
                 const error = await response.json();
                 console.error('Error uploading data:', error);
-                alert('Failed to upload data. Please try again.');
+                alert(error.error);
             } else {
                 const data = await response.json();
                 console.log('Data uploaded successfully:', data);
@@ -58,6 +58,18 @@
         if (file && file.type.startsWith('image/')) {
             imageURL.set(URL.createObjectURL(file));
         }
+    }
+
+    let isDropdownOpen = $state(false);
+    let selectedCoApp = $state('');
+
+    function toggleDropdown() {
+        isDropdownOpen = !isDropdownOpen;
+    }
+
+    function selectCoAppName(co_app_name: string) {
+        selectedCoApp = co_app_name;
+        toggleDropdown();
     }
 </script>
 
@@ -89,17 +101,54 @@
         <form class="grid grid-cols-1 gap-6 md:grid-cols-2" onsubmit={handleSubmit}>
             <!-- hidden inputs -->
             <input type="text" name="gdrive_folder_id" value={$gdrive_folder_id} hidden required />
-            <input type="text" name="member_id" value={member_id} hidden required />
-            <input type="text" name="member_name" value={name} hidden required />
             <input type="text" name="username" value={$username} hidden required />
             <input type="text" name="uuid" value={$uuid} hidden required />
 
             <!-- Left column -->
             <div class="mx-2">
-                <h2 class="pb-1 text-2xl font-bold md:text-4xl" style="color:{categoryColors[activeCategory]}">
-                    {name}
-                </h2>
-                <h3 class="text-csi-white text-sm">{role}</h3>
+                {#if activeCategory !== 'CoApp'}
+                    <h2 class="pb-1 text-2xl font-bold md:text-4xl" style="color:{categoryColors[activeCategory]}">
+                        {name}
+                    </h2>
+                    <h3 class="text-csi-white text-sm">{role}</h3>
+                    <input type="text" name="member_id" value={member_id} hidden required />
+                    <input type="text" name="member_name" value={name} hidden required />
+                {:else}
+                    <div class="relative w-full">
+                        <!-- Dropdown button -->
+                        <button
+                            type="button"
+                            class="text-csi-white w-full rounded-lg bg-[#161619] px-4 py-2 text-left font-medium"
+                            onclick={toggleDropdown}
+                        >
+                            {#if selectedCoApp}
+                                {selectedCoApp}
+                            {:else}
+                                Select co-applicant
+                            {/if}
+                        </button>
+
+                        <!-- Dropdown menu -->
+                        {#if isDropdownOpen}
+                            <ul
+                                class="absolute z-10 mt-1 max-h-40 w-full overflow-y-auto rounded-lg bg-[#2f2f32] shadow-lg"
+                            >
+                                {#each $applicant_names_list as co_app_name}
+                                    <li>
+                                        <button
+                                            type="button"
+                                            class="text-csi-white hover:bg-csi-blue w-full px-4 py-2 text-left hover:text-black"
+                                            onclick={() => selectCoAppName(co_app_name)}
+                                        >
+                                            {co_app_name}
+                                        </button>
+                                    </li>
+                                {/each}
+                            </ul>
+                        {/if}
+                    </div>
+                    <input type="text" name="member_name" value={selectedCoApp} hidden required />
+                {/if}
 
                 <label for="question" class="text-csi-white mb-1 block pt-5 text-lg font-bold md:text-2xl">
                     Your Question

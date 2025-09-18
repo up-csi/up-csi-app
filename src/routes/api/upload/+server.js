@@ -111,11 +111,12 @@ export async function POST({ request }) {
 
         // Save data to Supabase
         console.log('Starting to save data to Supabase with the following details:', {
-            uuid,
-            member_id,
             question,
             answer,
-            image_url: fileUrl,
+            image_url: fileUrl, // Use the correct file URL
+            applicant_id: uuid,
+            member_id,
+            member_name,
         });
 
         try {
@@ -127,9 +128,13 @@ export async function POST({ request }) {
                     image_url: fileUrl, // Use the correct file URL
                     applicant_id: uuid,
                     member_id,
+                    member_name,
                 });
 
             if (error) {
+                if (error.message.includes('unique_applicantid_signatoryname_pair')) {
+                    throw new Error("You have already have this co-applicant's signature. Try someone else");
+                }
                 console.error('Error inserting into Supabase:', error);
                 throw new Error(error.message);
             }
@@ -140,6 +145,7 @@ export async function POST({ request }) {
                 image_url: fileUrl,
                 applicant_id: uuid,
                 member_id,
+                member_name,
             });
 
             return new Response(JSON.stringify({ message: 'Data saved successfully', data }), {
@@ -148,7 +154,7 @@ export async function POST({ request }) {
             });
         } catch (supabaseError) {
             console.error('Error saving to Supabase:', supabaseError);
-            return new Response(JSON.stringify({ error: 'Error saving to Supabase' }), {
+            return new Response(JSON.stringify({ error: `${supabaseError}` }), {
                 status: 500,
                 headers: { 'Content-Type': 'application/json' },
             });

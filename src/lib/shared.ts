@@ -20,3 +20,5 @@ export const filledSigsheet = {
         });
     },
 };
+
+export const applicant_names_list = writable<string[]>([]);

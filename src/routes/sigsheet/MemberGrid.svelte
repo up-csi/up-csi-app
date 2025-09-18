@@ -19,6 +19,7 @@
         Engg: 'var(--color-engg-blue)',
         Exte: 'var(--color-exte-blue)',
         'B&C': 'var(--color-bnc-green)',
+        CoApp: 'var(--color-csi-white)',
     };
 
     const categoryHeaders: Record<string, string> = {
@@ -29,6 +30,7 @@
         Engg: 'Engineering Committee',
         Exte: 'External Relations Committee',
         'B&C': 'Branding & Creatives Committee',
+        CoApp: 'Co-Applicant',
     };
 
     let activeCategory = $state('Exec');
@@ -40,8 +42,24 @@
         selectedMember = member;
     }
 
+    const coApp_obj = {
+        member_id: 0,
+        name: '',
+        role: '',
+        category: 'CoApp',
+        photo: '',
+    };
+
+    function openCoAppModal() {
+        selectedMember = coApp_obj;
+        showModal = true;
+    }
+
     function closeModal() {
         showModal = false;
+        if (activeCategory === 'CoApp') {
+            activeCategory = 'Exec';
+        }
     }
 </script>
 
@@ -56,37 +74,57 @@
     </h1>
 
     <div class="flex flex-col-reverse gap-3 min-[375px]:gap-4 min-[390px]:gap-6 min-[834px]:flex-row">
-        <div
-            class="grid w-full grid-cols-2 gap-1.5 min-[375px]:gap-3 min-[390px]:gap-4 min-[480px]:grid-cols-4 min-[834px]:flex-1 min-[834px]:grid-cols-4 min-[834px]:gap-4 min-[1280px]:grid-cols-4"
-        >
-            {#each members.filter(member => member.category === activeCategory) as member (member.name)}
-                <div in:fade={{ duration: 1300 }}>
-                    <button onclick={() => openModal(member)} class="w-full cursor-pointer">
-                        <MemberCard filled={$filledSigsheet.has(member.member_id)} {member} />
-                    </button>
-                </div>
-            {/each}
-        </div>
+        {#if activeCategory !== 'CoApp'}
+            <div
+                class="grid w-full grid-cols-2 gap-1.5 min-[375px]:gap-3 min-[390px]:gap-4 min-[480px]:grid-cols-4 min-[834px]:flex-1 min-[834px]:grid-cols-4 min-[834px]:gap-4 min-[1280px]:grid-cols-4"
+            >
+                {#each members.filter(member => member.category === activeCategory) as member (member.name)}
+                    <div in:fade={{ duration: 1300 }}>
+                        <button onclick={() => openModal(member)} class="w-full cursor-pointer">
+                            <MemberCard filled={$filledSigsheet.has(member.member_id)} {member} />
+                        </button>
+                    </div>
+                {/each}
+            </div>
 
-        <div
-            class="flex flex-row flex-wrap justify-start gap-1 min-[375px]:gap-1.5 min-[390px]:gap-2 min-[834px]:ml-8 min-[834px]:flex-col min-[834px]:items-start min-[834px]:gap-4"
-        >
-            {#each categories as category}
+            <div
+                class="flex flex-row flex-wrap justify-start gap-1 min-[375px]:gap-1.5 min-[390px]:gap-2 min-[834px]:ml-8 min-[834px]:flex-col min-[834px]:items-start min-[834px]:gap-4"
+            >
+                {#each categories as category}
+                    <button
+                        class="border-csi-black text-csi-white bg-csi-grey flex w-fit cursor-pointer items-center gap-2 rounded-full border-2 border-[#2C2C2E] px-[0.8rem] py-2 text-sm font-bold opacity-80 transition-colors duration-300 min-[390px]:gap-2 min-[390px]:px-[0.7rem] min-[390px]:py-1.5 min-[390px]:text-sm min-[640px]:px-[0.9rem] min-[640px]:py-2 min-[640px]:text-base"
+                        class:opacity-100={activeCategory === category}
+                        class:bg-transparent={activeCategory === category}
+                        style:border-color={activeCategory === category ? categoryColors[category] : '#2C2C2E'}
+                        onclick={() => (activeCategory = category)}
+                    >
+                        <span
+                            class="bg-mni-pink aspect-square w-[1.5rem] flex-shrink-0 rounded-full min-[390px]:w-[1.5rem]"
+                            style:background-color={categoryColors[category]}
+                        ></span>
+                        <span class="flex items-center">{category}</span>
+                    </button>
+                {/each}
+
                 <button
                     class="border-csi-black text-csi-white bg-csi-grey flex w-fit cursor-pointer items-center gap-2 rounded-full border-2 border-[#2C2C2E] px-[0.8rem] py-2 text-sm font-bold opacity-80 transition-colors duration-300 min-[390px]:gap-2 min-[390px]:px-[0.7rem] min-[390px]:py-1.5 min-[390px]:text-sm min-[640px]:px-[0.9rem] min-[640px]:py-2 min-[640px]:text-base"
-                    class:opacity-100={activeCategory === category}
-                    class:bg-transparent={activeCategory === category}
-                    style:border-color={activeCategory === category ? categoryColors[category] : '#2C2C2E'}
-                    onclick={() => (activeCategory = category)}
+                    aria-label="co-app sigsheet"
+                    class:opacity-100={activeCategory === 'CoApp'}
+                    class:bg-transparent={activeCategory === 'CoApp'}
+                    style:border-color={activeCategory === 'CoApp' ? categoryColors.CoApp : '#2C2C2E'}
+                    onclick={() => {
+                        activeCategory = 'CoApp';
+                        openCoAppModal();
+                    }}
                 >
                     <span
                         class="bg-mni-pink aspect-square w-[1.5rem] flex-shrink-0 rounded-full min-[390px]:w-[1.5rem]"
-                        style:background-color={categoryColors[category]}
+                        style:background-color={categoryColors.CoApp}
                     ></span>
-                    <span class="flex items-center">{category}</span>
+                    <span class="flex items-center">Co-App</span>
                 </button>
-            {/each}
-        </div>
+            </div>
+        {/if}
     </div>
     {#if showModal}
         <div class="flex-center fixed inset-0 justify-center bg-black/50">

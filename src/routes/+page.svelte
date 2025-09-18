@@ -1,7 +1,7 @@
 <script lang="ts">
+    import { username, uuid } from '$lib/shared';
     import { onMount } from 'svelte';
     import { supabase } from '$lib/supabaseClient';
-    import { uuid } from '$lib/shared';
 
     const { data } = $props();
     const { answers, questions } = data;
@@ -27,6 +27,7 @@
         Engineering: 'bg-red-500',
         'External Relations': 'bg-blue-500',
         'Branding & Creatives': 'bg-green-500',
+        'Co-Applicants': 'bg-white',
     };
 
     let signatureSheet: CommitteeProgress[] = $state([]);
@@ -76,7 +77,10 @@
         const committeeCounts: Record<string, number> = {};
         (sig_data as unknown as SigsheetRow[]).forEach(row => {
             const committee = row.members?.member_committee;
-            if (!committee) return;
+            if (!committee) {
+                committeeCounts['Co-Applicants'] = (committeeCounts['Co-Applicants'] || 0) + 1;
+                return;
+            }
             committeeCounts[committee] = (committeeCounts[committee] || 0) + 1;
         });
 
@@ -101,6 +105,7 @@
             Engineering: 0,
             'External Relations': 0,
             'Branding & Creatives': 0,
+            'Co-Applicants': 6,
         };
         memberData.forEach((row: { member_committee: string }) => {
             const committee = row.member_committee;
@@ -163,7 +168,7 @@
 {#if data.session}
     <div class="font-inter h-screen flex-1 flex-row bg-[#161619] px-4 py-6 sm:px-6 lg:px-10">
         <h1 class="text-csi-white mb-2 text-center text-4xl font-bold lg:ml-12 lg:text-left">
-            Hello, {data.user?.email?.split('@')[0]}!
+            Hello, {$username}!
         </h1>
         <h2 class="text-csi-white text-center text-2xl font-bold lg:ml-12 lg:text-left">Your Dashboard</h2>
 
