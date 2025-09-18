@@ -30,14 +30,12 @@
 
     // Get applicant_names_list
     onMount(async () => {
-        console.log("Fetching applicant names.")
-        const { data: app_data, error: app_error } = await supabase
-            .from('profiles')
-            .select('full_name');
+        console.log('Fetching applicant names.');
+        const { data: app_data, error: app_error } = await supabase.from('profiles').select('full_name');
         if (app_error) {
-            console.error("Error fetching profile names: ", app_error);
+            console.error('Error fetching profile names: ', app_error);
         } else if (app_data) {
-            applicant_names_list.set(app_data.map((row) => row.full_name))
+            applicant_names_list.set(app_data.map(row => row.full_name));
         }
         console.log(applicant_names_list);
     });
