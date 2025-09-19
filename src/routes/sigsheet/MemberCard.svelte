@@ -10,7 +10,7 @@
     <div class="-mx-4 mb-[1rem] self-center min-[834px]:w-[14vw]">
         <img
             src={memberimg}
-            class="aspect-square rounded-2xl object-cover"
+            class="aspect-square rounded-2xl w-full object-cover"
             class:grayscale={!filled}
             alt={member.name}
         />
