@@ -59,7 +59,7 @@ export const members: mem[] = [
     {
         member_id: 66,
         name: 'Karin Consebido',
-        role: 'Vice President for Branding and Creatives',
+        role: 'Director for Branding and Creatives',
         category: 'Exec',
         photo: 'KarinConsebido',
     },
