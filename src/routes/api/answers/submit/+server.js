@@ -1,6 +1,6 @@
-import { json, redirect } from '@sveltejs/kit';
+import { json } from '@sveltejs/kit';
 
-export async function POST({ locals, url }) {
+export async function POST({ locals }) {
     const { supabase } = locals;
     const { user } = await locals.safeGetSession();
 
