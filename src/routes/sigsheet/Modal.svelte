@@ -72,7 +72,7 @@
 
 <main class="font-inter fixed inset-0 flex items-center justify-center p-4">
     <div
-        class="relative mb-[5vh] mt-[15vh] max-h-[75vh] w-[95%] max-w-3xl overflow-y-auto overflow-x-hidden rounded-xl bg-[#2f2f32] p-6 shadow-lg md:mb-0 md:mt-0"
+        class="relative mt-[15vh] mb-[5vh] max-h-[75vh] w-[95%] max-w-3xl overflow-x-hidden overflow-y-auto rounded-xl bg-[#2f2f32] p-6 shadow-lg md:mt-0 md:mb-0"
     >
         <!-- Close button -->
         <div class="mb-3 flex justify-end">
@@ -206,7 +206,7 @@
                                     viewBox="0 0 24 24"
                                     stroke-width="1.0"
                                     stroke="#00C6D7"
-                                    class="h-30 w-30 md:h-30 md:w-30 aspect-square max-w-full rounded-2xl object-cover md:my-6"
+                                    class="aspect-square h-30 w-30 max-w-full rounded-2xl object-cover md:my-6 md:h-30 md:w-30"
                                 >
                                     <path
                                         stroke-linecap="round"
@@ -228,7 +228,7 @@
 
                 <!-- Submit button -->
                 <button
-                    class="bg-csi-blue hover:bg-innov-orange w-50 mb-3 max-w-xs rounded-full bg-opacity-10 px-6 py-3 text-lg font-semibold"
+                    class="bg-csi-blue hover:bg-innov-orange bg-opacity-10 mb-3 w-50 max-w-xs rounded-full px-6 py-3 text-lg font-semibold"
                     disabled={submitting}
                 >
                     {#if submitting}
