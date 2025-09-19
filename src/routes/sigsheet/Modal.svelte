@@ -177,7 +177,7 @@
                 <!-- Image uploader -->
                 <label
                     for="img-input"
-                    class="border-csi-blue box-border flex min-h-[200px] w-full flex-col items-center justify-center rounded-lg border-2 border-dashed p-6"
+                    class="border-csi-blue box-border flex min-h-[200px] w-full flex-col items-center justify-center rounded-lg border-2 p-6"
                     style="background-color: rgba(0, 198, 215, 0.07);"
                 >
                     <input
@@ -220,9 +220,7 @@
                                     />
                                 </svg>
 
-                                <p class="text-csi-blue mt-2 text-center text-sm md:text-base">
-                                    Drop file here or click to take a picture
-                                </p>
+                                <p class="text-csi-blue mt-2 text-center text-xl">Click to submit</p>
                             </div>
                         {/if}
                     </div>
