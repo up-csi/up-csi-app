@@ -3,16 +3,19 @@
     import CheckboxQuestion from './CheckboxQuestion.svelte';
     import LongTextQuestion from './LongTextQuestion.svelte';
     import type { Question } from './constiquiz-types';
+    import QuizClosedPage from './QuizClosedPage.svelte';
+    import QuizSummaryPage from './QuizSummaryPage.svelte';
     import RadioQuestion from './RadioQuestion.svelte';
     import SaveButton from './SaveButton.svelte';
     import Section from './Section.svelte';
     import SectionNav from './SectionNav.svelte';
     import ShortTextQuestion from './ShortTextQuestion.svelte';
+
     import { browser } from '$app/environment';
     import { onMount } from 'svelte';
 
     const { data } = $props();
-    const { user, sections, questions, answers, hasSubmitted } = data;
+    const { user, sections, questions, answers, hasSubmitted, isOpen } = data;
 
     const questionIdToPoints = {
         '1100': 1,
@@ -200,11 +203,20 @@
 
 <div class="my-12 flex h-screen bg-[#161619] text-[#F9FAFB]">
     {#if hasSubmitted}
-        <!--  TODO: Improve UI  -->
-        <div>
-            <h1>You're done</h1>
-            <p>Your Score: {checkedPoints}/{totalPoints}</p>
-            <p>Total points of unchecked items: {uncheckedPoints}</p>
+        <!-- Content area -->
+        <div class="font-inter h-screen flex-row bg-[#161619] px-4 py-6 sm:px-6 lg:px-10">
+            <!-- Main Content -->
+            <main class="mt-6 flex flex-row justify-evenly">
+                <QuizSummaryPage {checkedPoints} {uncheckedPoints} {totalPoints} />
+            </main>
+        </div>
+    {:else if !isOpen}
+        <!-- Content area -->
+        <div class="font-inter h-screen flex-1 flex-row bg-[#161619] px-4 py-6 sm:px-6 lg:px-10">
+            <!-- Main Content -->
+            <main class="mt-6 flex flex-col lg:flex-row lg:justify-evenly">
+                <QuizClosedPage />
+            </main>
         </div>
     {:else}
         <!-- Right side container (flexbox column) -->
@@ -244,7 +256,7 @@
                                         bind:value={sectionToAnswers[section_id]![i]!}
                                     />
                                 {:else if question.type === 'radio'}
-                                    {#if question.title === 'What is the hex code of CSI Blue?'}
+                                    {#if question.section.title === 'Bonus'}
                                         <RadioQuestion
                                             title={question.title}
                                             bind:value={sectionToAnswers[section_id]![i]}

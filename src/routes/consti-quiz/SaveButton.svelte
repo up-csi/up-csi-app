@@ -1,5 +1,9 @@
 <script lang="ts">
+    import ConfirmationDialog from './ConfirmationDialog.svelte';
+
     const { saveAnswers, submitAnswers } = $props();
+
+    let showModal = $state(false);
 
     let isSaving = $state(false);
     let isSubmitting = $state(false);
@@ -70,6 +74,7 @@
 </script>
 
 <div class="fixed bottom-8 left-1/2 z-30 flex -translate-x-1/2 transform flex-col items-center space-y-2 md:left-1/5">
+    <ConfirmationDialog bind:showModal onConfirm={handleSubmit} />
     <div class="flex gap-4">
         <button
             onclick={async () => {
@@ -82,7 +87,9 @@
         </button>
 
         <button
-            onclick={handleSubmit}
+            onclick={() => {
+                showModal = true;
+            }}
             class="bg-csi-grey rounded-lg px-4 py-2 font-semibold text-white shadow-lg transition-colors hover:bg-blue-600 disabled:cursor-not-allowed disabled:opacity-50"
             disabled={isSubmitting || isSaving}
         >
