@@ -13,7 +13,24 @@ export async function load({ locals }) {
     }
 
     const hasSubmitted = data && data.length;
-    const isOpen = true;
+
+    const availability = await supabase.from('constiquiz-availability').select('start, end').single();
+
+    if (availability.error) {
+        console.error(error);
+    }
+
+    let isOpen = false;
+
+    if (availability.data) {
+        const today = new Date();
+        const start = new Date(availability.data.start);
+        const end = new Date(availability.data.end);
+
+        if (start <= today && today <= end) {
+            isOpen = true;
+        }
+    }
 
     return { hasSubmitted, isOpen };
 }
