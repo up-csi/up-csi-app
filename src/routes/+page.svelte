@@ -116,7 +116,7 @@
         });
 
         // fetchanswers and calculate quiz progress from supabase
-        
+
         // 1. Fetch quiz answers for this applicant
         const { data: quizAnswers, error: quizError } = await supabase
             .from('constiquiz-answers')
