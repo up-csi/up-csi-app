@@ -4,7 +4,7 @@
     import { supabase } from '$lib/supabaseClient';
 
     const { data } = $props();
-    const { answers, questions } = data;
+    // const { answers, questions } = data;          not used
 
     type CommitteeProgress = {
         name: string;
@@ -38,13 +38,6 @@
         if (num && denom) return (num / denom) * 100;
         return 0;
     }
-
-    const answeredCount = (answers ?? []).filter(
-        row => (row.answer_text && row.answer_text.trim().toUpperCase() !== 'EMPTY') || row.option_id !== null,
-    ).length;
-
-    const totalQuestions = questions?.length; // fetch this once in layout
-    quizProgress = `${answeredCount}/${totalQuestions}`;
 
     onMount(async () => {
         const applicantId = $uuid;
@@ -121,6 +114,28 @@
                 color: committeeColors[name],
             };
         });
+
+        // fetchanswers and calculate quiz progress from supabase
+
+        // 1. Fetch quiz answers for this applicant
+        const { data: quizAnswers, error: quizError } = await supabase
+            .from('constiquiz-answers')
+            .select('answer_text, option_id')
+            .eq('user_id', applicantId);
+        if (quizError) {
+            console.error('Error fetching quiz answers:', quizError.message);
+        } else {
+            // 2. Count valid answers
+            const answeredCount = quizAnswers.filter(
+                row => (row.answer_text && row.answer_text.trim().toUpperCase() !== 'EMPTY') || row.option_id !== null,
+            ).length;
+            // 3.  get the number of questions from the questions table
+            const { count: totalQuestions } = await supabase
+                .from('constiquiz-questions')
+                .select('*', { count: 'exact', head: true });
+            // 4. Build progress string
+            quizProgress = `${answeredCount}/${totalQuestions}`;
+        }
     });
 
     import logo from '$lib/icons/upcsi.svg';
