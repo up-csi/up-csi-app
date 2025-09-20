@@ -6,21 +6,21 @@ export async function load({ locals }) {
         throw new Error('Failed to load user');
     }
 
-    const { data, error } = await supabase.from('constiquiz-submissions').select('*').eq('user_id', user.id);
+    const [submission, availability] = await Promise.all([
+        supabase.from('constiquiz-submissions').select('id').eq('user_id', user.id).maybeSingle(),
+        supabase.from('constiquiz-availability').select('start, end').single(),
+    ]);
 
-    if (error) {
-        console.error(error);
+    if (submission.error) {
+        console.error(submission.error);
     }
 
-    const hasSubmitted = data && data.length;
-
-    const availability = await supabase.from('constiquiz-availability').select('start, end').single();
-
     if (availability.error) {
-        console.error(error);
+        console.error(availability.error);
     }
 
     let isOpen = false;
+    const hasSubmitted = Boolean(submission);
 
     if (availability.data) {
         const today = new Date();
