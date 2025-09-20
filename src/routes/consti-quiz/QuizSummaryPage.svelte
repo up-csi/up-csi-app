@@ -9,7 +9,7 @@
 </script>
 
 <!--  TODO: Improve UI  -->
-<div class="bg-csi-neutral-900 mb-8 flex h-min w-1/2 flex-col gap-y-2.5 rounded-2xl p-6">
+<div class="bg-csi-neutral-900 mb-8 flex h-min w-3/4 flex-col gap-y-2.5 rounded-2xl p-6 md:w-1/2">
     <h2 class="text-csi-blue text-3xl font-bold">Constiquiz Submitted</h2>
     <p class="text-justify">
         {#if uncheckedPoints > 0}

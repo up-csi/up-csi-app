@@ -12,7 +12,7 @@
 
 <div class="flex h-full w-full">
     <dialog
-        class="m-auto max-h-3/12 min-h-2/12 max-w-6/12 min-w-4/12 bg-transparent text-[#F9FAFB]"
+        class="max-h-6/12 min-h-2/12 max-w-6/12 min-w-4/12 m-auto bg-transparent text-[#F9FAFB]"
         bind:this={dialog}
         onclose={() => (showModal = false)}
         onclick={e => {
