@@ -12,9 +12,7 @@ export async function load({ locals }) {
         console.error(error);
     }
 
-    //*
     const hasSubmitted = data && data.length;
-    /*/ const hasSubmitted = false; //*/
     const isOpen = true;
 
     return { hasSubmitted, isOpen };
