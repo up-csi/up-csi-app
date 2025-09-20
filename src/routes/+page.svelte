@@ -4,7 +4,7 @@
     import { supabase } from '$lib/supabaseClient';
 
     const { data } = $props();
-    //const { answers, questions } = data;          not used
+    // const { answers, questions } = data;          not used
 
     type CommitteeProgress = {
         name: string;
