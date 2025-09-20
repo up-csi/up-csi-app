@@ -87,8 +87,7 @@
         </button>
 
         <button
-            onclick={async () => {
-                //await handleSubmit();
+            onclick={() => {
                 showModal = true;
             }}
             class="bg-csi-grey rounded-lg px-4 py-2 font-semibold text-white shadow-lg transition-colors hover:bg-blue-600 disabled:cursor-not-allowed disabled:opacity-50"

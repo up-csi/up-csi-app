@@ -3,13 +3,13 @@
     import CheckboxQuestion from './CheckboxQuestion.svelte';
     import LongTextQuestion from './LongTextQuestion.svelte';
     import type { Question } from './constiquiz-types';
+    import QuizClosedPage from './QuizClosedPage.svelte';
+    import QuizSummaryPage from './QuizSummaryPage.svelte';
     import RadioQuestion from './RadioQuestion.svelte';
     import SaveButton from './SaveButton.svelte';
     import Section from './Section.svelte';
     import SectionNav from './SectionNav.svelte';
     import ShortTextQuestion from './ShortTextQuestion.svelte';
-    import QuizClosedPage from './QuizClosedPage.svelte';
-    import QuizSummaryPage from './QuizSummaryPage.svelte';
 
     import { browser } from '$app/environment';
     import { onMount } from 'svelte';
