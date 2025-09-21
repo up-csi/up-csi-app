@@ -3,12 +3,10 @@
 </script>
 
 <div
-    class="font-inter flex min-h-screen w-full flex-col items-center justify-center gap-4 border text-center dark:bg-[#161619]"
+    class="font-inter flex min-h-screen w-full flex-col items-center justify-center gap-4 border bg-[#161619] text-center"
 >
-    <h1 class="dark:text-csi-white text-4xl font-extrabold">Log In</h1>
-    <main
-        class="font-inter flex flex-col items-center justify-center gap-2 rounded-xl px-4 py-6 md:px-8 dark:bg-[#2f2f32]"
-    >
+    <h1 class="text-csi-white text-4xl font-extrabold">Log In</h1>
+    <main class="font-inter flex flex-col items-center justify-center gap-2 rounded-xl bg-[#2f2f32] px-4 py-6 md:px-8">
         <div class="text-csi-blue mb-4 flex items-center justify-center gap-4">
             <img src={logo} class="w-[25px]" alt="CSI Logo" />
             <div class="font-inter flex flex-col text-left">
@@ -17,7 +15,7 @@
             </div>
         </div>
 
-        <h2 class="dark:text-csi-white mb-2 text-xl font-bold">Welcome to the CSI App!</h2>
+        <h2 class="text-csi-white mb-2 text-xl font-bold">Welcome to the CSI App!</h2>
 
         <form method="POST" action="?/login">
             <button

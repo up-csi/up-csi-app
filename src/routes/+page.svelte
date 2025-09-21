@@ -258,10 +258,10 @@
     </div>
 {:else}
     <div
-        class="font-inter flex min-h-screen w-full flex-col items-center justify-center gap-4 border text-center dark:bg-[#161619]"
+        class="font-inter flex min-h-screen w-full flex-col items-center justify-center gap-4 border bg-[#161619] text-center"
     >
         <main
-            class="font-inter flex flex-col items-center justify-center gap-2 rounded-xl px-4 py-6 lg:px-8 dark:bg-[#2f2f32]"
+            class="font-inter flex flex-col items-center justify-center gap-2 rounded-xl bg-[#2f2f32] px-4 py-6 lg:px-8"
         >
             <div class="text-csi-blue mb-4 flex items-center justify-center gap-4">
                 <img src={logo} class="w-[25px]" alt="CSI Logo" />
@@ -271,7 +271,7 @@
                 </div>
             </div>
 
-            <h1 class="dark:text-csi-white text-3xl font-extrabold">Welcome to the CSI App!</h1>
+            <h1 class="text-csi-white text-3xl font-extrabold">Welcome to the CSI App!</h1>
 
             <a href="/login" class="text-csi-blue text-base font-bold underline">Go to Login page</a>
         </main>
