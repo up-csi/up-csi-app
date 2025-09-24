@@ -18,6 +18,48 @@
     const imageURL = writable<string | null>(null);
 
     let submitting = $state(false);
+    let isSubmitted = $state(false);
+    let submittedData = $state<{
+        question: string;
+        answer: string;
+        image_url: string;
+        member_name: string;
+    } | null>(null);
+
+    // Check if member has already submitted on mount
+    $effect(() => {
+        if (member_id && activeCategory !== 'CoApp' && $filledSigsheet.has(member_id)) {
+            isSubmitted = true;
+            fetchSubmittedData();
+        } else {
+            isSubmitted = false;
+            submittedData = null;
+        }
+    });
+
+    async function fetchSubmittedData() {
+        try {
+            imageError = false; // Reset error state
+            imageLoading = true; // Start loading
+            const response = await fetch(`/api/sigsheet?applicant_id=${$uuid}&member_id=${member_id}`);
+            if (response.ok) {
+                const data = await response.json();
+                submittedData = data;
+                // If image_url is present, stop loading spinner
+                if (data.image_url) {
+                    imageLoading = false;
+                }
+            } else {
+                console.error('Failed to fetch submitted data');
+                imageLoading = false; // Stop loading on error
+                isSubmitted = false; // Fall back to form if fetch fails
+            }
+        } catch (error) {
+            console.error('Error fetching submitted data:', error);
+            imageLoading = false; // Stop loading on error
+            isSubmitted = false; // Fall back to form if fetch fails
+        }
+    }
     async function handleSubmit(event: Event) {
         event.preventDefault();
 
@@ -60,8 +102,19 @@
         }
     }
 
+    let imageError = $state(false);
+    let imageLoading = $state(true);
     let isDropdownOpen = $state(false);
-    let selectedCoApp = $state('');
+    let selectedCoApp = $state<string | null>(null);
+
+    function handleImageError() {
+        imageError = true;
+        imageLoading = false;
+    }
+
+    function handleImageLoad() {
+        imageLoading = false;
+    }
 
     function toggleDropdown() {
         isDropdownOpen = !isDropdownOpen;
@@ -98,149 +151,228 @@
         </div>
 
         <!-- Form -->
-        <form class="grid grid-cols-1 gap-6 md:grid-cols-2" onsubmit={handleSubmit}>
-            <!-- hidden inputs -->
-            <input type="text" name="gdrive_folder_id" value={$gdrive_folder_id} hidden required />
-            <input type="text" name="username" value={$username} hidden required />
-            <input type="text" name="uuid" value={$uuid} hidden required />
-
-            <!-- Left column -->
-            <div class="mx-2">
-                {#if activeCategory !== 'CoApp'}
+        <!-- Form or Display -->
+        {#if isSubmitted && submittedData}
+            <!-- Display submitted information -->
+            <div class="grid grid-cols-1 gap-6 md:grid-cols-2">
+                <!-- Left column -->
+                <div class="mx-2">
                     <h2 class="pb-1 text-2xl font-bold md:text-4xl" style="color:{categoryColors[activeCategory]}">
-                        {name}
+                        {submittedData.member_name}
                     </h2>
                     <h3 class="text-csi-white text-sm">{role}</h3>
-                    <input type="text" name="member_id" value={member_id} hidden required />
-                    <input type="text" name="member_name" value={name} hidden required />
-                {:else}
-                    <div class="relative w-full">
-                        <!-- Dropdown button -->
-                        <button
-                            type="button"
-                            class="text-csi-white w-full rounded-lg bg-[#161619] px-4 py-2 text-left font-medium"
-                            onclick={toggleDropdown}
-                        >
-                            {#if selectedCoApp}
-                                {selectedCoApp}
-                            {:else}
-                                Select co-applicant
-                            {/if}
-                        </button>
 
-                        <!-- Dropdown menu -->
-                        {#if isDropdownOpen}
-                            <ul
-                                class="absolute z-10 mt-1 max-h-40 w-full overflow-y-auto rounded-lg bg-[#2f2f32] shadow-lg"
-                            >
-                                {#each $applicant_names_list as co_app_name}
-                                    <li>
-                                        <button
-                                            type="button"
-                                            class="text-csi-white hover:bg-csi-blue w-full px-4 py-2 text-left hover:text-black"
-                                            onclick={() => selectCoAppName(co_app_name)}
-                                        >
-                                            {co_app_name}
-                                        </button>
-                                    </li>
-                                {/each}
-                            </ul>
-                        {/if}
+                    <label for="question" class="text-csi-white mb-1 block pt-5 text-lg font-bold md:text-2xl">
+                        Your Question
+                    </label>
+                    <div class="text-csi-white mb-3 w-full rounded-xl bg-[#161619] px-4 py-2 text-sm font-light">
+                        {submittedData.question}
                     </div>
-                    <input type="text" name="member_name" value={selectedCoApp} hidden required />
-                {/if}
 
-                <label for="question" class="text-csi-white mb-1 block pt-5 text-lg font-bold md:text-2xl">
-                    Your Question
-                </label>
-                <textarea
-                    id="question"
-                    name="question"
-                    class="text-csi-white mb-3 w-full rounded-xl bg-[#161619] px-4 py-2 text-sm font-light"
-                    placeholder="Type your question here ..."
-                    style="height: 100px; resize: none"
-                    required
-                ></textarea>
+                    <label for="answer" class="text-csi-white mb-1 block text-lg font-bold md:text-2xl">
+                        Their Answer
+                    </label>
+                    <div class="text-csi-white mb-3 w-full rounded-xl bg-[#161619] px-4 py-2 text-sm font-light">
+                        {submittedData.answer}
+                    </div>
+                </div>
 
-                <label for="answer" class="text-csi-white mb-1 block text-lg font-bold md:text-2xl">
-                    Their Answer
-                </label>
-                <textarea
-                    id="answer"
-                    name="answer"
-                    class="text-csi-white mb-3 w-full rounded-xl bg-[#161619] px-4 py-2 text-sm font-light"
-                    placeholder="Type their answer here ..."
-                    style="height: 100px; resize: none"
-                    required
-                ></textarea>
-            </div>
-
-            <!-- Right column -->
-            <div class="mx-2 flex flex-col items-center justify-center gap-5">
-                <!-- Image uploader -->
-                <label
-                    for="img-input"
-                    class="border-csi-blue box-border flex min-h-[200px] w-full flex-col items-center justify-center rounded-lg border-2 p-6"
-                    style="background-color: rgba(0, 198, 215, 0.07);"
-                >
-                    <input
-                        type="file"
-                        accept="image/*"
-                        id="img-input"
-                        name="image"
-                        onchange={handleFileChange}
-                        hidden
-                        required
-                    />
-
-                    <div class="flex w-full items-center justify-center">
-                        {#if $imageURL}
-                            <img
-                                src={$imageURL}
-                                alt="selfie with member"
-                                class="aspect-square h-40 w-40 max-w-full rounded-2xl object-cover md:h-56 md:w-56"
-                            />
-                        {:else}
-                            <div class="flex flex-col items-center justify-center px-4">
-                                <!-- Responsive SVG size using Tailwind -->
+                <!-- Right column -->
+                <div class="mx-2 flex flex-col items-center justify-center gap-5">
+                    <!-- Submitted photo -->
+                    <div
+                        class="border-csi-blue box-border flex min-h-[200px] w-full flex-col items-center justify-center rounded-lg border-2 p-6"
+                        style="background-color: rgba(0, 198, 215, 0.07);"
+                    >
+                        {#if imageError}
+                            <div class="text-csi-white flex flex-col items-center justify-center">
                                 <svg
                                     xmlns="http://www.w3.org/2000/svg"
                                     fill="none"
                                     viewBox="0 0 24 24"
                                     stroke-width="1.0"
-                                    stroke="#00C6D7"
+                                    stroke="currentColor"
                                     class="aspect-square h-30 w-30 max-w-full rounded-2xl object-cover md:my-6 md:h-30 md:w-30"
                                 >
                                     <path
                                         stroke-linecap="round"
                                         stroke-linejoin="round"
-                                        d="M6.827 6.175A2.31 2.31 0 0 1 5.186 7.23c-.38.054-.757.112-1.134.175C2.999 7.58 2.25 8.507 2.25 9.574V18a2.25 2.25 0 0 0 2.25 2.25h15A2.25 2.25 0 0 0 21.75 18V9.574c0-1.067-.75-1.994-1.802-2.169a47.865 47.865 0 0 0-1.134-.175 2.31 2.31 0 0 1-1.64-1.055l-.822-1.316a2.192 2.192 0 0 0-1.736-1.039 48.774 48.774 0 0 0-5.232 0 2.192 2.192 0 0 0-1.736 1.039l-.821 1.316Z"
-                                    />
-                                    <path
-                                        stroke-linecap="round"
-                                        stroke-linejoin="round"
-                                        d="M16.5 12.75a4.5 4.5 0 1 1-9 0 4.5 4.5 0 0 1 9 0ZM18.75 10.5h.008v.008h-.008V10.5Z"
+                                        d="M12 9v3.75m-9.303 3.376c-.866 1.5.217 3.374 1.948 3.374h14.71c1.73 0 2.813-1.874 1.948-3.374L13.949 3.378c-.866-1.5-3.032-1.5-3.898 0L2.697 16.126zM12 15.75h.007v.008H12v-.008z"
                                     />
                                 </svg>
-
-                                <p class="text-csi-blue mt-2 text-center text-xl">Click to submit</p>
+                                <p class="mt-2 text-center text-sm">Image failed to load</p>
                             </div>
+                        {:else if imageLoading}
+                            <div class="text-csi-white flex flex-col items-center justify-center">
+                                <div class="border-csi-blue h-12 w-12 animate-spin rounded-full border-b-2"></div>
+                                <p class="mt-2 text-center text-sm">Loading image...</p>
+                            </div>
+                        {:else}
+                            <img
+                                src={submittedData.image_url}
+                                alt="submitted selfie with member"
+                                class="aspect-square h-40 w-40 max-w-full rounded-2xl object-cover md:h-56 md:w-56"
+                                onload={handleImageLoad}
+                                onerror={handleImageError}
+                            />
                         {/if}
                     </div>
-                </label>
 
-                <!-- Submit button -->
-                <button
-                    class="bg-csi-blue bg-opacity-10 hover:bg-innov-orange mb-3 w-50 max-w-xs rounded-full px-6 py-3 text-lg font-semibold"
-                    disabled={submitting}
-                >
-                    {#if submitting}
-                        Submitting...
-                    {:else}
-                        Submit
-                    {/if}
-                </button>
+                    <!-- Close button -->
+                    <button
+                        class="bg-csi-blue bg-opacity-10 hover:bg-innov-orange mb-3 w-50 max-w-xs rounded-full px-6 py-3 text-lg font-semibold"
+                        onclick={closeModal}
+                    >
+                        Close
+                    </button>
+                </div>
             </div>
-        </form>
+        {:else}
+            <!-- Form -->
+            <form class="grid grid-cols-1 gap-6 md:grid-cols-2" onsubmit={handleSubmit}>
+                <!-- hidden inputs -->
+                <input type="text" name="gdrive_folder_id" value={$gdrive_folder_id} hidden required />
+                <input type="text" name="username" value={$username} hidden required />
+                <input type="text" name="uuid" value={$uuid} hidden required />
+
+                <!-- Left column -->
+                <div class="mx-2">
+                    {#if activeCategory !== 'CoApp'}
+                        <h2 class="pb-1 text-2xl font-bold md:text-4xl" style="color:{categoryColors[activeCategory]}">
+                            {name}
+                        </h2>
+                        <h3 class="text-csi-white text-sm">{role}</h3>
+                        <input type="text" name="member_id" value={member_id} hidden required />
+                        <input type="text" name="member_name" value={name} hidden required />
+                    {:else}
+                        <div class="relative w-full">
+                            <!-- Dropdown button -->
+                            <button
+                                type="button"
+                                class="text-csi-white w-full rounded-lg bg-[#161619] px-4 py-2 text-left font-medium"
+                                onclick={toggleDropdown}
+                            >
+                                {#if selectedCoApp}
+                                    {selectedCoApp}
+                                {:else}
+                                    Select co-applicant
+                                {/if}
+                            </button>
+
+                            <!-- Dropdown menu -->
+                            {#if isDropdownOpen}
+                                <ul
+                                    class="absolute z-10 mt-1 max-h-40 w-full overflow-y-auto rounded-lg bg-[#2f2f32] shadow-lg"
+                                >
+                                    {#each $applicant_names_list as co_app_name}
+                                        <li>
+                                            <button
+                                                type="button"
+                                                class="text-csi-white hover:bg-csi-blue w-full px-4 py-2 text-left hover:text-black"
+                                                onclick={() => selectCoAppName(co_app_name)}
+                                            >
+                                                {co_app_name}
+                                            </button>
+                                        </li>
+                                    {/each}
+                                </ul>
+                            {/if}
+                        </div>
+                        <input type="text" name="member_name" value={selectedCoApp} hidden required />
+                    {/if}
+
+                    <label for="question" class="text-csi-white mb-1 block pt-5 text-lg font-bold md:text-2xl">
+                        Your Question
+                    </label>
+                    <textarea
+                        id="question"
+                        name="question"
+                        class="text-csi-white mb-3 w-full rounded-xl bg-[#161619] px-4 py-2 text-sm font-light"
+                        placeholder="Type your question here ..."
+                        style="height: 100px; resize: none"
+                        required
+                    ></textarea>
+
+                    <label for="answer" class="text-csi-white mb-1 block text-lg font-bold md:text-2xl">
+                        Their Answer
+                    </label>
+                    <textarea
+                        id="answer"
+                        name="answer"
+                        class="text-csi-white mb-3 w-full rounded-xl bg-[#161619] px-4 py-2 text-sm font-light"
+                        placeholder="Type their answer here ..."
+                        style="height: 100px; resize: none"
+                        required
+                    ></textarea>
+                </div>
+
+                <!-- Right column -->
+                <div class="mx-2 flex flex-col items-center justify-center gap-5">
+                    <!-- Image uploader -->
+                    <label
+                        for="img-input"
+                        class="border-csi-blue box-border flex min-h-[200px] w-full flex-col items-center justify-center rounded-lg border-2 p-6"
+                        style="background-color: rgba(0, 198, 215, 0.07);"
+                    >
+                        <input
+                            type="file"
+                            accept="image/*"
+                            id="img-input"
+                            name="image"
+                            onchange={handleFileChange}
+                            hidden
+                            required
+                        />
+
+                        <div class="flex w-full items-center justify-center">
+                            {#if $imageURL}
+                                <img
+                                    src={$imageURL}
+                                    alt="selfie with member"
+                                    class="aspect-square h-40 w-40 max-w-full rounded-2xl object-cover md:h-56 md:w-56"
+                                />
+                            {:else}
+                                <div class="flex flex-col items-center justify-center px-4">
+                                    <!-- Responsive SVG size using Tailwind -->
+                                    <svg
+                                        xmlns="http://www.w3.org/2000/svg"
+                                        fill="none"
+                                        viewBox="0  0 24 24"
+                                        stroke-width="1.0"
+                                        stroke="#00C6D7"
+                                        class="aspect-square h-30 w-30 max-w-full rounded-2xl object-cover md:my-6 md:h-30 md:w-30"
+                                    >
+                                        <path
+                                            stroke-linecap="round"
+                                            stroke-linejoin="round"
+                                            d="M6.827 6.175A2.31 2.31 0 0 1 5.186 7.23c-.38.054-.757.112-1.134.175C2.999 7.58 2.25 8.507 2.25 9.574V18a2.25 2.25 0 0 0 2.25 2.25h15A2.25 2.25 0 0 0 21.75 18V9.574c0-1.067-.75-1.994-1.802-2.169a47.865 47.865 0 0 0-1.134-.175 2.31 2.31 0 0 1-1.64-1.055l-.822-1.316a2.192 2.192 0 0 0-1.736-1.039 48.774 48.774 0 0 0-5.232 0 2.192 2.192 0 0 0-1.736 1.039l-.821 1.316Z"
+                                        />
+                                        <path
+                                            stroke-linecap="round"
+                                            stroke-linejoin="round"
+                                            d="M16.5 12.75a4.5 4.5 0 1 1-9 0 4.5 4.5 0 0 1 9 0ZM18.75 10.5h.008v.008h-.008V10.5Z"
+                                        />
+                                    </svg>
+
+                                    <p class="text-csi-blue mt-2 text-center text-xl">Click to submit</p>
+                                </div>
+                            {/if}
+                        </div>
+                    </label>
+
+                    <!-- Submit button -->
+                    <button
+                        class="bg-csi-blue bg-opacity-10 hover:bg-innov-orange mb-3 w-50 max-w-xs rounded-full px-6 py-3 text-lg font-semibold"
+                        disabled={submitting}
+                    >
+                        {#if submitting}
+                            Submitting...
+                        {:else}
+                            Submit
+                        {/if}
+                    </button>
+                </div>
+            </form>
+        {/if}
     </div>
 </main>
