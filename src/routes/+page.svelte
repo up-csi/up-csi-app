@@ -221,13 +221,13 @@
                     <p class="pb-2 text-lg font-bold">Constitution Quiz Mechanics</p>
                     <ul class="pr-0 pl-5 md:pl-10" style="list-style-type:circle;">
                         <li class="py-1">The constitution quiz is a requirement for all CSI Applicants</li>
-                        <li class="py-1">
-                            This quiz is open notes and you may view a copy of the constitution <a
-                                class="text-csi-blue hover:underline hover:duration-300 hover:ease-in-out"
-                                href="https://drive.google.com/file/d/1JtbGcts8YKyJsm20wgJh3I7Umwh0VwAz/view?usp=sharing"
-                                target="_blank">here</a
-                            >.
-                        </li>
+                        <!-- <li class="py-1"> -->
+                        <!--     This quiz is open notes and you may view a copy of the constitution <a -->
+                        <!--         class="text-csi-blue hover:underline hover:duration-300 hover:ease-in-out" -->
+                        <!--         href="https://drive.google.com/file/d/1JtbGcts8YKyJsm20wgJh3I7Umwh0VwAz/view?usp=sharing" -->
+                        <!--         target="_blank">here</a -->
+                        <!--     >. -->
+                        <!-- </li> -->
                         <li class="py-1">
                             Please keep the contents of the quiz confidential. You may not consult with other applicants
                             or members!
