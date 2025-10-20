@@ -10,16 +10,21 @@
     let { title = '', value = $bindable(''), items = [] as Item[] } = $props();
 
     function addOption(option: string) {
-        const valueList: Array<string> = value.split(',').filter(v => v !== '');
-        valueList.push(option);
+        const valueSet: Set<string> = new Set(value.split(',').filter(v => v !== ''));
+        valueSet.add(option);
+        const valueList = Array.from(valueSet);
         value = valueList.join(',');
-        console.log(valueList);
+        console.log(value);
     }
 
     function removeOption(option: string) {
         const valueList: Array<string> = value.split(',').filter(v => v !== option);
         value = valueList.join(',');
         console.log(valueList);
+    }
+
+    function isSelected(option: string) {
+        return value.split(',').includes(option);
     }
 </script>
 
@@ -28,15 +33,17 @@
         <label class="flex items-center space-x-3">
             <input
                 type="checkbox"
-                onchange={e => {
-                    const target = e.target as HTMLInputElement;
-                    if (target.checked) {
+                onchange={() => {
+                    if (!isSelected(item.id.toString())) {
                         addOption(item.id.toString());
                     } else {
                         removeOption(item.id.toString());
                     }
+
+                    value = `${value}`;
                 }}
                 class="form-checkbox h-5 w-5"
+                checked={isSelected(item.id.toString())}
             />
             <span class="text-md">{item.label}</span>
         </label>
