@@ -37,22 +37,38 @@ export async function POST({ locals }) {
         .in('question_id', questionIds);
 
     // Fetch all options for the answers
-    const optionIds = savedAnswers.map(a => a.option_id).filter(Boolean);
+    // const optionIds = savedAnswers.map(a => a.option_id).filter(Boolean);
     const { data: options } = await supabase
         .from('constiquiz-options')
         .select('option_id, is_correct, question_id')
-        .in('option_id', optionIds);
 
     // Prepare updates
     if (!questions || !options) {
         return json({ message: 'Failed checking answers' });
     }
+
+    // Check user answer if correct
     const updates = savedAnswers.map(a => {
         const question = questions.find(q => q.question_id === a.question_id);
         let points = 0;
         let is_checked = false;
 
-        if (a.option_id) {
+        // SPECIAL CASE: checkbox questions don't have option_id
+        if (a.question_id === 5400) {
+            const selected_choices = a.answer_text.split('-');
+
+            for (const choice of selected_choices) {
+                const option = options.find(o => o.option_id === parseInt(choice, 10));
+                if (option && option.is_correct) {
+                    points += 2;
+                } else {
+                    points -= 1;
+                }
+            }
+            is_checked = true;
+        }
+
+        else if (a.option_id) {
             const option = options.find(o => o.option_id === a.option_id);
             if (option && option.is_correct) {
                 points = question?.point_value ?? 0;
