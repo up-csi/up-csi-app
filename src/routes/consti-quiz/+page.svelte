@@ -81,6 +81,9 @@
     // NOTE: for debugging purposes only, remove during production
     console.log('questions:', questions);
 
+    // ensure that questions are sorted by ids, since their index is important
+    questions!.sort((a, b) => a.question_id - b.question_id);
+
     // filter questions by sections
     const preambleQuestions = questions!.filter((q: Question) => q.section.title === 'UP CSI Preamble');
     const mvpQuestions = questions!.filter((q: Question) => q.section.title === 'Mission, Vision, and Purpose');
