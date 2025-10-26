@@ -38,9 +38,7 @@ export async function POST({ locals }) {
 
     // Fetch all options for the answers
     // const optionIds = savedAnswers.map(a => a.option_id).filter(Boolean);
-    const { data: options } = await supabase
-        .from('constiquiz-options')
-        .select('option_id, is_correct, question_id')
+    const { data: options } = await supabase.from('constiquiz-options').select('option_id, is_correct, question_id');
 
     // Prepare updates
     if (!questions || !options) {
@@ -66,9 +64,7 @@ export async function POST({ locals }) {
                 }
             }
             is_checked = true;
-        }
-
-        else if (a.option_id) {
+        } else if (a.option_id) {
             const option = options.find(o => o.option_id === a.option_id);
             if (option && option.is_correct) {
                 points = question?.point_value ?? 0;
