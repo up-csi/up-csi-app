@@ -141,8 +141,8 @@
     import logo from '$lib/icons/upcsi.svg';
 
     // take note month starts at 0
-    // planned duration of consti quiz is from Oct 27 (12 AM) to Nov 1 (11:59 PM)
-    const quizRawStart = new Date(2025, 9, 27, 0, 0, 0);
+    // planned duration of consti quiz is from Oct 27 (6 PM) to Nov 1 (11:59 PM)
+    const quizRawStart = new Date(2025, 9, 27, 18, 0, 0);
     const quizRawEnd = new Date(2025, 10, 1, 23, 59, 59);
     if (quizRawEnd.getTime() <= quizRawStart.getTime()) {
         throw new Error('Consti quiz end time is on or before start time');
@@ -223,9 +223,15 @@
                     <ul class="pr-0 pl-5 md:pl-10" style="list-style-type:circle;">
                         <li class="py-1">The constitution quiz is a requirement for all CSI Applicants</li>
                         <li class="py-1">
-                            This quiz is open notes and you may view a copy of the constitution <a
+                            This quiz is open notes. You may view a copy of the constitution <a
                                 class="text-csi-blue hover:underline hover:duration-300 hover:ease-in-out"
-                                href="https://drive.google.com/file/d/1JtbGcts8YKyJsm20wgJh3I7Umwh0VwAz/view?usp=sharing"
+                                href="https://drive.google.com/file/d/152hPWrIF-88ojZggTRiNIjjM_Dzei_oy/view"
+                                target="_blank">here</a
+                            >
+                            and a copy of the brandbook
+                            <a
+                                class="text-csi-blue hover:underline hover:duration-300 hover:ease-in-out"
+                                href="https://drive.google.com/file/d/1hYO26mrUCA_yR9FTnguTYFZkmp2gxWAE/view?usp=sharing"
                                 target="_blank">here</a
                             >.
                         </li>
