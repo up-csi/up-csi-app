@@ -10,6 +10,7 @@ export interface IOption {
 }
 
 export interface ITextQuestion {
+    question_id: number;
     title: string;
     point_value: number;
     section: ISection;
@@ -18,6 +19,7 @@ export interface ITextQuestion {
 }
 
 export interface IOptionQuestion {
+    question_id: number;
     title: string;
     point_value: number;
     section: ISection;

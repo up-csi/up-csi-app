@@ -102,6 +102,7 @@ export async function load({ data, depends, fetch }) {
 
     const fetchQuestions = async (): Promise<Question[]> => {
         const { data, error } = await supabase.from('constiquiz-questions').select(`
+                question_id,
                 title,
                 point_value,
                 type,

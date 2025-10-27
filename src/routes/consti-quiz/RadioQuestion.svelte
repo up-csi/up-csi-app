@@ -7,8 +7,8 @@
     }
 
     // eslint-disable-next-line prefer-const
-    let { title = '', value = $bindable(''), items = [] as Item[], other = false } = $props();
-    let otherValue = $state('');
+    let { title = '', value = $bindable(null), items = [] as Item[], other = false } = $props();
+    let otherValue = $state(null);
 </script>
 
 <Question {title}>
