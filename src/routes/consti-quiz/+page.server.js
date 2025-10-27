@@ -7,7 +7,7 @@ export async function load({ locals }) {
     }
 
     const [submission, availability] = await Promise.all([
-        supabase.from('constiquiz-submissions').select('id').eq('user_id', user.id).maybeSingle(),
+        supabase.from('constiquiz-submissions').select('submission_id').eq('user_id', user.id).maybeSingle(),
         supabase.from('constiquiz-availability').select('start, end').single(),
     ]);
 
@@ -20,7 +20,7 @@ export async function load({ locals }) {
     }
 
     let isOpen = false;
-    const hasSubmitted = Boolean(submission);
+    const hasSubmitted = Boolean(submission.data);
 
     if (availability.data) {
         const today = new Date();

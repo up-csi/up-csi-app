@@ -1,8 +1,8 @@
 <script lang="ts">
     // Alphabetical imports
+    import type { ISection, Question } from './constiquiz-types';
     import CheckboxQuestion from './CheckboxQuestion.svelte';
     import LongTextQuestion from './LongTextQuestion.svelte';
-    import type { Question } from './constiquiz-types';
     import QuizClosedPage from './QuizClosedPage.svelte';
     import QuizSummaryPage from './QuizSummaryPage.svelte';
     import RadioQuestion from './RadioQuestion.svelte';
@@ -17,6 +17,7 @@
     const { data } = $props();
     const { user, sections, questions, answers, hasSubmitted, isOpen } = data;
 
+    // NOTE: do we even this need this part
     const questionIdToPoints = {
         '1100': 1,
         '1200': 1,
@@ -54,6 +55,13 @@
         '6300': 2,
         '6400': 2,
         '6500': 2,
+
+        '7100': 1,
+        '7200': 1,
+        '7300': 2,
+        '7400': 1,
+        '7500': 2,
+        '7600': 1,
     };
 
     // points left to be scored
@@ -66,12 +74,15 @@
     const checkedPoints = answers!.filter(a => a.is_checked).reduce((total, a) => total + a.points, 0);
 
     // subtract 10 from bonus
-    const totalPoints = 80;
+    const totalPoints = 88;
 
     // NOTE: for debugging purposes only, remove during production
     console.log('sections:', sections);
     // NOTE: for debugging purposes only, remove during production
     console.log('questions:', questions);
+
+    // ensure that questions are sorted by ids, since their index is important
+    questions!.sort((a, b) => a.question_id - b.question_id);
 
     // filter questions by sections
     const preambleQuestions = questions!.filter((q: Question) => q.section.title === 'UP CSI Preamble');
@@ -80,6 +91,7 @@
     const tfQuestions = questions!.filter((q: Question) => q.section.title === 'True or False');
     const mcQuestions = questions!.filter((q: Question) => q.section.title === 'Multiple Choice');
     const bonusQuestions = questions!.filter((q: Question) => q.section.title === 'Bonus');
+    const brandBookQuestions = questions!.filter((q: Question) => q.section.title === 'Brandbook');
 
     // quiz state
     const preambleAnswers = $state(Array(preambleQuestions.length).fill(''));
@@ -88,6 +100,7 @@
     const tfAnswers = $state(Array(tfQuestions.length).fill(''));
     const mcAnswers = $state(Array(mcQuestions.length).fill(''));
     const bonusAnswers = $state(Array(bonusQuestions.length).fill(''));
+    const brandBookAnswers = $state(Array(brandBookQuestions.length).fill(''));
 
     // mapping from section id to quiz states
     const sectionToAnswers: Record<string, string[]> = $state({
@@ -97,7 +110,15 @@
         '4000': tfAnswers,
         '5000': mcAnswers,
         '6000': bonusAnswers,
+        '7000': brandBookAnswers,
     });
+
+    // Rearrange sections such that bonus goes last
+    // NOTE: maybe it's better to refactor how bonus is stored in db so it stays last all the time
+    // this is kinda ugly
+    const rearrangedSections: ISection[] = sections!
+        .filter((s: ISection) => s.title !== 'Bonus')
+        .concat(...sections!.filter((s: ISection) => s.title === 'Bonus'));
 
     function saveProgress(quiz: Record<string, string[]>) {
         if (browser) {
@@ -236,13 +257,13 @@
 
                     <!-- Section dropdown -->
                     <div class="rounded-lg bg-[#262629] p-6">
-                        <SectionNav sections={sections!} />
+                        <SectionNav sections={rearrangedSections!} />
                     </div>
                 </aside>
 
                 <!-- Main Content -->
                 <main class="h-3/5 w-full overflow-y-auto bg-[#161619] p-4 pt-4 md:h-full md:w-3/5 md:p-8">
-                    {#each sections! as { section_id, title, points } (section_id)}
+                    {#each rearrangedSections! as { section_id, title, points } (section_id)}
                         <Section id={section_id.toString()} {title} {points}>
                             {#each questions!.filter(question => question.section.title === title) as question, i}
                                 {#if question.type === 'long_text'}
