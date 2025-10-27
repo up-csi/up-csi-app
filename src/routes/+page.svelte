@@ -227,8 +227,13 @@
                                 class="text-csi-blue hover:underline hover:duration-300 hover:ease-in-out"
                                 href="https://drive.google.com/file/d/152hPWrIF-88ojZggTRiNIjjM_Dzei_oy/view"
                                 target="_blank">here</a
-                            > and a copy of the brandbook <a class="text-csi-blue hover:underline hover:duration-300 hover:ease-in-out" href="https://drive.google.com/file/d/1hYO26mrUCA_yR9FTnguTYFZkmp2gxWAE/view?usp=sharing"
-                                target="_blank">here</a>.
+                            >
+                            and a copy of the brandbook
+                            <a
+                                class="text-csi-blue hover:underline hover:duration-300 hover:ease-in-out"
+                                href="https://drive.google.com/file/d/1hYO26mrUCA_yR9FTnguTYFZkmp2gxWAE/view?usp=sharing"
+                                target="_blank">here</a
+                            >.
                         </li>
                         <li class="py-1">
                             Please keep the contents of the quiz confidential. You may not consult with other applicants
