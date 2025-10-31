@@ -230,7 +230,7 @@
                             and a copy of the brandbook
                             <a
                                 class="text-csi-blue hover:underline hover:duration-300 hover:ease-in-out"
-                                href="https://drive.google.com/file/d/1hYO26mrUCA_yR9FTnguTYFZkmp2gxWAE/view?usp=sharing"
+                                href="https://drive.google.com/file/d/1NG2kW9WoIOG3mpGzZ6KFz4p50JT4u8p4/view?usp=sharing"
                                 target="_blank">here</a
                             >.
                         </li>
