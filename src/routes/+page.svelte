@@ -188,7 +188,7 @@
         <h2 class="text-csi-white text-center text-2xl font-bold lg:ml-12 lg:text-left">Your Dashboard</h2>
 
         <main class="mt-6 flex flex-col lg:flex-row lg:justify-evenly">
-            <div class="bg-csi-neutral-900 mb-8 flex flex-col gap-y-2.5 rounded-2xl p-6 lg:w-7/15">
+            <div class="bg-csi-neutral-900 lg:w-7/15 mb-8 flex flex-col gap-y-2.5 rounded-2xl p-6">
                 <h2 class="text-csi-blue text-3xl font-bold">Signature Sheet</h2>
 
                 {#each signatureSheet as section}
@@ -207,7 +207,7 @@
                 {/each}
             </div>
 
-            <div class="bg-csi-neutral-900 mb-8 flex flex-col gap-y-4 rounded-2xl p-6 lg:w-7/15">
+            <div class="bg-csi-neutral-900 lg:w-7/15 mb-8 flex flex-col gap-y-4 rounded-2xl p-6">
                 <h2 class="text-csi-blue text-3xl font-bold">Constitution Quiz</h2>
                 <div class="flex justify-between">
                     <h3 class="text-csi-white text-lg font-bold">Progress</h3>
@@ -220,7 +220,7 @@
                 <p class="text-csi-white">{quizClosingString}</p>
                 <div class="text-csi-white">
                     <p class="pb-2 text-lg font-bold">Constitution Quiz Mechanics</p>
-                    <ul class="pr-0 pl-5 md:pl-10" style="list-style-type:circle;">
+                    <ul class="pl-5 pr-0 md:pl-10" style="list-style-type:circle;">
                         <li class="py-1">The constitution quiz is a requirement for all CSI Applicants</li>
                         <li class="py-1">
                             This quiz is open notes. You may view a copy of the constitution <a
@@ -231,7 +231,7 @@
                             and a copy of the brandbook
                             <a
                                 class="text-csi-blue hover:underline hover:duration-300 hover:ease-in-out"
-                                href="https://drive.google.com/file/d/1hYO26mrUCA_yR9FTnguTYFZkmp2gxWAE/view?usp=sharing"
+                                href="https://drive.google.com/file/d/1NG2kW9WoIOG3mpGzZ6KFz4p50JT4u8p4/view?usp=sharing"
                                 target="_blank">here</a
                             >.
                         </li>
