@@ -38,8 +38,16 @@
     let showModal = $state(false);
 
     function openModal(member: mem) {
-        if (!$filledSigsheet.has(member.member_id)) showModal = true;
+        console.log(
+            'openModal called for',
+            member.name,
+            'id',
+            member.member_id,
+            'filled?',
+            $filledSigsheet.has(member.member_id),
+        );
         selectedMember = member;
+        showModal = true;
     }
 
     const coApp_obj = {
