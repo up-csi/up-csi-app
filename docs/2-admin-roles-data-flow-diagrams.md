@@ -196,14 +196,14 @@ flowchart TD
 
 ## 7. Data Ownership Summary
 
-| Data | Applicant can... | Admin can... |
-|------|-----------------|--------------|
-| Own profile | View, update | - |
-| All profiles | - | View all |
-| Own quiz answers | View, save, submit | - |
-| All quiz answers | - | View all + scores |
-| Own sigsheet entries | View, create | - |
-| All sigsheet entries | - | View all + progress |
-| Own GDrive folder | Create, upload to | - |
-| Quiz questions/options | View (read-only) | View (read-only) |
-| Members list | View (read-only) | View (read-only) |
+| Data                   | Applicant can...   | Admin can...        |
+| ---------------------- | ------------------ | ------------------- |
+| Own profile            | View, update       | -                   |
+| All profiles           | -                  | View all            |
+| Own quiz answers       | View, save, submit | -                   |
+| All quiz answers       | -                  | View all + scores   |
+| Own sigsheet entries   | View, create       | -                   |
+| All sigsheet entries   | -                  | View all + progress |
+| Own GDrive folder      | Create, upload to  | -                   |
+| Quiz questions/options | View (read-only)   | View (read-only)    |
+| Members list           | View (read-only)   | View (read-only)    |

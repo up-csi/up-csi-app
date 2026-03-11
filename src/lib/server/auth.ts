@@ -1,5 +1,4 @@
-import { error } from '@sveltejs/kit';
-import type { RequestEvent } from '@sveltejs/kit';
+import { type RequestEvent, error } from '@sveltejs/kit';
 
 export type AppRole = 'applicant' | 'admin' | 'withdrawn' | 'inactive';
 
