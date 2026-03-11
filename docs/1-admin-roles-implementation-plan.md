@@ -78,6 +78,7 @@ The service key must NOT have the `PUBLIC_` prefix — SvelteKit exposes `PUBLIC
 **`.env`:** Rename `PUBLIC_SUPABASE_SERVICE_KEY` → `SUPABASE_SERVICE_KEY`
 
 **`.github/workflows/deploy.yml`:** Update all references:
+
 ```yaml
 # Change these lines:
 PUBLIC_SUPABASE_SERVICE_KEY: ${{ vars.PUBLIC_SUPABASE_SERVICE_KEY }}
@@ -255,6 +256,7 @@ Two endpoints currently have no auth checks and use the browser Supabase client 
 **File: `src/routes/api/get_gdrive_folder/+server.js`**
 
 Changes:
+
 1. Remove `import { supabase } from '$lib/supabaseClient';`
 2. Add auth check using `locals.safeGetSession()` (or import `requireAuth` if converting to `.ts`)
 3. Use `locals.supabase` instead of the browser singleton
@@ -286,6 +288,7 @@ export async function POST({ request, locals }) {
 **File: `src/routes/api/upload/+server.js`**
 
 Same pattern:
+
 1. Remove `import { supabase } from '../../../lib/supabaseClient';`
 2. Add auth check
 3. Use `locals.supabase` for DB operations
@@ -323,6 +326,7 @@ export async function POST({ request, locals }) {
 ## Phase 5: Admin API Endpoints
 
 All new endpoints go under `src/routes/api/admin/`. Every endpoint:
+
 - Calls `requireRole(event, 'admin')` as the first line
 - Uses `supabaseAdmin` (service-role client) to bypass RLS for cross-user reads
 - Returns JSON
@@ -365,9 +369,7 @@ export async function GET(event) {
     requireRole(event, 'admin');
 
     // Get all submissions with profile info
-    const { data: submissions, error: subError } = await supabaseAdmin
-        .from('constiquiz-submissions')
-        .select(`
+    const { data: submissions, error: subError } = await supabaseAdmin.from('constiquiz-submissions').select(`
             submission_id,
             submitted_at,
             user_id,
@@ -428,24 +430,18 @@ export async function GET(event) {
     const [answersRes, profileRes, submissionRes] = await Promise.all([
         supabaseAdmin
             .from('constiquiz-answers')
-            .select(`
+            .select(
+                `
                 answer_id, question_id, answer_text, option_id, points, is_checked,
                 question:constiquiz-questions!inner (
                     title, point_value, type,
                     section:constiquiz-sections!inner ( title )
                 )
-            `)
+            `,
+            )
             .eq('user_id', userId),
-        supabaseAdmin
-            .from('profiles')
-            .select('id, username, full_name')
-            .eq('id', userId)
-            .single(),
-        supabaseAdmin
-            .from('constiquiz-submissions')
-            .select('submitted_at')
-            .eq('user_id', userId)
-            .maybeSingle(),
+        supabaseAdmin.from('profiles').select('id, username, full_name').eq('id', userId).single(),
+        supabaseAdmin.from('constiquiz-submissions').select('submitted_at').eq('user_id', userId).maybeSingle(),
     ]);
 
     if (answersRes.error) {
@@ -473,13 +469,9 @@ export async function GET(event) {
     requireRole(event, 'admin');
 
     // Get total member count for progress calculation
-    const { count: totalMembers } = await supabaseAdmin
-        .from('members')
-        .select('*', { count: 'exact', head: true });
+    const { count: totalMembers } = await supabaseAdmin.from('members').select('*', { count: 'exact', head: true });
 
-    const { data, error } = await supabaseAdmin
-        .from('sigsheet')
-        .select(`
+    const { data, error } = await supabaseAdmin.from('sigsheet').select(`
             sig_id, signed_at, question, answer, member_id, member_name,
             applicant:profiles!inner ( id, username, full_name )
         `);
@@ -513,12 +505,12 @@ export async function GET(event) {
 
 ### Endpoint summary
 
-| Method | Path | Purpose |
-|--------|------|---------|
-| GET | `/api/admin/applicants` | List all applicant profiles |
-| GET | `/api/admin/quiz-results` | All submissions with total scores |
-| GET | `/api/admin/quiz-results/[userId]` | Single applicant's detailed answers |
-| GET | `/api/admin/sigsheet-progress` | All sigsheet progress grouped by applicant |
+| Method | Path                               | Purpose                                    |
+| ------ | ---------------------------------- | ------------------------------------------ |
+| GET    | `/api/admin/applicants`            | List all applicant profiles                |
+| GET    | `/api/admin/quiz-results`          | All submissions with total scores          |
+| GET    | `/api/admin/quiz-results/[userId]` | Single applicant's detailed answers        |
+| GET    | `/api/admin/sigsheet-progress`     | All sigsheet progress grouped by applicant |
 
 ### Verify each endpoint
 
@@ -566,6 +558,7 @@ ALTER TABLE public."pic-folders" ENABLE ROW LEVEL SECURITY;
 ### 6.3 Policies — User-scoped tables
 
 **profiles:**
+
 ```sql
 CREATE POLICY "Users can view own profile"
     ON public.profiles FOR SELECT
@@ -581,6 +574,7 @@ CREATE POLICY "Admins can view all profiles"
 ```
 
 **constiquiz-answers:**
+
 ```sql
 CREATE POLICY "Users can view own answers"
     ON public."constiquiz-answers" FOR SELECT
@@ -600,6 +594,7 @@ CREATE POLICY "Admins can view all answers"
 ```
 
 **constiquiz-submissions:**
+
 ```sql
 CREATE POLICY "Users can view own submissions"
     ON public."constiquiz-submissions" FOR SELECT
@@ -615,6 +610,7 @@ CREATE POLICY "Admins can view all submissions"
 ```
 
 **sigsheet:**
+
 ```sql
 CREATE POLICY "Users can view own sigsheet"
     ON public.sigsheet FOR SELECT
@@ -630,6 +626,7 @@ CREATE POLICY "Admins can view all sigsheet"
 ```
 
 **pic-folders:**
+
 ```sql
 CREATE POLICY "Users can view own folder"
     ON public."pic-folders" FOR SELECT
@@ -685,28 +682,31 @@ CREATE POLICY "Authenticated can check whitelist"
 ## File Change Summary
 
 ### New files
-| File | Purpose |
-|------|---------|
-| `src/lib/server/auth.ts` | `requireAuth()`, `requireRole()`, `isAdmin()` helpers + `AppRole` type |
-| `src/lib/server/supabaseAdmin.ts` | Service-role Supabase client (bypasses RLS) |
-| `src/routes/api/admin/applicants/+server.ts` | List applicant profiles |
-| `src/routes/api/admin/quiz-results/+server.ts` | All quiz submissions + scores |
-| `src/routes/api/admin/quiz-results/[userId]/+server.ts` | Single applicant quiz detail |
-| `src/routes/api/admin/sigsheet-progress/+server.ts` | All sigsheet progress |
+
+| File                                                    | Purpose                                                                |
+| ------------------------------------------------------- | ---------------------------------------------------------------------- |
+| `src/lib/server/auth.ts`                                | `requireAuth()`, `requireRole()`, `isAdmin()` helpers + `AppRole` type |
+| `src/lib/server/supabaseAdmin.ts`                       | Service-role Supabase client (bypasses RLS)                            |
+| `src/routes/api/admin/applicants/+server.ts`            | List applicant profiles                                                |
+| `src/routes/api/admin/quiz-results/+server.ts`          | All quiz submissions + scores                                          |
+| `src/routes/api/admin/quiz-results/[userId]/+server.ts` | Single applicant quiz detail                                           |
+| `src/routes/api/admin/sigsheet-progress/+server.ts`     | All sigsheet progress                                                  |
 
 ### Modified files
-| File | Change |
-|------|--------|
-| `src/app.d.ts` | Add `userRole: AppRole \| null` to Locals and PageData |
-| `src/hooks.server.ts` | Add `authGuard` handle that fetches role, add to `sequence()` |
-| `src/routes/+layout.server.ts` | Pass `userRole` in returned data |
+
+| File                                          | Change                                                          |
+| --------------------------------------------- | --------------------------------------------------------------- |
+| `src/app.d.ts`                                | Add `userRole: AppRole \| null` to Locals and PageData          |
+| `src/hooks.server.ts`                         | Add `authGuard` handle that fetches role, add to `sequence()`   |
+| `src/routes/+layout.server.ts`                | Pass `userRole` in returned data                                |
 | `src/routes/api/get_gdrive_folder/+server.js` | Add auth check, use `locals.supabase` instead of browser client |
-| `src/routes/api/upload/+server.js` | Add auth check, use `locals.supabase` instead of browser client |
-| `.env` | Rename `PUBLIC_SUPABASE_SERVICE_KEY` → `SUPABASE_SERVICE_KEY` |
-| `.github/workflows/deploy.yml` | Update env var name |
-| `.github/workflows/ci.yml` | Update env var name |
+| `src/routes/api/upload/+server.js`            | Add auth check, use `locals.supabase` instead of browser client |
+| `.env`                                        | Rename `PUBLIC_SUPABASE_SERVICE_KEY` → `SUPABASE_SERVICE_KEY`   |
+| `.github/workflows/deploy.yml`                | Update env var name                                             |
+| `.github/workflows/ci.yml`                    | Update env var name                                             |
 
 ### Unchanged files
+
 - `src/routes/login/callback/+server.js` — login flow stays the same
 - `src/routes/+layout.ts` — frontend concern
 - `src/lib/supabaseClient.js` — browser client stays (used by frontend)
@@ -738,6 +738,7 @@ Phase 4 and 5 can be done in parallel by different team members since they touch
 ## Future: Adding "member" Role
 
 When the time comes:
+
 1. `ALTER TYPE public.app_role ADD VALUE 'member';`
 2. Add member-specific RLS policies
 3. Add endpoints under `/api/member/`
