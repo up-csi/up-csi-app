@@ -176,8 +176,11 @@
         }
     }
 
-    updateTimeLeft();
-    setInterval(updateTimeLeft, 1000);
+    $effect(() => {
+        updateTimeLeft();
+        const interval = setInterval(updateTimeLeft, 1000);
+        return () => clearInterval(interval);
+    });
 </script>
 
 {#if data.session}
@@ -194,7 +197,7 @@
             <div class="bg-csi-neutral-900 mb-8 flex flex-col gap-y-2.5 rounded-2xl p-6 lg:w-7/15">
                 <h2 class="text-csi-blue text-3xl font-bold">Signature Sheet</h2>
 
-                {#each signatureSheet as section}
+                {#each signatureSheet as section (section.name)}
                     <div>
                         <div class="flex justify-between">
                             <h3 class="text-csi-white">{section.name}</h3>
