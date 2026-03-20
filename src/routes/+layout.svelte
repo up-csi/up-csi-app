@@ -65,13 +65,20 @@
 
     <div class="flex w-full flex-row bg-[#161619]">
         {#if page.url.pathname !== '/login/'}
-            {#if isNavBarOpen}
-                <div
-                    class="fixed top-0 left-0 z-50 h-screen w-64 transform transition-transform duration-700 ease-in-out"
-                >
-                    <NavBar user={data.user} bind:isNavBarOpen />
-                </div>
-            {/if}
+            <!-- svelte-ignore a11y_no_static_element_interactions -->
+            <!-- Backdrop overlay -->
+            <div
+                class="fixed inset-0 z-40 bg-black/50 transition-opacity duration-300
+                    {isNavBarOpen ? 'opacity-100' : 'pointer-events-none opacity-0'}"
+                onclick={() => (isNavBarOpen = false)}
+            ></div>
+            <!-- Sidebar -->
+            <div
+                class="fixed top-0 left-0 z-50 h-screen w-64 transition-transform duration-300 ease-in-out
+                    {isNavBarOpen ? 'translate-x-0' : '-translate-x-full'}"
+            >
+                <NavBar user={data.user} bind:isNavBarOpen />
+            </div>
         {/if}
 
         <div class="flex w-full justify-center">

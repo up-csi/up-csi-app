@@ -22,13 +22,8 @@ export async function load({ data, depends, fetch }) {
               },
           });
 
-    const {
-        data: { session },
-    } = await supabase.auth.getSession();
-
-    const {
-        data: { user },
-    } = await supabase.auth.getUser();
+    const session = data.session;
+    const user = session?.user ?? null;
 
     if (!user) {
         console.error('Failed to fetch user.');
@@ -157,5 +152,5 @@ export async function load({ data, depends, fetch }) {
     // fetch in parallel for faster results
     const [sections, questions, answers] = await Promise.all([fetchSections(), fetchQuestions(), fetchAnswers()]);
 
-    return { session, supabase, user, uuid, username, filledSigsheet, gdrive_folder_id, sections, questions, answers };
+    return { session, supabase, user, uuid, username, filledSigsheet, gdrive_folder_id, sections, questions, answers, userRole: data.userRole };
 }
