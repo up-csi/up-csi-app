@@ -8,7 +8,7 @@
     let isSaving = $state(false);
     let isSubmitting = $state(false);
     let saveMessage = $state('');
-    const messageTimeout: ReturnType<typeof setTimeout> | null = null;
+    let messageTimeout = $state<ReturnType<typeof setTimeout> | null>(null);
 
     async function handleSave() {
         isSaving = true;
@@ -16,20 +16,12 @@
         try {
             const { message } = await saveAnswers();
             saveMessage = message;
-
-            if (messageTimeout) {
-                clearTimeout(messageTimeout);
-            }
         } catch (err) {
             console.error(err);
             saveMessage = 'Failed to save progress';
-
-            if (messageTimeout) {
-                clearTimeout(messageTimeout);
-            }
         } finally {
-            // hide message after 2 seconds
-            setTimeout(() => {
+            if (messageTimeout) clearTimeout(messageTimeout);
+            messageTimeout = setTimeout(() => {
                 saveMessage = '';
             }, 2000);
             isSaving = false;
@@ -48,26 +40,17 @@
             const { message } = data;
             saveMessage = message;
 
-            if (messageTimeout) {
-                clearTimeout(messageTimeout);
-            }
-
             if (data.submitted) {
                 window.location.reload();
             }
         } catch (error) {
             console.error(error);
             saveMessage = 'Failed to submit answers';
-
-            if (messageTimeout) {
-                clearTimeout(messageTimeout);
-            }
         } finally {
-            // hide message after 2 seconds
-            setTimeout(() => {
+            if (messageTimeout) clearTimeout(messageTimeout);
+            messageTimeout = setTimeout(() => {
                 saveMessage = '';
             }, 2000);
-
             isSubmitting = false;
         }
     }
