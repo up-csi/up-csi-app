@@ -1,7 +1,5 @@
 <script lang="ts">
     import { applicant_names_list, filledSigsheet, gdrive_folder_id, username, uuid } from '$lib/shared';
-    import { writable } from 'svelte/store';
-
     const { member_id, name, role, closeModal, activeCategory } = $props();
     // Implement color of name
 
@@ -15,7 +13,7 @@
         'B&C': 'var(--color-bnc-green)',
     };
 
-    const imageURL = writable<string | null>(null);
+    let imageURL = $state<string | null>(null);
 
     let submitting = $state(false);
     async function handleSubmit(event: Event) {
@@ -28,7 +26,6 @@
         const formData = new FormData(form);
 
         try {
-            console.log('Start /api/upload.');
             const response = await fetch('/api/upload', {
                 method: 'POST',
                 body: formData,
@@ -39,10 +36,8 @@
                 console.error('Error uploading data:', error);
                 alert(error.error);
             } else {
-                const data = await response.json();
-                console.log('Data uploaded successfully:', data);
+                await response.json();
                 filledSigsheet.add(member_id);
-                console.log('ADDED TO FILLED SIGSHEET', $filledSigsheet);
                 alert('Data uploaded successfully!');
             }
             closeModal();
@@ -56,7 +51,7 @@
         const target = event.target as HTMLInputElement;
         const file = target.files?.[0];
         if (file && file.type.startsWith('image/')) {
-            imageURL.set(URL.createObjectURL(file));
+            imageURL = URL.createObjectURL(file);
         }
     }
 
@@ -133,7 +128,7 @@
                             <ul
                                 class="absolute z-10 mt-1 max-h-40 w-full overflow-y-auto rounded-lg bg-[#2f2f32] shadow-lg"
                             >
-                                {#each $applicant_names_list as co_app_name}
+                                {#each $applicant_names_list as co_app_name (co_app_name)}
                                     <li>
                                         <button
                                             type="button"
@@ -194,9 +189,9 @@
                     />
 
                     <div class="flex w-full items-center justify-center">
-                        {#if $imageURL}
+                        {#if imageURL}
                             <img
-                                src={$imageURL}
+                                src={imageURL}
                                 alt="selfie with member"
                                 class="aspect-square h-40 w-40 max-w-full rounded-2xl object-cover md:h-56 md:w-56"
                             />
