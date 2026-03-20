@@ -1,6 +1,6 @@
 <script lang="ts">
     import './app.css';
-    import { applicant_names_list, filledSigsheet, gdrive_folder_id, username, uuid } from '$lib/shared';
+    import { applicant_names_list, filledSigsheet, gdrive_folder_id, members, username, uuid } from '$lib/shared';
     import CSI_Logo from '$lib/icons/upcsi.svg';
     import HAM_MENU from '$lib/icons/ham_menu.svg';
     import NavBar from '$lib/NavBar.svelte';
@@ -38,6 +38,19 @@
             applicant_names_list.set(app_data.map(row => row.full_name));
         }
         console.log(applicant_names_list);
+    });
+
+    // Get members list
+    onMount(async () => {
+        console.log('Fetching members list.');
+        const {data: members_data, error: members_error} = await supabase
+            .from('members')
+            .select('member_id, member_name, member_committee, role, photo');
+        if (members_error) {
+            console.error('Error fetching members: ', members_error);
+        } else if (members_data) {
+            members.set(members_data);
+        }
     });
 </script>
 
