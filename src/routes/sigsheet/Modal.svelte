@@ -229,7 +229,9 @@
                 {#if statusMessage}
                     <p
                         class="w-full rounded-lg px-4 py-2 text-center text-sm font-medium
-                            {statusMessage.type === 'error' ? 'bg-red-500/20 text-red-400' : 'bg-green-500/20 text-green-400'}"
+                            {statusMessage.type === 'error'
+                            ? 'bg-red-500/20 text-red-400'
+                            : 'bg-green-500/20 text-green-400'}"
                     >
                         {statusMessage.text}
                     </p>
