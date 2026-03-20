@@ -22,7 +22,7 @@ export async function load({ data, depends, fetch }) {
               },
           });
 
-    const session = data.session;
+    const {session} = data;
     const user = session?.user ?? null;
 
     if (!user) {
