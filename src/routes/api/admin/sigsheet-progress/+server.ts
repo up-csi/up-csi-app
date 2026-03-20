@@ -7,13 +7,9 @@ export async function GET(event: RequestEvent) {
     requireRole(event, 'admin');
 
     // Get total member count for progress calculation
-    const { count: totalMembers } = await supabaseAdmin
-        .from('members')
-        .select('*', { count: 'exact', head: true });
+    const { count: totalMembers } = await supabaseAdmin.from('members').select('*', { count: 'exact', head: true });
 
-    const { data, error } = await supabaseAdmin
-        .from('sigsheet')
-        .select(`
+    const { data, error } = await supabaseAdmin.from('sigsheet').select(`
             sig_id, signed_at, question, answer, member_id, member_name,
             applicant:profiles!inner ( id, username, full_name )
         `);

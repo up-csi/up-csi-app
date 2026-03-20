@@ -4,21 +4,18 @@ import { supabaseAdmin } from '$lib/server/supabaseAdmin';
 import { type RequestEvent } from '@sveltejs/kit';
 
 /**
- * List all applicant profiles 
+ * List all applicant profiles
  */
 export async function GET(event: RequestEvent) {
-  requireRole(event, 'admin');
+    requireRole(event, 'admin');
 
-  const { data, error } = await supabaseAdmin
-    .from('profiles')
-    .select('id, username, full_name, avatar_url, role')
-    .eq('role', 'applicant');
-  
+    const { data, error } = await supabaseAdmin
+        .from('profiles')
+        .select('id, username, full_name, avatar_url, role')
+        .eq('role', 'applicant');
+
     if (error) {
-      return json(
-        {error: error.message},
-        {status: 500}
-      );
+        return json({ error: error.message }, { status: 500 });
     }
 
     return json({ applicants: data });

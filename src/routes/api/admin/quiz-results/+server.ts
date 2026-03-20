@@ -7,9 +7,7 @@ export async function GET(event: RequestEvent) {
     requireRole(event, 'admin');
 
     // Get all submissions with profile info
-    const { data: submissions, error: subError } = await supabaseAdmin
-        .from('constiquiz-submissions')
-        .select(`
+    const { data: submissions, error: subError } = await supabaseAdmin.from('constiquiz-submissions').select(`
             submission_id,
             submitted_at,
             user_id,
