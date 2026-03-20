@@ -1,16 +1,22 @@
 <script lang="ts">
+    import { filledSigsheet, type mem, members } from '$lib/shared';
     import { fade } from 'svelte/transition';
-
-    import { type mem } from '$lib/shared';
 
     import MemberCard from './MemberCard.svelte';
     import Modal from './Modal.svelte';
-    import { filledSigsheet, members } from '$lib/shared';
 
     console.log('FILLED SIGSHEET: ', $filledSigsheet);
     // console.log('MEMBERS', $members);
 
-    const categories = ['Executive', 'Membership & Internals', 'Service', 'Innovation', 'Engineering', 'External Relations', 'Branding & Creatives'];
+    const categories = [
+        'Executive',
+        'Membership & Internals',
+        'Service',
+        'Innovation',
+        'Engineering',
+        'External Relations',
+        'Branding & Creatives',
+    ];
 
     const categoryColors: Record<string, string> = {
         Executive: 'var(--color-csi-blue)',
@@ -48,7 +54,7 @@
         member_name: '',
         member_committee: 'CoApp',
         role: '',
-        photo: ''
+        photo: '',
     };
 
     function openCoAppModal() {

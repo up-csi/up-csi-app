@@ -43,7 +43,7 @@
     // Get members list
     onMount(async () => {
         console.log('Fetching members list.');
-        const {data: members_data, error: members_error} = await supabase
+        const { data: members_data, error: members_error } = await supabase
             .from('members')
             .select('member_id, member_name, member_committee, role, photo');
         if (members_error) {
