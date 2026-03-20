@@ -10,24 +10,18 @@ export async function GET(event: RequestEvent) {
     const [answersRes, profileRes, submissionRes] = await Promise.all([
         supabaseAdmin
             .from('constiquiz-answers')
-            .select(`
+            .select(
+                `
                 answer_id, question_id, answer_text, option_id, points, is_checked,
                 question:constiquiz-questions!inner (
                     title, point_value, type,
                     section:constiquiz-sections!inner ( title )
                 )
-            `)
+            `,
+            )
             .eq('user_id', userId),
-        supabaseAdmin
-            .from('profiles')
-            .select('id, username, full_name')
-            .eq('id', userId)
-            .single(),
-        supabaseAdmin
-            .from('constiquiz-submissions')
-            .select('submitted_at')
-            .eq('user_id', userId)
-            .maybeSingle(),
+        supabaseAdmin.from('profiles').select('id, username, full_name').eq('id', userId).single(),
+        supabaseAdmin.from('constiquiz-submissions').select('submitted_at').eq('user_id', userId).maybeSingle(),
     ]);
 
     if (answersRes.error) {
