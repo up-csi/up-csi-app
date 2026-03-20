@@ -7,6 +7,7 @@
     import { page } from '$app/state';
 
     import { invalidate } from '$app/navigation';
+    import { logger } from '$lib/logger';
     import { onMount } from 'svelte';
 
     const { data, children } = $props();
@@ -32,7 +33,7 @@
     onMount(async () => {
         const { data: app_data, error: app_error } = await supabase.from('profiles').select('full_name');
         if (app_error) {
-            console.error('Error fetching profile names: ', app_error);
+            logger.error('Error fetching profile names: ', app_error);
         } else if (app_data) {
             applicant_names_list.set(app_data.map(row => row.full_name));
         }
@@ -63,12 +64,14 @@
 
     <div class="flex w-full flex-row bg-[#161619]">
         {#if page.url.pathname !== '/login/'}
-            <!-- svelte-ignore a11y_no_static_element_interactions -->
             <!-- Backdrop overlay -->
             <div
                 class="fixed inset-0 z-40 bg-black/50 transition-opacity duration-300
                     {isNavBarOpen ? 'opacity-100' : 'pointer-events-none opacity-0'}"
+                role="button"
+                tabindex="-1"
                 onclick={() => (isNavBarOpen = false)}
+                onkeydown={(e) => { if (e.key === 'Escape') isNavBarOpen = false; }}
             ></div>
             <!-- Sidebar -->
             <div

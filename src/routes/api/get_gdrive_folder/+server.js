@@ -1,7 +1,7 @@
 import { GOOGLE_PRIVATE_KEY, GOOGLE_SERVICE_EMAIL } from '$env/static/private';
 import { gdrive_root_folder } from '$lib/shared';
-import { logger } from '$lib/logger';
 import { google } from 'googleapis';
+import { logger } from '$lib/logger';
 
 /** @type {import('./$types').RequestHandler} */
 export async function POST({ request, locals }) {

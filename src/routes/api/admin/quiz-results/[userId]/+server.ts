@@ -1,11 +1,10 @@
-import { json } from '@sveltejs/kit';
+import { type RequestEvent, json } from '@sveltejs/kit';
 import { requireRole } from '$lib/server/auth';
 import { supabaseAdmin } from '$lib/server/supabaseAdmin';
-import { type RequestEvent } from '@sveltejs/kit';
 
 export async function GET(event: RequestEvent) {
     requireRole(event, 'admin');
-    const {userId} = event.params;
+    const { userId } = event.params;
 
     const [answersRes, profileRes, submissionRes] = await Promise.all([
         supabaseAdmin

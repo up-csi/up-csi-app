@@ -1,3 +1,5 @@
+import { logger } from '$lib/logger';
+
 export async function load({ locals }) {
     const { supabase } = locals;
     const { user } = await locals.safeGetSession();
@@ -12,11 +14,11 @@ export async function load({ locals }) {
     ]);
 
     if (submission.error) {
-        console.error(submission.error);
+        logger.error(submission.error);
     }
 
     if (availability.error) {
-        console.error(availability.error);
+        logger.error(availability.error);
     }
 
     let isOpen = false;
