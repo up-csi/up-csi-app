@@ -1,5 +1,6 @@
 <script lang="ts">
     import { username, uuid } from '$lib/shared';
+    import { logger } from '$lib/logger';
     import { onMount } from 'svelte';
     import { supabase } from '$lib/supabaseClient';
 
@@ -123,7 +124,7 @@
             .select('answer_text, option_id')
             .eq('user_id', applicantId);
         if (quizError) {
-            console.error('Error fetching quiz answers:', quizError.message);
+            logger.error('Error fetching quiz answers:', quizError.message);
         } else {
             // 2. Count valid answers
             const answeredCount = quizAnswers.filter(

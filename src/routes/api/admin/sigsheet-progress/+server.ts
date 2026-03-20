@@ -1,7 +1,6 @@
-import { json } from '@sveltejs/kit';
+import { type RequestEvent, json } from '@sveltejs/kit';
 import { requireRole } from '$lib/server/auth';
 import { supabaseAdmin } from '$lib/server/supabaseAdmin';
-import { type RequestEvent } from '@sveltejs/kit';
 
 export async function GET(event: RequestEvent) {
     requireRole(event, 'admin');
@@ -19,19 +18,22 @@ export async function GET(event: RequestEvent) {
     }
 
     // Group by applicant
-    const byApplicant: Record<string, { profile: any; signatures: any[]; count: number }> = {};
+    type ApplicantProfile = { id: string; username: string; full_name: string };
+    type Signature = { sig_id: string; signed_at: string; member_id: string; member_name: string };
+    const byApplicant: Record<string, { profile: ApplicantProfile; signatures: Signature[]; count: number }> = {};
     for (const row of data ?? []) {
-        const key = row.applicant.id;
+        const applicant = row.applicant as unknown as ApplicantProfile;
+        const key = applicant.id;
         if (!byApplicant[key]) {
-            byApplicant[key] = { profile: row.applicant, signatures: [], count: 0 };
+            byApplicant[key] = { profile: applicant, signatures: [], count: 0 };
         }
-        byApplicant[key].signatures.push({
+        byApplicant[key]!.signatures.push({
             sig_id: row.sig_id,
             signed_at: row.signed_at,
             member_id: row.member_id,
             member_name: row.member_name,
         });
-        byApplicant[key].count++;
+        byApplicant[key]!.count++;
     }
 
     return json({

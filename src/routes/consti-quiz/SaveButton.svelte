@@ -1,5 +1,6 @@
 <script lang="ts">
     import ConfirmationDialog from './ConfirmationDialog.svelte';
+    import { logger } from '$lib/logger';
 
     const { saveAnswers, submitAnswers } = $props();
 
@@ -17,7 +18,7 @@
             const { message } = await saveAnswers();
             saveMessage = message;
         } catch (err) {
-            console.error(err);
+            logger.error(err);
             saveMessage = 'Failed to save progress';
         } finally {
             if (messageTimeout) clearTimeout(messageTimeout);
@@ -44,7 +45,7 @@
                 window.location.reload();
             }
         } catch (error) {
-            console.error(error);
+            logger.error(error);
             saveMessage = 'Failed to submit answers';
         } finally {
             if (messageTimeout) clearTimeout(messageTimeout);

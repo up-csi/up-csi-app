@@ -14,6 +14,7 @@
     };
 
     let imageURL = $state<string | null>(null);
+    let statusMessage = $state<{ type: 'success' | 'error'; text: string } | null>(null);
 
     let submitting = $state(false);
     async function handleSubmit(event: Event) {
@@ -21,6 +22,7 @@
 
         if (submitting) return;
         submitting = true;
+        statusMessage = null;
 
         const form = event.target as HTMLFormElement;
         const formData = new FormData(form);
@@ -33,17 +35,17 @@
 
             if (!response.ok) {
                 const error = await response.json();
-                console.error('Error uploading data:', error);
-                alert(error.error);
+                statusMessage = { type: 'error', text: error.error ?? 'Upload failed' };
             } else {
                 await response.json();
                 filledSigsheet.add(member_id);
-                alert('Data uploaded successfully!');
+                statusMessage = { type: 'success', text: 'Data uploaded successfully!' };
+                setTimeout(() => closeModal(), 1500);
             }
-            closeModal();
-        } catch (error) {
-            console.error('Unexpected error:', error);
-            alert('An unexpected error occurred. Please try again.');
+        } catch {
+            statusMessage = { type: 'error', text: 'An unexpected error occurred. Please try again.' };
+        } finally {
+            submitting = false; // eslint-disable-line require-atomic-updates
         }
     }
 
@@ -223,6 +225,15 @@
                         {/if}
                     </div>
                 </label>
+
+                {#if statusMessage}
+                    <p
+                        class="w-full rounded-lg px-4 py-2 text-center text-sm font-medium
+                            {statusMessage.type === 'error' ? 'bg-red-500/20 text-red-400' : 'bg-green-500/20 text-green-400'}"
+                    >
+                        {statusMessage.text}
+                    </p>
+                {/if}
 
                 <!-- Submit button -->
                 <button

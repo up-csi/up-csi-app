@@ -10,6 +10,7 @@
     import Section from './Section.svelte';
     import SectionNav from './SectionNav.svelte';
     import ShortTextQuestion from './ShortTextQuestion.svelte';
+    import { logger } from '$lib/logger';
 
     import { browser } from '$app/environment';
     import { onMount } from 'svelte';
@@ -151,7 +152,7 @@
 
             return json;
         } catch (error) {
-            console.error(error);
+            logger.error(error);
         }
     }
 
@@ -188,7 +189,7 @@
 
             return await res.json();
         } catch (err) {
-            console.error(err);
+            logger.error(err);
         }
     }
 

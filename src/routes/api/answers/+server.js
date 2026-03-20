@@ -1,4 +1,5 @@
 import { json } from '@sveltejs/kit';
+import { logger } from '$lib/logger';
 
 export async function POST({ locals, request }) {
     const { supabase } = locals;
@@ -30,7 +31,7 @@ export async function POST({ locals, request }) {
     );
 
     if (error) {
-        console.error(error);
+        logger.error(error);
         return json({ success: false, error: error.message }, { status: 500 });
     }
 
