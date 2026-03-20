@@ -1,4 +1,4 @@
-import { PUBLIC_GOOGLE_PRIVATE_KEY, PUBLIC_GOOGLE_SERVICE_EMAIL } from '$env/static/public';
+import { GOOGLE_PRIVATE_KEY, GOOGLE_SERVICE_EMAIL } from '$env/static/private';
 import { gdrive_root_folder } from '$lib/shared';
 import { google } from 'googleapis';
 
@@ -8,8 +8,8 @@ export async function POST({ request, locals }) {
 
     // Add debugging logs to verify environment variables
     console.log('Google API Credentials:', {
-        client_email: PUBLIC_GOOGLE_SERVICE_EMAIL,
-        private_key: PUBLIC_GOOGLE_PRIVATE_KEY ? 'Provided' : ' Not Provided',
+        client_email: GOOGLE_SERVICE_EMAIL,
+        private_key: GOOGLE_PRIVATE_KEY ? 'Provided' : ' Not Provided',
     });
 
     try {
@@ -46,8 +46,8 @@ export async function POST({ request, locals }) {
         // Authenticate with Google Drive API
         const auth = new google.auth.GoogleAuth({
             credentials: {
-                client_email: PUBLIC_GOOGLE_SERVICE_EMAIL,
-                private_key: PUBLIC_GOOGLE_PRIVATE_KEY.replace(/\\n/g, '\n'),
+                client_email: GOOGLE_SERVICE_EMAIL,
+                private_key: GOOGLE_PRIVATE_KEY.replace(/\\n/g, '\n'),
             },
             scopes: ['https://www.googleapis.com/auth/drive'],
         });
