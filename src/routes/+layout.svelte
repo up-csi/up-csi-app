@@ -71,7 +71,9 @@
                 role="button"
                 tabindex="-1"
                 onclick={() => (isNavBarOpen = false)}
-                onkeydown={(e) => { if (e.key === 'Escape') isNavBarOpen = false; }}
+                onkeydown={e => {
+                    if (e.key === 'Escape') isNavBarOpen = false;
+                }}
             ></div>
             <!-- Sidebar -->
             <div
