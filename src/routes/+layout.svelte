@@ -12,13 +12,11 @@
     const { data, children } = $props();
     const { session, supabase } = $derived(data);
 
-    // Sync $lib variables to data props reactively
-    $effect(() => {
-        if (data?.uuid) uuid.set(data.uuid);
-        if (data?.user?.user_metadata.full_name) username.set(data.user.user_metadata.full_name);
-        if (data?.filledSigsheet) filledSigsheet.set(data.filledSigsheet);
-        if (data?.gdrive_folder_id) gdrive_folder_id.set(data.gdrive_folder_id);
-    });
+    // Sync $lib variables to data props (must be synchronous so children can read in onMount)
+    if (data?.uuid) uuid.set(data.uuid);
+    if (data?.user?.user_metadata.full_name) username.set(data.user.user_metadata.full_name);
+    if (data?.filledSigsheet) filledSigsheet.set(data.filledSigsheet);
+    if (data?.gdrive_folder_id) gdrive_folder_id.set(data.gdrive_folder_id);
 
     let isNavBarOpen = $state(false);
     onMount(() => {
