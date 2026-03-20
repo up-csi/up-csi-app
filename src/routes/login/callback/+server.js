@@ -44,7 +44,8 @@ export const GET = async ({ url, locals: { supabase } }) => {
         }
 
         // Login Successful:
-        throw redirect(303, `/${next.slice(1)}`);
+        const safePath = next.startsWith('/') && !next.startsWith('//') ? next : '/';
+        throw redirect(303, safePath);
     }
 
     // return the user to an error page with instructions
