@@ -1,6 +1,7 @@
 <script lang="ts">
     import { applicant_names_list, filledSigsheet, gdrive_folder_id, username, uuid } from '$lib/shared';
-    const { member_id, name, role, closeModal, activeCategory } = $props();
+
+    const { member_id, member_name, role, closeModal, activeCategory } = $props();
     // Implement color of name
 
     const categoryColors: Record<string, string> = {
@@ -105,11 +106,11 @@
             <div class="mx-2">
                 {#if activeCategory !== 'CoApp'}
                     <h2 class="pb-1 text-2xl font-bold md:text-4xl" style="color:{categoryColors[activeCategory]}">
-                        {name}
+                        {member_name}
                     </h2>
                     <h3 class="text-csi-white text-sm">{role}</h3>
                     <input type="text" name="member_id" value={member_id} hidden required />
-                    <input type="text" name="member_name" value={name} hidden required />
+                    <input type="text" name="member_name" value={member_name} hidden required />
                 {:else}
                     <div class="relative w-full">
                         <!-- Dropdown button -->

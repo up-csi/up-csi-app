@@ -1,38 +1,47 @@
 <script lang="ts">
+    import { filledSigsheet, type mem, members } from '$lib/shared';
     import { fade } from 'svelte/transition';
-
-    import { type mem, members } from './members';
 
     import MemberCard from './MemberCard.svelte';
     import Modal from './Modal.svelte';
-    import { filledSigsheet } from '$lib/shared';
 
-    const categories = ['Exec', 'M&I', 'Service', 'Innov', 'Engg', 'Exte', 'B&C'];
+    console.log('FILLED SIGSHEET: ', $filledSigsheet);
+    // console.log('MEMBERS', $members);
+
+    const categories = [
+        'Executive',
+        'Membership & Internals',
+        'Service',
+        'Innovation',
+        'Engineering',
+        'External Relations',
+        'Branding & Creatives',
+    ];
 
     const categoryColors: Record<string, string> = {
-        Exec: 'var(--color-csi-blue)',
-        'M&I': 'var(--color-mni-pink)',
+        Executive: 'var(--color-csi-blue)',
+        'Membership & Internals': 'var(--color-mni-pink)',
         Service: 'var(--color-service-yellow)',
-        Innov: 'var(--color-innov-orange)',
-        Engg: 'var(--color-engg-blue)',
-        Exte: 'var(--color-exte-blue)',
-        'B&C': 'var(--color-bnc-green)',
+        Innovation: 'var(--color-innov-orange)',
+        Engineering: 'var(--color-engg-blue)',
+        'External Relations': 'var(--color-exte-blue)',
+        'Branding & Creatives': 'var(--color-bnc-green)',
         CoApp: 'var(--color-csi-white)',
     };
 
     const categoryHeaders: Record<string, string> = {
-        Exec: 'Executive Committee',
-        'M&I': 'Membership & Internals Committee',
+        Executive: 'Executive Committee',
+        'Membership & Internals': 'Membership & Internals Committee',
         Service: 'Service Committee',
-        Innov: 'Innovation Committee',
-        Engg: 'Engineering Committee',
-        Exte: 'External Relations Committee',
-        'B&C': 'Branding & Creatives Committee',
+        Innovation: 'Innovation Committee',
+        Engineering: 'Engineering Committee',
+        'External Relations': 'External Relations Committee',
+        'Branding & Creatives': 'Branding & Creatives Committee',
         CoApp: 'Co-Applicant',
     };
 
-    let activeCategory = $state('Exec');
-    let selectedMember = $state(members[0]);
+    let activeCategory = $state('Executive');
+    let selectedMember = $state($members[0]);
     let showModal = $state(false);
 
     function openModal(member: mem) {
@@ -42,9 +51,9 @@
 
     const coApp_obj = {
         member_id: 0,
-        name: '',
+        member_name: '',
+        member_committee: 'CoApp',
         role: '',
-        category: 'CoApp',
         photo: '',
     };
 
@@ -56,7 +65,7 @@
     function closeModal() {
         showModal = false;
         if (activeCategory === 'CoApp') {
-            activeCategory = 'Exec';
+            activeCategory = 'Executive';
         }
     }
 </script>
@@ -76,7 +85,7 @@
             <div
                 class="grid w-full grid-cols-2 gap-1.5 min-[375px]:gap-3 min-[390px]:gap-4 min-[480px]:grid-cols-4 min-[834px]:flex-1 min-[834px]:grid-cols-4 min-[834px]:gap-4 min-[1280px]:grid-cols-4"
             >
-                {#each members.filter(member => member.category === activeCategory) as member (member.name)}
+                {#each $members.filter(member => member.member_committee === activeCategory) as member (member.member_name)}
                     <div in:fade={{ duration: 1300 }}>
                         <button onclick={() => openModal(member)} class="w-full cursor-pointer">
                             <MemberCard filled={$filledSigsheet.has(member.member_id)} {member} />
@@ -130,7 +139,7 @@
         <div class="flex-center fixed inset-0 justify-center bg-black/50">
             <Modal
                 member_id={selectedMember?.member_id}
-                name={selectedMember?.name}
+                member_name={selectedMember?.member_name}
                 role={selectedMember?.role}
                 {closeModal}
                 {activeCategory}

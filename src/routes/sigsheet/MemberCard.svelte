@@ -22,7 +22,7 @@
     </div>
 
     <div>
-        <h2 class="text-csi-white text-left text-lg font-bold">{member.name}</h2>
+        <h2 class="text-csi-white text-left text-lg font-bold">{member.member_name}</h2>
         <h3 class="text-csi-white text-left text-sm">{member.role}</h3>
     </div>
 </main>
