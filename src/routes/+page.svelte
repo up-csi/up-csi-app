@@ -1,5 +1,6 @@
 <script lang="ts">
     import { username, uuid } from '$lib/shared';
+    import { logger } from '$lib/logger';
     import { onMount } from 'svelte';
     import { supabase } from '$lib/supabaseClient';
 
@@ -123,7 +124,7 @@
             .select('answer_text, option_id')
             .eq('user_id', applicantId);
         if (quizError) {
-            console.error('Error fetching quiz answers:', quizError.message);
+            logger.error('Error fetching quiz answers:', quizError.message);
         } else {
             // 2. Count valid answers
             const answeredCount = quizAnswers.filter(
@@ -176,14 +177,20 @@
         }
     }
 
-    updateTimeLeft();
-    setInterval(updateTimeLeft, 1000);
+    $effect(() => {
+        updateTimeLeft();
+        const interval = setInterval(updateTimeLeft, 1000);
+        return () => clearInterval(interval);
+    });
 </script>
 
 {#if data.session}
     <div class="font-inter h-screen flex-1 flex-row bg-[#161619] px-4 py-6 sm:px-6 lg:px-10">
         <h1 class="text-csi-white mb-2 text-center text-4xl font-bold lg:ml-12 lg:text-left">
             Hello, {$username}!
+            {#if data.userRole}
+                <span class="text-csi-blue text-base font-normal">({data.userRole})</span>
+            {/if}
         </h1>
         <h2 class="text-csi-white text-center text-2xl font-bold lg:ml-12 lg:text-left">Your Dashboard</h2>
 
@@ -191,7 +198,7 @@
             <div class="bg-csi-neutral-900 mb-8 flex flex-col gap-y-2.5 rounded-2xl p-6 lg:w-7/15">
                 <h2 class="text-csi-blue text-3xl font-bold">Signature Sheet</h2>
 
-                {#each signatureSheet as section}
+                {#each signatureSheet as section (section.name)}
                     <div>
                         <div class="flex justify-between">
                             <h3 class="text-csi-white">{section.name}</h3>

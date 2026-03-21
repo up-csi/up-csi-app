@@ -7,12 +7,13 @@
     import { page } from '$app/state';
 
     import { invalidate } from '$app/navigation';
+    import { logger } from '$lib/logger';
     import { onMount } from 'svelte';
 
     const { data, children } = $props();
     const { session, supabase } = $derived(data);
 
-    // Sync $lib variables to data props
+    // Sync $lib variables to data props (must be synchronous so children can read in onMount)
     if (data?.uuid) uuid.set(data.uuid);
     if (data?.user?.user_metadata.full_name) username.set(data.user.user_metadata.full_name);
     if (data?.filledSigsheet) filledSigsheet.set(data.filledSigsheet);
@@ -30,14 +31,12 @@
 
     // Get applicant_names_list
     onMount(async () => {
-        console.log('Fetching applicant names.');
         const { data: app_data, error: app_error } = await supabase.from('profiles').select('full_name');
         if (app_error) {
-            console.error('Error fetching profile names: ', app_error);
+            logger.error('Error fetching profile names: ', app_error);
         } else if (app_data) {
             applicant_names_list.set(app_data.map(row => row.full_name));
         }
-        console.log(applicant_names_list);
     });
 
     // Get members list
@@ -78,13 +77,24 @@
 
     <div class="flex w-full flex-row bg-[#161619]">
         {#if page.url.pathname !== '/login/'}
-            {#if isNavBarOpen}
-                <div
-                    class="fixed top-0 left-0 z-50 h-screen w-64 transform transition-transform duration-700 ease-in-out"
-                >
-                    <NavBar user={data.user} bind:isNavBarOpen />
-                </div>
-            {/if}
+            <!-- Backdrop overlay -->
+            <div
+                class="fixed inset-0 z-40 bg-black/50 transition-opacity duration-300
+                    {isNavBarOpen ? 'opacity-100' : 'pointer-events-none opacity-0'}"
+                role="button"
+                tabindex="-1"
+                onclick={() => (isNavBarOpen = false)}
+                onkeydown={e => {
+                    if (e.key === 'Escape') isNavBarOpen = false;
+                }}
+            ></div>
+            <!-- Sidebar -->
+            <div
+                class="fixed top-0 left-0 z-50 h-screen w-64 transition-transform duration-300 ease-in-out
+                    {isNavBarOpen ? 'translate-x-0' : '-translate-x-full'}"
+            >
+                <NavBar user={data.user} bind:isNavBarOpen />
+            </div>
         {/if}
 
         <div class="flex w-full justify-center">

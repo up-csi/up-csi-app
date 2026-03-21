@@ -15,7 +15,8 @@
         'B&C': 'var(--color-bnc-green)',
     };
 
-    const imageURL = writable<string | null>(null);
+    let imageURL = $state<string | null>(null);
+    let statusMessage = $state<{ type: 'success' | 'error'; text: string } | null>(null);
 
     let submitting = $state(false);
     async function handleSubmit(event: Event) {
@@ -23,12 +24,12 @@
 
         if (submitting) return;
         submitting = true;
+        statusMessage = null;
 
         const form = event.target as HTMLFormElement;
         const formData = new FormData(form);
 
         try {
-            console.log('Start /api/upload.');
             const response = await fetch('/api/upload', {
                 method: 'POST',
                 body: formData,
@@ -36,19 +37,17 @@
 
             if (!response.ok) {
                 const error = await response.json();
-                console.error('Error uploading data:', error);
-                alert(error.error);
+                statusMessage = { type: 'error', text: error.error ?? 'Upload failed' };
             } else {
-                const data = await response.json();
-                console.log('Data uploaded successfully:', data);
+                await response.json();
                 filledSigsheet.add(member_id);
-                console.log('ADDED TO FILLED SIGSHEET', $filledSigsheet);
-                alert('Data uploaded successfully!');
+                statusMessage = { type: 'success', text: 'Data uploaded successfully!' };
+                setTimeout(() => closeModal(), 1500);
             }
-            closeModal();
-        } catch (error) {
-            console.error('Unexpected error:', error);
-            alert('An unexpected error occurred. Please try again.');
+        } catch {
+            statusMessage = { type: 'error', text: 'An unexpected error occurred. Please try again.' };
+        } finally {
+            submitting = false; // eslint-disable-line require-atomic-updates
         }
     }
 
@@ -56,7 +55,7 @@
         const target = event.target as HTMLInputElement;
         const file = target.files?.[0];
         if (file && file.type.startsWith('image/')) {
-            imageURL.set(URL.createObjectURL(file));
+            imageURL = URL.createObjectURL(file);
         }
     }
 
@@ -133,7 +132,7 @@
                             <ul
                                 class="absolute z-10 mt-1 max-h-40 w-full overflow-y-auto rounded-lg bg-[#2f2f32] shadow-lg"
                             >
-                                {#each $applicant_names_list as co_app_name}
+                                {#each $applicant_names_list as co_app_name (co_app_name)}
                                     <li>
                                         <button
                                             type="button"
@@ -194,9 +193,9 @@
                     />
 
                     <div class="flex w-full items-center justify-center">
-                        {#if $imageURL}
+                        {#if imageURL}
                             <img
-                                src={$imageURL}
+                                src={imageURL}
                                 alt="selfie with member"
                                 class="aspect-square h-40 w-40 max-w-full rounded-2xl object-cover md:h-56 md:w-56"
                             />
@@ -228,6 +227,17 @@
                         {/if}
                     </div>
                 </label>
+
+                {#if statusMessage}
+                    <p
+                        class="w-full rounded-lg px-4 py-2 text-center text-sm font-medium
+                            {statusMessage.type === 'error'
+                            ? 'bg-red-500/20 text-red-400'
+                            : 'bg-green-500/20 text-green-400'}"
+                    >
+                        {statusMessage.text}
+                    </p>
+                {/if}
 
                 <!-- Submit button -->
                 <button

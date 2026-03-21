@@ -1,20 +1,23 @@
-import { PUBLIC_GOOGLE_PRIVATE_KEY, PUBLIC_GOOGLE_SERVICE_EMAIL } from '$env/static/public';
+import { GOOGLE_PRIVATE_KEY, GOOGLE_SERVICE_EMAIL } from '$env/static/private';
 import { Readable } from 'stream';
 import { google } from 'googleapis';
-import { supabase } from '../../../lib/supabaseClient';
+import { logger } from '$lib/logger';
 
-export async function POST({ request }) {
-    console.log('Received POST request at /api/upload');
-
-    // Add debugging logs to verify environment variables
-    console.log('Google API Credentials:', {
-        client_email: PUBLIC_GOOGLE_SERVICE_EMAIL,
-        private_key: PUBLIC_GOOGLE_PRIVATE_KEY ? 'Provided' : 'Not Provided',
-    });
+/** @type {import('./$types').RequestHandler} */
+export async function POST({ request, locals }) {
+    logger.debug('Received POST request at /api/upload');
 
     try {
+        const { user } = await locals.safeGetSession();
+        if (!user) {
+            return new Response(JSON.stringify({ error: 'Unauthorized' }), {
+                status: 401,
+                headers: { 'Content-Type': 'application/json' },
+            });
+        }
+        const uuid = user.id;
         const formData = await request.formData();
-        const uuid = formData.get('uuid');
+        const { supabase } = locals;
         const username = formData.get('username');
         const gdrive_folder_id = formData.get('gdrive_folder_id');
         const member_id = formData.get('member_id');
@@ -23,11 +26,10 @@ export async function POST({ request }) {
         const answer = formData.get('answer');
         const imageFile = formData.get('image');
 
-        // Add debugging logs to verify folder permissions
-        console.log('Google Drive Folder ID:', gdrive_folder_id);
+        logger.debug('Google Drive Folder ID:', gdrive_folder_id);
 
         if (!question || !answer || !imageFile || !(imageFile instanceof File)) {
-            console.error('Validation error: Missing or invalid required fields');
+            logger.error('Validation error: Missing or invalid required fields');
             return new Response(JSON.stringify({ error: 'Missing or invalid required fields' }), {
                 status: 400,
                 headers: { 'Content-Type': 'application/json' },
@@ -41,8 +43,8 @@ export async function POST({ request }) {
         // Authenticate with Google Drive API
         const auth = new google.auth.GoogleAuth({
             credentials: {
-                client_email: PUBLIC_GOOGLE_SERVICE_EMAIL,
-                private_key: PUBLIC_GOOGLE_PRIVATE_KEY.replace(/\\n/g, '\n'),
+                client_email: GOOGLE_SERVICE_EMAIL,
+                private_key: GOOGLE_PRIVATE_KEY.replace(/\\n/g, '\n'),
             },
             scopes: ['https://www.googleapis.com/auth/drive.file'],
         });
@@ -64,41 +66,17 @@ export async function POST({ request }) {
             fileUrl = null; // Initialize variables
 
         try {
-            console.log('Uploading file to Google Drive with metadata:', fileMetadata);
-            console.log('File mimeType:', media.mimeType);
-
-            console.log('driveResponse start');
+            logger.debug('Uploading file to Google Drive with metadata:', fileMetadata);
             const driveResponse = await drive.files.create({
                 requestBody: fileMetadata,
                 media: media,
                 fields: 'id',
             });
-            console.log('driveResponse success');
             fileId = driveResponse.data.id;
             fileUrl = `https://drive.google.com/uc?id=${fileId}`;
-            console.log('File uploaded successfully. File ID:', fileId);
+            logger.debug('File uploaded successfully. File ID:', fileId);
         } catch (driveError) {
-            console.error('Error uploading to Google Drive:', {
-                message: driveError instanceof Error ? driveError.message : 'Unknown error',
-                errors:
-                    driveError instanceof Error && 'errors' in driveError
-                        ? driveError.errors
-                        : 'No additional error details',
-                stack: driveError instanceof Error ? driveError.stack : 'No stack trace available',
-            });
-
-            // Additional debugging for credentials and folder permissions
-            console.error('Google Drive API credentials:', {
-                client_email: PUBLIC_GOOGLE_SERVICE_EMAIL,
-                private_key: PUBLIC_GOOGLE_PRIVATE_KEY ? 'Provided' : 'Not Provided',
-            });
-            console.error('Folder ID:', fileMetadata.parents);
-
-            // Log the media object details
-            console.error('Media object details:', {
-                mimeType: media.mimeType,
-                bodyType: typeof media.body,
-            });
+            logger.error('Google Drive upload failed:', driveError instanceof Error ? driveError.message : driveError);
 
             return new Response(
                 JSON.stringify({ error: 'Error uploading to Google Drive. Please check logs for details.' }),
@@ -110,15 +88,7 @@ export async function POST({ request }) {
         }
 
         // Save data to Supabase
-        console.log('Starting to save data to Supabase with the following details:', {
-            question,
-            answer,
-            image_url: fileUrl, // Use the correct file URL
-            applicant_id: uuid,
-            member_id,
-            member_name,
-        });
-
+        logger.debug('Saving data to Supabase for applicant:', uuid);
         try {
             const { data, error } = await supabase
                 .from('sigsheet') // table name in supabase
@@ -135,32 +105,24 @@ export async function POST({ request }) {
                 if (error.message.includes('unique_applicantid_signatoryname_pair')) {
                     throw new Error("You have already have this co-applicant's signature. Try someone else");
                 }
-                console.error('Error inserting into Supabase:', error);
+                logger.error('Error inserting into Supabase:', error);
                 throw new Error(error.message);
             }
 
-            console.log('Data successfully saved to Supabase:', {
-                question,
-                answer,
-                image_url: fileUrl,
-                applicant_id: uuid,
-                member_id,
-                member_name,
-            });
-
+            logger.debug('Data successfully saved to Supabase');
             return new Response(JSON.stringify({ message: 'Data saved successfully', data }), {
                 status: 200,
                 headers: { 'Content-Type': 'application/json' },
             });
         } catch (supabaseError) {
-            console.error('Error saving to Supabase:', supabaseError);
+            logger.error('Error saving to Supabase:', supabaseError);
             return new Response(JSON.stringify({ error: `${supabaseError}` }), {
                 status: 500,
                 headers: { 'Content-Type': 'application/json' },
             });
         }
     } catch (err) {
-        console.error('Unexpected error:', err);
+        logger.error('Unexpected error:', err);
         return new Response(JSON.stringify({ error: err instanceof Error ? err.message : 'Unknown error' }), {
             status: 500,
             headers: { 'Content-Type': 'application/json' },

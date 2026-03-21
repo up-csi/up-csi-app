@@ -1,3 +1,5 @@
+import { logger } from '$lib/logger';
+
 export async function load({ locals }) {
     const { supabase } = locals;
     const { user } = await locals.safeGetSession();
@@ -9,7 +11,7 @@ export async function load({ locals }) {
     const { data, error } = await supabase.from('constiquiz-submissions').select('*').eq('user_id', user.id);
 
     if (error) {
-        console.error(error);
+        logger.error(error);
     }
 
     const hasSubmitted = data && data.length;

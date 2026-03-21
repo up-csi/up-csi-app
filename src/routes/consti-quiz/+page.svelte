@@ -10,11 +10,13 @@
     import Section from './Section.svelte';
     import SectionNav from './SectionNav.svelte';
     import ShortTextQuestion from './ShortTextQuestion.svelte';
+    import { logger } from '$lib/logger';
 
     import { browser } from '$app/environment';
     import { onMount } from 'svelte';
 
     const { data } = $props();
+    // Data loaded once per page visit — intentionally not reactive
     const { user, sections, questions, answers, hasSubmitted, isOpen } = data;
 
     // NOTE: do we even this need this part
@@ -75,11 +77,6 @@
 
     // subtract 10 from bonus
     const totalPoints = 88;
-
-    // NOTE: for debugging purposes only, remove during production
-    console.log('sections:', sections);
-    // NOTE: for debugging purposes only, remove during production
-    console.log('questions:', questions);
 
     // ensure that questions are sorted by ids, since their index is important
     questions!.sort((a, b) => a.question_id - b.question_id);
@@ -155,7 +152,7 @@
 
             return json;
         } catch (error) {
-            console.error(error);
+            logger.error(error);
         }
     }
 
@@ -192,7 +189,7 @@
 
             return await res.json();
         } catch (err) {
-            console.error(err);
+            logger.error(err);
         }
     }
 
@@ -265,7 +262,7 @@
                 <main class="h-3/5 w-full overflow-y-auto bg-[#161619] p-4 pt-4 md:h-full md:w-3/5 md:p-8">
                     {#each rearrangedSections! as { section_id, title, points } (section_id)}
                         <Section id={section_id.toString()} {title} {points}>
-                            {#each questions!.filter(question => question.section.title === title) as question, i}
+                            {#each questions!.filter(question => question.section.title === title) as question, i (question.question_id)}
                                 {#if question.type === 'long_text'}
                                     <LongTextQuestion
                                         title={question.title}

@@ -1,6 +1,7 @@
 import type { Answer, ISection, Question } from './consti-quiz/constiquiz-types.ts';
 import { PUBLIC_SUPABASE_ANON_KEY, PUBLIC_SUPABASE_URL } from '$env/static/public';
 import { createBrowserClient, createServerClient, isBrowser } from '@supabase/ssr';
+import { logger } from '$lib/logger';
 
 export async function load({ data, depends, fetch }) {
     depends('supabase:auth');
@@ -22,16 +23,11 @@ export async function load({ data, depends, fetch }) {
               },
           });
 
-    const {
-        data: { session },
-    } = await supabase.auth.getSession();
-
-    const {
-        data: { user },
-    } = await supabase.auth.getUser();
+    const { session } = data;
+    const user = session?.user ?? null;
 
     if (!user) {
-        console.error('Failed to fetch user.');
+        logger.error('Failed to fetch user.');
         return {
             session: session,
             supabase: supabase,
@@ -43,13 +39,9 @@ export async function load({ data, depends, fetch }) {
     }
 
     const uuid = user.id;
-    console.log('Fetched uuid:', uuid);
-
     const username = user.email?.split('@')[0] ?? '';
-    console.log('Fetched username:', username);
 
     // Fetch filledSigsheet
-    console.log('Fetching sigsheet from Supabase with ID:', uuid);
     let filledSigsheet: Set<number> = new Set();
     try {
         const { data: sigRows, error: sigError } = await supabase
@@ -60,13 +52,11 @@ export async function load({ data, depends, fetch }) {
         if (sigError) throw sigError;
 
         filledSigsheet = new Set(sigRows?.map(row => row.member_id) ?? []);
-        console.log(`Fetched filledSigsheet: sigsheet size ${filledSigsheet.size}`);
     } catch (sigError) {
-        console.error('Error fetching sigsheet: ', sigError);
+        logger.error('Error fetching sigsheet: ', sigError);
     }
 
     // Fetch gdrive_folder_id
-    console.log('Fetching gdrive_folder_id for Applicant:', uuid);
     let gdrive_folder_id: string = '';
     try {
         const response = await fetch('/api/get_gdrive_folder', {
@@ -79,13 +69,13 @@ export async function load({ data, depends, fetch }) {
 
         if (!response.ok) {
             const gDriveError = await response.json().catch(() => ({}));
-            console.error('Error fetching gdrive folder:', gDriveError);
+            logger.error('Error fetching gdrive folder:', gDriveError);
         } else {
             const folderData = await response.json();
             gdrive_folder_id = folderData.folder_id ?? '';
         }
     } catch (gDriveError) {
-        console.error('Unexpected error fetching gdrive folder:', gDriveError);
+        logger.error('Unexpected error fetching gdrive folder:', gDriveError);
     }
 
     // Functions for fetching constiquiz
@@ -97,8 +87,7 @@ export async function load({ data, depends, fetch }) {
 	`);
 
         if (error) {
-            // TODO: handle error
-            console.error(error);
+            logger.error(error);
             throw error;
         }
 
@@ -123,7 +112,7 @@ export async function load({ data, depends, fetch }) {
             `);
 
         if (error || !data) {
-            console.error(error);
+            logger.error(error);
             throw error;
         }
 
@@ -147,7 +136,7 @@ export async function load({ data, depends, fetch }) {
             .eq('user_id', uuid);
 
         if (error) {
-            console.error(error);
+            logger.error(error);
             throw error;
         }
 
@@ -157,5 +146,17 @@ export async function load({ data, depends, fetch }) {
     // fetch in parallel for faster results
     const [sections, questions, answers] = await Promise.all([fetchSections(), fetchQuestions(), fetchAnswers()]);
 
-    return { session, supabase, user, uuid, username, filledSigsheet, gdrive_folder_id, sections, questions, answers };
+    return {
+        session,
+        supabase,
+        user,
+        uuid,
+        username,
+        filledSigsheet,
+        gdrive_folder_id,
+        sections,
+        questions,
+        answers,
+        userRole: data.userRole,
+    };
 }
