@@ -1,6 +1,5 @@
 <script lang="ts">
     import { applicant_names_list, filledSigsheet, gdrive_folder_id, username, uuid } from '$lib/shared';
-    import { writable } from 'svelte/store';
 
     const { member_id, member_name, role, closeModal, activeCategory } = $props();
     // Implement color of name
