@@ -77,7 +77,7 @@
             class="relative p-6 mt-[15vh] mb-[5vh] max-h-[75vh] overflow-x-hidden overflow-y-auto bg-gradient-to-b from-stardew-bg-light to-stardew-bg-dark border-6 border-stardew-border-dark shadow-lg md:mt-0 md:mb-0"
         >
             <!-- Close button -->
-            <div class="mb-3 flex justify-end">
+            <div class="flex justify-end">
                 <button
                     class="text-csi-white cursor-pointer font-stardew-body hover:bg-innov-orange bg-opacity-10 mb-3 w-50 max-w-xs rounded-full px-6 py-3 text-lg font-semibold"
                     disabled={submitting}
@@ -108,7 +108,7 @@
                 <!-- Left column -->
                 <div class="mx-2">
                     {#if activeCategory !== 'CoApp'}
-                        <h2 class="pb-1 text-5xl font-stardew-body md:text-7xl" style="color:{categoryColors[activeCategory]}">
+                        <h2 class="pb-1 text-3xl font-stardew-body md:text-5xl" style="color:{categoryColors[activeCategory]}">
                             {member_name}
                         </h2>
                         <h3 class="text-csi-white text-xl font-stardew-body">{role}</h3>
@@ -151,7 +151,7 @@
                         <input type="text" name="member_name" value={selectedCoApp} hidden required />
                     {/if}
 
-                    <label for="question" class="text-csi-white mb-1 block pt-5 text-3xl font-stardew-body md:text-5xl">
+                    <label for="question" class="text-csi-white mb-1 block pt-5 text-xl font-stardew-body md:text-3xl">
                         Your Question
                     </label>
                     <textarea
@@ -163,7 +163,7 @@
                         required
                     ></textarea>
 
-                    <label for="answer" class="text-csi-white mb-1 block text-3xl font-stardew-body md:text-5xl">
+                    <label for="answer" class="text-csi-white mb-1 block text-xl font-stardew-body md:text-3xl">
                         Their Answer
                     </label>
                     <textarea
