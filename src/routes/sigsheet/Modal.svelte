@@ -106,12 +106,15 @@
                 <input type="text" name="uuid" value={$uuid} hidden required />
 
                 <!-- Left column -->
-                <div class="mx-2">
+                <div class="mx-2 gap-2 flex flex-col">
                     {#if activeCategory !== 'CoApp'}
-                        <h2 class="pb-1 text-3xl font-stardew-body md:text-5xl" style="color:{categoryColors[activeCategory]}">
-                            {member_name}
-                        </h2>
-                        <h3 class="text-csi-white text-xl font-stardew-body">{role}</h3>
+                        <div class="px-2 border-4 border-b-stardew-border-light border-l-stardew-border-light border-t-stardew-border-shadow border-r-stardew-border-shadow">
+                            <h2 class="pb-1 text-3xl font-stardew-body md:text-5xl" style="color:{categoryColors[activeCategory]}">
+                                {member_name}
+                            </h2>
+                            <h3 class="text-csi-white text-xl font-stardew-body">{role}</h3>
+                        </div>
+                        
                         <input type="text" name="member_id" value={member_id} hidden required />
                         <input type="text" name="member_name" value={member_name} hidden required />
                     {:else}
@@ -119,7 +122,7 @@
                             <!-- Dropdown button -->
                             <button
                                 type="button"
-                                class="text-csi-white w-full rounded-lg bg-[#161619] px-4 py-2 text-left font-medium"
+                                class="text-csi-white w-full rounded-lg bg-[#161619] px-4 py-2 text-left font-stardew-body text-xl"
                                 onclick={toggleDropdown}
                             >
                                 {#if selectedCoApp}
@@ -151,29 +154,33 @@
                         <input type="text" name="member_name" value={selectedCoApp} hidden required />
                     {/if}
 
-                    <label for="question" class="text-csi-white mb-1 block pt-5 text-xl font-stardew-body md:text-3xl">
-                        Your Question
-                    </label>
-                    <textarea
-                        id="question"
-                        name="question"
-                        class="text-csi-white mb-3 w-full rounded-xl bg-[#161619] px-4 py-2 text-xl font-stardew-body"
-                        placeholder="Type your question here ..."
-                        style="height: 100px; resize: none"
-                        required
-                    ></textarea>
+                    <div class="px-2 border-4 border-b-stardew-border-light border-l-stardew-border-light border-t-stardew-border-shadow border-r-stardew-border-shadow">
+                        <label for="question" class="text-csi-white mb-1 block pt-5 text-xl font-stardew-body md:text-3xl">
+                            Your Question
+                        </label>
+                        <textarea
+                            id="question"
+                            name="question"
+                            class="text-csi-white mb-3 w-full rounded-xl bg-[#161619] px-4 py-2 text-xl font-stardew-body"
+                            placeholder="Type your question here ..."
+                            style="height: 100px; resize: none"
+                            required
+                        ></textarea>
+                    </div>
 
-                    <label for="answer" class="text-csi-white mb-1 block text-xl font-stardew-body md:text-3xl">
-                        Their Answer
-                    </label>
-                    <textarea
-                        id="answer"
-                        name="answer"
-                        class="text-csi-white mb-3 w-full rounded-xl bg-[#161619] px-4 py-2 text-xl font-stardew-body"
-                        placeholder="Type their answer here ..."
-                        style="height: 100px; resize: none"
-                        required
-                    ></textarea>
+                    <div class="px-2 border-4 border-b-stardew-border-light border-l-stardew-border-light border-t-stardew-border-shadow border-r-stardew-border-shadow">
+                        <label for="answer" class="text-csi-white mb-1 block text-xl font-stardew-body md:text-3xl">
+                            Their Answer
+                        </label>
+                        <textarea
+                            id="answer"
+                            name="answer"
+                            class="text-csi-white mb-3 w-full rounded-xl bg-[#161619] px-4 py-2 text-xl font-stardew-body"
+                            placeholder="Type their answer here ..."
+                            style="height: 100px; resize: none"
+                            required
+                        ></textarea>
+                    </div>
                 </div>
 
                 <!-- Right column -->
