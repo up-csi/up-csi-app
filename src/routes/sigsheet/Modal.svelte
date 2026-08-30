@@ -190,7 +190,7 @@
                     <div class="p-0.5 bg-stardew-border-fill relative flex justify-center align-middle border-4 border-stardew-border-dark rounded-md">
                         <label
                             for="img-input"
-                            class="flex min-h-[200px] w-full aspect-2/3 flex-col items-center justify-center p-6 bg-[url('/assets/bg_images/stardew_valley_image_bg.png')] bg-cover bg-center bg-no-repeat border-4 border-stardew-border-dark rounded-sm"
+                            class="flex min-h-[200px] w-full aspect-2/3 flex-col items-center justify-center p-6 bg-[url('/assets/bg_images/stardew_valley_image_bg.svg')] bg-cover bg-center bg-no-repeat border-4 border-stardew-border-dark rounded-sm"
                             style="background-color: rgba(0, 198, 215, 0.07);"
                         >
                             <input
