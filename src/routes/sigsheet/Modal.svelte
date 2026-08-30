@@ -4,7 +4,7 @@
     const { member_id, member_name, role, closeModal, activeCategory } = $props();
     // Implement color of name
 
-    const categoryColors: Record<string, string> = {
+    /* const categoryColors: Record<string, string> = {
         Exec: 'var(--color-csi-blue)',
         'M&I': 'var(--color-mni-pink)',
         Service: 'var(--color-service-yellow)',
@@ -12,7 +12,7 @@
         Engg: 'var(--color-engg-blue)',
         Exte: 'var(--color-exte-blue)',
         'B&C': 'var(--color-bnc-green)',
-    };
+    }; */
 
     let imageURL = $state<string | null>(null);
     let statusMessage = $state<{ type: 'success' | 'error'; text: string } | null>(null);
@@ -109,10 +109,10 @@
                 <div class="mx-2 gap-2 flex flex-col">
                     {#if activeCategory !== 'CoApp'}
                         <div class="px-2 border-4 border-b-stardew-border-light border-l-stardew-border-light border-t-stardew-border-shadow border-r-stardew-border-shadow">
-                            <h2 class="pb-1 text-3xl font-stardew-body md:text-5xl" style="color:{categoryColors[activeCategory]}">
+                            <h2 class="pb-1 text-3xl font-stardew-body md:text-5xl text-stardew-font-color">
                                 {member_name}
                             </h2>
-                            <h3 class="text-csi-white text-xl font-stardew-body">{role}</h3>
+                            <h3 class="text-stardew-font-color text-xl font-stardew-body">{role}</h3>
                         </div>
                         
                         <input type="text" name="member_id" value={member_id} hidden required />
@@ -155,7 +155,7 @@
                     {/if}
 
                     <div class="px-2 border-4 border-b-stardew-border-light border-l-stardew-border-light border-t-stardew-border-shadow border-r-stardew-border-shadow">
-                        <label for="question" class="text-csi-white mb-1 block pt-5 text-xl font-stardew-body md:text-3xl">
+                        <label for="question" class="text-stardew-font-color mb-1 block pt-5 text-xl font-stardew-body md:text-3xl">
                             Your Question
                         </label>
                         <textarea
@@ -169,7 +169,7 @@
                     </div>
 
                     <div class="px-2 border-4 border-b-stardew-border-light border-l-stardew-border-light border-t-stardew-border-shadow border-r-stardew-border-shadow">
-                        <label for="answer" class="text-csi-white mb-1 block text-xl font-stardew-body md:text-3xl">
+                        <label for="answer" class="text-stardew-font-color mb-1 block text-xl font-stardew-body md:text-3xl">
                             Their Answer
                         </label>
                         <textarea
