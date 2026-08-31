@@ -79,10 +79,10 @@
             <!-- Close button -->
             <div class="flex justify-end">
                 <button
-                    class="text-csi-white cursor-pointer font-stardew-body hover:bg-innov-orange bg-opacity-10 mb-3 w-50 max-w-xs rounded-full px-6 py-3 text-lg font-semibold"
                     disabled={submitting}
                     aria-label="Close modal"
                     onclick={closeModal}
+                    class="text-engg-blue hover:text-csi-blue cursor-pointer font-stardew-body text-4xl"
                 >
                     <!-- <svg
                         xmlns="http://www.w3.org/2000/svg"
