@@ -226,7 +226,7 @@
                                             />
                                         </svg>
 
-                                        <p class="text-csi-white font-stardew-body mt-2 text-center text-3xl">Click to submit</p>
+                                        <p class="text-csi-white font-stardew-body mt-2 text-center text-3xl">Add Selfie w/ Member</p>
                                     </div>
                                 {/if}
                             </div>
