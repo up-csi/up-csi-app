@@ -137,7 +137,7 @@
                                         <li>
                                             <button
                                                 type="button"
-                                                class="text-csi-white hover:bg-csi-blue w-full px-4 py-2 text-left hover:text-black"
+                                                class="text-csi-white hover:bg-csi-blue w-full px-4 py-2 text-left font-stardew-body hover:text-black"
                                                 onclick={() => selectCoAppName(co_app_name)}
                                             >
                                                 {co_app_name}
@@ -147,7 +147,7 @@
                                 </ul>
                             {/if}
                         </div>
-                        <input type="text" name="member_name" value={selectedCoApp} hidden required />
+                        <input type="text" name="member_name" class="font-stardew-body" value={selectedCoApp} hidden required />
                     {/if}
 
                     <div class="border-b-stardew-border-light border-l-stardew-border-light border-t-stardew-border-shadow border-r-stardew-border-shadow border-4 px-2">
