@@ -118,7 +118,7 @@
                         <input type="text" name="member_id" value={member_id} hidden required />
                         <input type="text" name="member_name" value={member_name} hidden required />
                     {:else}
-                        <div class="relative w-full">
+                        <div class="relative w-full border-b-stardew-border-light border-l-stardew-border-light border-t-stardew-border-shadow border-r-stardew-border-shadow border-4 p-2">
                             <button
                                 type="button"
                                 class="text-csi-white font-stardew-body w-full rounded-lg bg-[#161619] px-4 py-2 text-left text-xl"
