@@ -205,13 +205,13 @@
                                                 class="aspect-square h-40 w-40 max-w-full rounded-lg object-cover md:h-56 md:w-56"
                                             />
                                         {:else}
-                                            <div class="flex flex-col items-center justify-center px-4">
+                                            <div class="flex flex-col items-center justify-center px-4 w-full">
                                                 <svg
                                                     xmlns="http://www.w3.org/2000/svg"
                                                     fill="none"
                                                     viewBox="0 0 24 24"
                                                     stroke-width="1.0"
-                                                    stroke="#212121"
+                                                    stroke="#5c2c16"
                                                     class="aspect-square h-20 w-20 max-w-full rounded-2xl object-cover md:my-2 md:h-24 md:w-24"
                                                 >
                                                     <path
@@ -226,7 +226,7 @@
                                                     />
                                                 </svg>
 
-                                                <p class="mt-2 text-center font-stardew-body text-2xl text-csi-white">Add Selfie w/ Member</p>
+                                                <p class="mt-2 w-full text-center font-stardew-body text-lg md:text-2xl text-innov-orange">Add Selfie w/ Member</p>
                                             </div>
                                         {/if}
                                     </div>
