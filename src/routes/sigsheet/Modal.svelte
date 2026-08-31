@@ -185,7 +185,7 @@
 
                 <!-- Right column -->
                 
-                <div class="flex flex-col items-center justify-center gap-5 p-8">
+                <div class="flex flex-col items-center justify-center gap-5">
                     <!-- Image uploader -->
                     <div class="p-0.5 bg-stardew-border-fill relative flex justify-center align-middle border-4 border-stardew-border-dark rounded-md">
                         <label
