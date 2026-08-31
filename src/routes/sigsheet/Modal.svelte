@@ -179,6 +179,7 @@
                     </div>
                 </div>
 
+                <!-- Right column -->
                 <div class="flex h-full flex-col items-center justify-between gap-4">
                     <div class="bg-stardew-border-fill border-stardew-border-dark relative aspect-2/3 flex min-h-0 flex-1 items-center justify-center align-middle rounded-md border-4 p-0.5">
                         <label
@@ -243,16 +244,18 @@
                         </p>
                     {/if}
 
-                    <button
-                        class="bg-csi-blue hover:bg-innov-orange font-stardew-body w-50 max-w-xs rounded-full bg-opacity-10 px-6 py-3 text-3xl"
-                        disabled={submitting}
-                    >
-                        {#if submitting}
-                            Submitting...
-                        {:else}
-                            Submit
-                        {/if}
-                    </button>
+                    <div class="w-fit max-w-xs bg-stardew-border-fill border-stardew-border-dark flex items-center justify-center align-middle border-4 p-0.5 rounded-lg">
+                        <button
+                            class="cursor-pointer bg-stardew-bg-dark hover:bg-innov-orange border-4 border-stardew-border-dark font-stardew-body w-full bg-opacity-10 text-3xl px-10 py-2 rounded-sm"
+                            disabled={submitting}
+                        >
+                            {#if submitting}
+                                Submitting...
+                            {:else}
+                                Submit
+                            {/if}
+                        </button>
+                    </div>
                 </div>
             </form>
         </div>
