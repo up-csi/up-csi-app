@@ -72,9 +72,9 @@
 </script>
 
 <main class="font-inter fixed inset-0 flex items-center justify-center p-4">
-    <div class="p-1 w-[95%] max-w-2xl bg-stardew-border-fill relative flex justify-center align-middle border-6 border-stardew-border-dark">
+    <div class="p-1 mt-[15vh] mb-[5vh] max-h-[75vh] w-[95%] max-w-2xl bg-stardew-border-fill relative flex justify-center align-middle border-6 border-stardew-border-dark">
         <div
-            class="relative p-6 mt-[15vh] mb-[5vh] max-h-[75vh] overflow-x-hidden overflow-y-auto bg-gradient-to-b from-stardew-bg-light to-stardew-bg-dark border-6 border-stardew-border-dark shadow-lg md:mt-0 md:mb-0"
+            class="relative p-6 overflow-x-hidden overflow-y-auto bg-gradient-to-b from-stardew-bg-light to-stardew-bg-dark border-6 border-stardew-border-dark shadow-lg md:mt-0 md:mb-0"
         >
             <!-- Close button -->
             <div class="flex justify-end">
