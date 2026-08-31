@@ -106,23 +106,22 @@
                 <input type="text" name="uuid" value={$uuid} hidden required />
 
                 <!-- Left column -->
-                <div class="mx-2 gap-2 flex flex-col">
+                <div class="flex flex-col gap-2">
                     {#if activeCategory !== 'CoApp'}
-                        <div class="px-2 border-4 border-b-stardew-border-light border-l-stardew-border-light border-t-stardew-border-shadow border-r-stardew-border-shadow">
-                            <h2 class="pb-1 text-3xl font-stardew-body md:text-5xl text-stardew-font-color">
+                        <div class="border-b-stardew-border-light border-l-stardew-border-light border-t-stardew-border-shadow border-r-stardew-border-shadow border-4 px-2">
+                            <h2 class="font-stardew-body text-stardew-font-color pb-1 text-3xl md:text-5xl">
                                 {member_name}
                             </h2>
-                            <h3 class="text-stardew-font-color text-xl font-stardew-body">{role}</h3>
+                            <h3 class="text-stardew-font-color font-stardew-body text-xl">{role}</h3>
                         </div>
                         
                         <input type="text" name="member_id" value={member_id} hidden required />
                         <input type="text" name="member_name" value={member_name} hidden required />
                     {:else}
                         <div class="relative w-full">
-                            <!-- Dropdown button -->
                             <button
                                 type="button"
-                                class="text-csi-white w-full rounded-lg bg-[#161619] px-4 py-2 text-left font-stardew-body text-xl"
+                                class="text-csi-white font-stardew-body w-full rounded-lg bg-[#161619] px-4 py-2 text-left text-xl"
                                 onclick={toggleDropdown}
                             >
                                 {#if selectedCoApp}
@@ -132,11 +131,8 @@
                                 {/if}
                             </button>
 
-                            <!-- Dropdown menu -->
                             {#if isDropdownOpen}
-                                <ul
-                                    class="absolute z-10 mt-1 max-h-40 w-full overflow-y-auto rounded-lg bg-[#2f2f32] shadow-lg"
-                                >
+                                <ul class="absolute z-10 mt-1 max-h-40 w-full overflow-y-auto rounded-lg bg-[#2f2f32] shadow-lg">
                                     {#each $applicant_names_list as co_app_name (co_app_name)}
                                         <li>
                                             <button
@@ -154,28 +150,28 @@
                         <input type="text" name="member_name" value={selectedCoApp} hidden required />
                     {/if}
 
-                    <div class="px-2 border-4 border-b-stardew-border-light border-l-stardew-border-light border-t-stardew-border-shadow border-r-stardew-border-shadow">
-                        <label for="question" class="text-stardew-font-color mb-1 block pt-5 text-xl font-stardew-body md:text-3xl">
+                    <div class="border-b-stardew-border-light border-l-stardew-border-light border-t-stardew-border-shadow border-r-stardew-border-shadow border-4 px-2">
+                        <label for="question" class="text-stardew-font-color font-stardew-body mb-1 block pt-5 text-xl md:text-3xl">
                             Your Question
                         </label>
                         <textarea
                             id="question"
                             name="question"
-                            class="text-csi-white mb-3 w-full rounded-xl bg-[#161619] px-4 py-2 text-xl font-stardew-body"
+                            class="text-csi-white font-stardew-body mb-3 w-full rounded-xl bg-[#161619] px-4 py-2 text-xl"
                             placeholder="Type your question here ..."
                             style="height: 100px; resize: none"
                             required
                         ></textarea>
                     </div>
 
-                    <div class="px-2 border-4 border-b-stardew-border-light border-l-stardew-border-light border-t-stardew-border-shadow border-r-stardew-border-shadow">
-                        <label for="answer" class="text-stardew-font-color mb-1 block text-xl font-stardew-body md:text-3xl">
+                    <div class="border-b-stardew-border-light border-l-stardew-border-light border-t-stardew-border-shadow border-r-stardew-border-shadow border-4 px-2">
+                        <label for="answer" class="text-stardew-font-color font-stardew-body mb-1 block text-xl md:text-3xl">
                             Their Answer
                         </label>
                         <textarea
                             id="answer"
                             name="answer"
-                            class="text-csi-white mb-3 w-full rounded-xl bg-[#161619] px-4 py-2 text-xl font-stardew-body"
+                            class="text-csi-white font-stardew-body mb-3 w-full rounded-xl bg-[#161619] px-4 py-2 text-xl"
                             placeholder="Type their answer here ..."
                             style="height: 100px; resize: none"
                             required
@@ -183,14 +179,11 @@
                     </div>
                 </div>
 
-                <!-- Right column -->
-                
-                <div class="flex flex-col items-center justify-center gap-5">
-                    <!-- Image uploader -->
-                    <div class="p-0.5 bg-stardew-border-fill relative flex justify-center align-middle border-4 border-stardew-border-dark rounded-md">
+                <div class="flex h-full flex-col items-center justify-between gap-4">
+                    <div class="bg-stardew-border-fill border-stardew-border-dark relative aspect-2/3 flex min-h-0 flex-1 items-center justify-center align-middle rounded-md border-4 p-0.5">
                         <label
                             for="img-input"
-                            class="flex min-h-[200px] w-full aspect-2/3 flex-col items-center justify-center p-6 bg-[url('/assets/bg_images/stardew_valley_image_bg.svg')] bg-cover bg-center bg-no-repeat border-4 border-stardew-border-dark rounded-sm"
+                            class="border-stardew-border-dark flex h-full max-w-full aspect-2/3 flex-col items-center justify-center rounded-sm border-4 bg-[url('/assets/bg_images/stardew_valley_image_bg.svg')] bg-cover bg-center bg-no-repeat p-4"
                             style="background-color: rgba(0, 198, 215, 0.07);"
                         >
                             <input
@@ -212,14 +205,13 @@
                                     />
                                 {:else}
                                     <div class="flex flex-col items-center justify-center px-4">
-                                        <!-- Responsive SVG size using Tailwind -->
                                         <svg
                                             xmlns="http://www.w3.org/2000/svg"
                                             fill="none"
                                             viewBox="0 0 24 24"
                                             stroke-width="1.0"
                                             stroke="#212121"
-                                            class="aspect-square h-30 w-30 max-w-full rounded-2xl object-cover md:my-6 md:h-30 md:w-30"
+                                            class="aspect-square h-24 w-24 max-w-full rounded-2xl object-cover md:my-4 md:h-28 md:w-28"
                                         >
                                             <path
                                                 stroke-linecap="round"
@@ -233,7 +225,7 @@
                                             />
                                         </svg>
 
-                                        <p class="text-csi-white mt-2 text-center text-4xl font-stardew-body">Click to submit</p>
+                                        <p class="text-csi-white font-stardew-body mt-2 text-center text-3xl">Click to submit</p>
                                     </div>
                                 {/if}
                             </div>
@@ -242,7 +234,7 @@
 
                     {#if statusMessage}
                         <p
-                            class="w-full rounded-lg px-4 py-2 text-center text-lg font-stardew-body 
+                            class="font-stardew-body w-full rounded-lg px-4 py-2 text-center text-lg 
                                 {statusMessage.type === 'error'
                                 ? 'bg-red-500/20 text-red-400'
                                 : 'bg-green-500/20 text-green-400'}"
@@ -251,9 +243,8 @@
                         </p>
                     {/if}
 
-                    <!-- Submit button -->
                     <button
-                        class="bg-csi-blue bg-opacity-10 hover:bg-innov-orange mb-3 w-50 max-w-xs rounded-full px-6 py-3 text-3xl font-stardew-body"
+                        class="bg-csi-blue hover:bg-innov-orange font-stardew-body w-50 max-w-xs rounded-full bg-opacity-10 px-6 py-3 text-3xl"
                         disabled={submitting}
                     >
                         {#if submitting}
