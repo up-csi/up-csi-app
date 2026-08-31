@@ -20,7 +20,7 @@
         'Membership & Internals': 'var(--color-mni-pink)',
         Service: 'var(--color-service-yellow)',
         Innovation: 'var(--color-innov-orange)',
-        Engineering: 'var(--color-engg-blue)',
+        Engineering: 'var(--color-engg-red)',
         'External Relations': 'var(--color-exte-blue)',
         'Branding & Creatives': 'var(--color-bnc-green)',
         CoApp: 'var(--color-csi-white)',
