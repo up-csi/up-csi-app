@@ -12,12 +12,12 @@
 <main
     class="font-stardew-body
            flex w-full h-full flex-col gap-[0.01rem] px-4 pb-4 min-[834px]:w-[14vw]
-           border-4 border-l-stardew-border-light border-b-stardew-border-light border-t-stardew-border-shadow border-r-stardew-border-shadow
-           text-center 
+           border-5 border-l-stardew-border-light border-b-stardew-border-light border-t-stardew-border-shadow border-r-stardew-border-shadow
+           text-center overflow-hidden
            transition-all duration-300 ease-in-out 
            hover:scale-105 hover:bg-[#333336]"
 >
-    <div class="-mx-4 mb-4 self-center min-[834px]:w-[14vw]">
+    <div class="-mx-4 mb-3 flex justify-center items-center self-center min-[834px]:w-[14vw]">
         <img
             src={memberimg}
             class="aspect-square w-full object-cover"
