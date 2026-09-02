@@ -72,7 +72,7 @@
     id="content"
 >
     <h1
-        class="text-csi-white mb-3 w-full text-xl font-bold min-[320px]:text-3xl min-[375px]:mb-4 min-[390px]:mb-[1.5rem] min-[640px]:text-4xl min-[1024px]:text-5xl"
+        class="text-csi-white mb-3 w-full text-2xl font-stardew-body min-[320px]:text-4xl min-[375px]:mb-4 min-[390px]:mb-[1.5rem] min-[640px]:text-5xl min-[1024px]:text-6xl"
     >
         {categoryHeaders[activeCategory]}
     </h1>
