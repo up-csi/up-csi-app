@@ -95,40 +95,55 @@
                 class="flex flex-row flex-wrap justify-start gap-1 min-[375px]:gap-1.5 min-[390px]:gap-2 min-[834px]:ml-8 min-[834px]:flex-col min-[834px]:items-start min-[834px]:gap-4"
             >
                 {#each categories as category (category)}
+                    <div class="w-full rounded-lg border-4 border-stardew-border-dark bg-stardew-border-fill p-0.5 align-middle">
+                        <button
+                            class="font-stardew-body text-stardew-font-color text-sm font-bold
+                                   flex w-full items-center gap-2 p-1
+                                   cursor-pointer
+                                   rounded-md border-4 border-stardew-border-dark bg-stardew-bg-light bg-opacity-10      
+                                   opacity-70 
+                                   transition-opacity duration-300 hover:opacity-100
+                                   min-[390px]:gap-2 min-[390px]:px-[0.7rem] min-[390px]:py-1.5 min-[390px]:text-sm min-[640px]:px-[0.9rem] min-[640px]:py-2 min-[640px]:text-base 
+                                   {activeCategory === category
+                                        ? 'opacity-100!'
+                                        : ''}"
+                            
+                            onclick={() => (activeCategory = category)}
+                        >
+                            <span
+                                class="border-2 bg-mni-pink aspect-square w-[1.5rem] flex-shrink-0 rounded-full min-[390px]:w-[1.5rem]"
+                                style:background-color={categoryColors[category]}
+                            ></span>
+                            <span class="flex items-center">{category}</span>
+                        </button>
+                    </div>
+                {/each}
+
+                <div class="w-full rounded-lg border-4 border-stardew-border-dark bg-stardew-border-fill p-0.5 align-middle"> 
                     <button
-                        class="border-csi-black text-csi-white bg-csi-grey flex w-fit cursor-pointer items-center gap-2 rounded-full border-2 border-[#2C2C2E] px-[0.8rem] py-2 text-sm font-bold opacity-80 transition-colors duration-300 min-[390px]:gap-2 min-[390px]:px-[0.7rem] min-[390px]:py-1.5 min-[390px]:text-sm min-[640px]:px-[0.9rem] min-[640px]:py-2 min-[640px]:text-base {activeCategory ===
-                        category
-                            ? 'bg-transparent opacity-100'
-                            : ''}"
-                        style:border-color={activeCategory === category ? categoryColors[category] : '#2C2C2E'}
-                        onclick={() => (activeCategory = category)}
+                        class="font-stardew-body text-stardew-font-color text-sm font-bold
+                               flex w-full items-center gap-2 px-[0.8rem] py-2
+                               cursor-pointer    
+                               rounded-md border-4 border-stardew-border-dark bg-stardew-bg-light bg-opacity-10            
+                               opacity-70 
+                               transition-opacity duration-300 hover:opacity-100
+                               min-[390px]:gap-2 min-[390px]:px-[0.7rem] min-[390px]:py-1.5 min-[390px]:text-sm min-[640px]:px-[0.9rem] min-[640px]:py-2 min-[640px]:text-base 
+                               {activeCategory === 'CoApp'
+                                    ? 'opacity-100'
+                                    : ''}"
+                        aria-label="co-app sigsheet"
+                        onclick={() => {
+                            activeCategory = 'CoApp';
+                            openCoAppModal();
+                        }}
                     >
                         <span
                             class="bg-mni-pink aspect-square w-[1.5rem] flex-shrink-0 rounded-full min-[390px]:w-[1.5rem]"
-                            style:background-color={categoryColors[category]}
+                            style:background-color={categoryColors.CoApp}
                         ></span>
-                        <span class="flex items-center">{category}</span>
+                        <span class="flex items-center">Co-App</span>
                     </button>
-                {/each}
-
-                <button
-                    class="border-csi-black text-csi-white bg-csi-grey flex w-fit cursor-pointer items-center gap-2 rounded-full border-2 border-[#2C2C2E] px-[0.8rem] py-2 text-sm font-bold opacity-80 transition-colors duration-300 min-[390px]:gap-2 min-[390px]:px-[0.7rem] min-[390px]:py-1.5 min-[390px]:text-sm min-[640px]:px-[0.9rem] min-[640px]:py-2 min-[640px]:text-base {activeCategory ===
-                    'CoApp'
-                        ? 'bg-transparent opacity-100'
-                        : ''}"
-                    aria-label="co-app sigsheet"
-                    style:border-color={activeCategory === 'CoApp' ? categoryColors.CoApp : '#2C2C2E'}
-                    onclick={() => {
-                        activeCategory = 'CoApp';
-                        openCoAppModal();
-                    }}
-                >
-                    <span
-                        class="bg-mni-pink aspect-square w-[1.5rem] flex-shrink-0 rounded-full min-[390px]:w-[1.5rem]"
-                        style:background-color={categoryColors.CoApp}
-                    ></span>
-                    <span class="flex items-center">Co-App</span>
-                </button>
+                </div>
             </div>
         {/if}
     </div>
