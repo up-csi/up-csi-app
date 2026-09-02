@@ -15,7 +15,7 @@
            border-5 border-l-stardew-border-light border-b-stardew-border-light border-t-stardew-border-shadow border-r-stardew-border-shadow
            text-center overflow-hidden
            transition-all duration-300 ease-in-out 
-           hover:scale-105 hover:bg-[#333336]"
+           hover:scale-105 hover:bg-innov-orange"
 >
     <div class="-mx-4 mb-3 flex justify-center items-center self-center min-[834px]:w-[14vw]">
         <img
@@ -27,7 +27,7 @@
     </div>
 
     <div>
-        <h2 class="text-csi-white text-left text-2xl">{member.member_name}</h2>
-        <h3 class="text-csi-white text-left text-lg">{member.role}</h3>
+        <h2 class="text-stardew-font-color text-left text-2xl">{member.member_name}</h2>
+        <h3 class="text-stardew-font-color text-left text-lg">{member.role}</h3>
     </div>
 </main>
