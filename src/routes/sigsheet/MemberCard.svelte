@@ -10,7 +10,7 @@
 </script>
 
 <main
-    class="font-[Inter, sans-serif] flex w-full flex-col gap-[0.01rem] rounded-2xl bg-[#262629] px-4 pb-4 text-center transition-all duration-300 ease-in-out hover:scale-105 hover:bg-[#333336] min-[834px]:w-[14vw]"
+    class="font-[Inter, sans-serif] flex w-full h-full flex-col gap-[0.01rem] rounded-2xl bg-[#262629] px-4 pb-4 text-center transition-all duration-300 ease-in-out hover:scale-105 hover:bg-[#333336] min-[834px]:w-[14vw]"
 >
     <div class="-mx-4 mb-[1rem] self-center min-[834px]:w-[14vw]">
         <img
