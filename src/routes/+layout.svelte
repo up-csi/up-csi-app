@@ -78,7 +78,7 @@
         <div></div>
     </header>
 
-    <div class="flex w-full flex-row bg-[#161619]">
+    <div class="flex w-full flex-row bg-gradient-to-b from-stardew-bg-light to-stardew-bg-dark">
         {#if page.url.pathname !== '/login/'}
             <!-- Backdrop overlay -->
             <div
