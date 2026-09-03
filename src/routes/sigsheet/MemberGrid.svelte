@@ -79,16 +79,18 @@
 
     <div class="flex flex-col-reverse gap-3 min-[375px]:gap-4 min-[390px]:gap-6 min-[834px]:flex-row">
         {#if activeCategory !== 'CoApp'}
-            <div
-                class="grid w-full h-fit grid-cols-2 gap-1.5 min-[375px]:gap-3 min-[390px]:gap-4 min-[480px]:grid-cols-4 min-[834px]:flex-1 min-[834px]:grid-cols-4 min-[834px]:gap-4 min-[1280px]:grid-cols-4"
-            >
-                {#each $members.filter(member => member.member_committee === activeCategory) as member (member.member_name)}
-                    <div in:fade={{ duration: 1300 }} class="w-full h-full">
-                        <button onclick={() => openModal(member)} class="w-full h-full cursor-pointer">
-                            <MemberCard filled={$filledSigsheet.has(member.member_id)} {member} />
-                        </button>
-                    </div>
-                {/each}
+            <div class="border-6 border-stardew-border-dark p-1 bg-stardew-border-fill">
+                <div
+                    class="border-6 p-6 border-stardew-border-dark bg-gradient-to-b from-stardew-bg-light to-stardew-bg-dark grid w-full h-fit grid-cols-2 gap-1.5 min-[375px]:gap-3 min-[390px]:gap-4 min-[480px]:grid-cols-4 min-[834px]:flex-1 min-[834px]:grid-cols-4 min-[834px]:gap-4 min-[1280px]:grid-cols-4"
+                >
+                    {#each $members.filter(member => member.member_committee === activeCategory) as member (member.member_name)}
+                        <div in:fade={{ duration: 1300 }} class="w-full h-full">
+                            <button onclick={() => openModal(member)} class="w-full h-full cursor-pointer">
+                                <MemberCard filled={$filledSigsheet.has(member.member_id)} {member} />
+                            </button>
+                        </div>
+                    {/each}
+                </div>
             </div>
 
             <div
