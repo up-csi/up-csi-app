@@ -23,6 +23,10 @@
             class="aspect-square w-full object-cover"
             class:grayscale={!filled}
             alt={member.name}
+            onerror={(event) => {
+                const target = event.target as HTMLImageElement;
+                target.src = '/assets/members/LinoPlaceholder.webp';
+            }}
         />
     </div>
 
