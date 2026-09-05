@@ -184,7 +184,7 @@
 </script>
 
 {#if data.session}
-    <div class="font-inter h-screen flex-1 flex-row bg-[#161619] px-4 py-6 sm:px-6 lg:px-10">
+    <div class="font-inter h-screen flex-1 flex-row bg-gradient-to-b from-stardew-bg-light to-stardew-bg-dark px-4 py-6 sm:px-6 lg:px-10">
         <h1 class="text-csi-white mb-2 text-center text-4xl font-bold lg:ml-12 lg:text-left">
             Hello, {$username}!
             {#if data.userRole}
