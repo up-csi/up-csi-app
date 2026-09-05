@@ -194,23 +194,25 @@
         <h2 class="text-stardew-font-color font-stardew-body text-center text-4xl lg:ml-12 lg:text-left">Your Dashboard</h2>
 
         <main class="mt-6 flex flex-col lg:flex-row lg:justify-evenly">
-            <div class="bg-csi-neutral-900 mb-8 flex flex-col gap-y-2.5 rounded-2xl p-6 lg:w-7/15">
-                <h2 class="text-csi-blue text-3xl font-bold">Signature Sheet</h2>
+            <div class="p-1 bg-stardew-border-fill border-6 border-stardew-border-dark mb-8 lg:w-7/15">
+                <div class="bg-gradient-to-b from-stardew-bg-light to-stardew-bg-dark flex flex-col gap-y-2.5 p-6 border-6 border-stardew-border-dark">
+                    <h2 class="text-csi-blue font-stardew-body text-5xl">Signature Sheet</h2>
 
-                {#each signatureSheet as section (section.name)}
-                    <div>
-                        <div class="flex justify-between">
-                            <h3 class="text-csi-white">{section.name}</h3>
-                            <p class="text-csi-white">{section.progress}</p>
+                    {#each signatureSheet as section (section.name)}
+                        <div>
+                            <div class="flex justify-between">
+                                <h3 class="text-stardew-font-color font-stardew-body text-xl">{section.name}</h3>
+                                <p class="text-stardew-font-color font-stardew-body">{section.progress}</p>
+                            </div>
+                            <div class="mt-1 h-6 w-full overflow-hidden rounded-full bg-gray-700">
+                                <div
+                                    class="{section.color} h-full"
+                                    style="width: {calculatePercentage(section.progress)}%"
+                                ></div>
+                            </div>
                         </div>
-                        <div class="mt-1 h-6 w-full overflow-hidden rounded-full bg-gray-700">
-                            <div
-                                class="{section.color} h-full"
-                                style="width: {calculatePercentage(section.progress)}%"
-                            ></div>
-                        </div>
-                    </div>
-                {/each}
+                    {/each}
+                </div>
             </div>
 
             <div class="bg-csi-neutral-900 mb-8 flex flex-col gap-y-4 rounded-2xl p-6 lg:w-7/15">
