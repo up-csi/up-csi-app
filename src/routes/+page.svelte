@@ -215,59 +215,61 @@
                 </div>
             </div>
 
-            <div class="bg-csi-neutral-900 mb-8 flex flex-col gap-y-4 rounded-2xl p-6 lg:w-7/15">
-                <h2 class="text-csi-blue text-3xl font-bold">Constitution Quiz</h2>
-                <div class="flex justify-between">
-                    <h3 class="text-csi-white text-lg font-bold">Progress</h3>
-                    <p class="text-csi-white">{quizProgress}</p>
-                </div>
+            <div class="mb-8 lg:w-7/15 p-1 bg-stardew-border-fill border-6 border-stardew-border-dark">
+                <div class="bg-gradient-to-b from-stardew-bg-light to-stardew-bg-dark flex flex-col gap-y-4 p-6 border-6 border-stardew-border-dark h-full">
+                    <h2 class="text-csi-blue text-5xl font-stardew-body">Constitution Quiz</h2>
+                    <div class="flex justify-between">
+                        <h3 class="text-stardew-font-color text-2xl font-stardew-body">Progress</h3>
+                        <p class="text-stardew-font-color text-xl font-stardew-body">{quizProgress}</p>
+                    </div>
 
-                <div class="h-6 w-full overflow-hidden rounded-full bg-gray-700">
-                    <div class="h-full bg-cyan-400" style="width: {calculatePercentage(quizProgress)}%"></div>
-                </div>
-                <p class="text-csi-white">{quizClosingString}</p>
-                <div class="text-csi-white">
-                    <p class="pb-2 text-lg font-bold">Constitution Quiz Mechanics</p>
-                    <ul class="pr-0 pl-5 md:pl-10" style="list-style-type:circle;">
-                        <li class="py-1">The constitution quiz is a requirement for all CSI Applicants</li>
-                        <li class="py-1">
-                            This quiz is open notes. You may view a copy of the constitution <a
-                                class="text-csi-blue hover:underline hover:duration-300 hover:ease-in-out"
-                                href="https://drive.google.com/file/d/152hPWrIF-88ojZggTRiNIjjM_Dzei_oy/view"
-                                target="_blank">here</a
-                            >
-                            and a copy of the brandbook
-                            <a
-                                class="text-csi-blue hover:underline hover:duration-300 hover:ease-in-out"
-                                href="https://drive.google.com/file/d/1NG2kW9WoIOG3mpGzZ6KFz4p50JT4u8p4/view?usp=sharing"
-                                target="_blank">here</a
-                            >.
-                        </li>
-                        <li class="py-1">
-                            Please keep the contents of the quiz confidential. You may not consult with other applicants
-                            or members!
-                        </li>
-                        <li class="py-1">
-                            The consti quiz is open from <b
-                                >{quizRawStart.toLocaleDateString('en-us', { month: 'short' })}
-                                {quizRawStart.getDate()} ({quizRawStart.toLocaleDateString('en-us', {
-                                    weekday: 'short',
-                                })}) to {quizRawEnd.toLocaleDateString('en-us', { month: 'short' })}
-                                {quizRawEnd.getDate()} ({quizRawEnd.toLocaleDateString('en-us', {
-                                    weekday: 'short',
-                                })})</b
-                            >. Your progress will be saved when you exit.
-                        </li>
-                    </ul>
-                </div>
+                    <div class="h-6 w-full overflow-hidden rounded-full bg-gray-700">
+                        <div class="h-full bg-cyan-400" style="width: {calculatePercentage(quizProgress)}%"></div>
+                    </div>
+                    <p class="text-stardew-font-color font-stardew-body text-2xl">{quizClosingString}</p>
+                    <div class="text-stardew-font-color font-stardew-body">
+                        <p class="pb-2 text-2xl">Constitution Quiz Mechanics</p>
+                        <ul class="pr-0 pl-5 md:pl-10" style="list-style-type:circle;">
+                            <li class="py-1 text-lg">The constitution quiz is a requirement for all CSI Applicants</li>
+                            <li class="py-1 text-lg">
+                                This quiz is open notes. You may view a copy of the constitution <a
+                                    class="text-csi-blue hover:underline hover:duration-300 hover:ease-in-out"
+                                    href="https://drive.google.com/file/d/152hPWrIF-88ojZggTRiNIjjM_Dzei_oy/view"
+                                    target="_blank">here</a
+                                >
+                                and a copy of the brandbook
+                                <a
+                                    class="text-csi-blue hover:underline hover:duration-300 hover:ease-in-out"
+                                    href="https://drive.google.com/file/d/1NG2kW9WoIOG3mpGzZ6KFz4p50JT4u8p4/view?usp=sharing"
+                                    target="_blank">here</a
+                                >.
+                            </li>
+                            <li class="py-1 text-lg">
+                                Please keep the contents of the quiz confidential. You may not consult with other applicants
+                                or members!
+                            </li>
+                            <li class="py-1 text-lg">
+                                The consti quiz is open from <b
+                                    >{quizRawStart.toLocaleDateString('en-us', { month: 'short' })}
+                                    {quizRawStart.getDate()} ({quizRawStart.toLocaleDateString('en-us', {
+                                        weekday: 'short',
+                                    })}) to {quizRawEnd.toLocaleDateString('en-us', { month: 'short' })}
+                                    {quizRawEnd.getDate()} ({quizRawEnd.toLocaleDateString('en-us', {
+                                        weekday: 'short',
+                                    })})</b
+                                >. Your progress will be saved when you exit.
+                            </li>
+                        </ul>
+                    </div>
 
-                {#if new Date().getTime() >= quizRawStart.getTime() && new Date().getTime() <= quizRawEnd.getTime()}
-                    <a
-                        href="./consti-quiz"
-                        class="bg-csi-blue w-1/4 self-center rounded-3xl py-2 text-center font-bold text-[#161619]"
-                        >Continue</a
-                    >
-                {/if}
+                    {#if new Date().getTime() >= quizRawStart.getTime() && new Date().getTime() <= quizRawEnd.getTime()}
+                        <a
+                            href="./consti-quiz"
+                            class="bg-csi-blue w-1/4 self-center rounded-3xl py-2 text-center font-bold text-[#161619]"
+                            >Continue</a
+                        >
+                    {/if}
+                </div>
             </div>
         </main>
     </div>
