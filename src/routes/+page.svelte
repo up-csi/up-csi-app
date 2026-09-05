@@ -176,6 +176,12 @@
         }
     }
 
+    function getSegmentFill(index: number, currentProgress: number) {
+        const segmentStart = index * 10;
+        const rawFill = Math.min(Math.max(currentProgress - segmentStart, 0), 10);
+        return (rawFill / 10) * 100;
+    }
+
     $effect(() => {
         updateTimeLeft();
         const interval = setInterval(updateTimeLeft, 1000);
@@ -204,11 +210,23 @@
                                 <h3 class="text-stardew-font-color font-stardew-body text-xl">{section.name}</h3>
                                 <p class="text-stardew-font-color font-stardew-body">{section.progress}</p>
                             </div>
-                            <div class="mt-1 h-6 w-full overflow-hidden rounded-full bg-gray-700">
+                            <!-- <div class="mt-1 h-6 w-full overflow-hidden rounded-full bg-gray-700">
                                 <div
                                     class="{section.color} h-full"
                                     style="width: {calculatePercentage(section.progress)}%"
                                 ></div>
+                            </div> -->
+                            <div class="grid grid-cols-14 gap-2">
+                                {#each {length: 10} as _, index (index)}
+                                    <div
+                                        class="border-2 border-stardew-border-dark bg-stardew-empty-progress h-8 {(index+1) % 5 == 0 ? 'col-span-3' : 'col-span-1'} rounded-sm"
+                                    >
+                                        <div
+                                            class="{section.color} h-full"
+                                            style="width: {getSegmentFill(index, calculatePercentage(section.progress))}%"
+                                        ></div>  
+                                    </div>
+                                {/each}
                             </div>
                         </div>
                     {/each}
