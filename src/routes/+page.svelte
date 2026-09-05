@@ -176,6 +176,7 @@
         }
     }
 
+    // for the progress bar segments, each segment represents 10% of the total progress
     function getSegmentFill(index: number, currentProgress: number) {
         const segmentStart = index * 10;
         const rawFill = Math.min(Math.max(currentProgress - segmentStart, 0), 10);
