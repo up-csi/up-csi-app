@@ -185,13 +185,13 @@
 
 {#if data.session}
     <div class="font-inter h-screen flex-1 flex-row bg-gradient-to-b from-stardew-bg-light to-stardew-bg-dark px-4 py-6 sm:px-6 lg:px-10">
-        <h1 class="text-csi-white mb-2 text-center text-4xl font-bold lg:ml-12 lg:text-left">
+        <h1 class="text-stardew-font-color font-stardew-body mb-2 text-center text-5xl lg:ml-12 lg:text-left">
             Hello, {$username}!
             {#if data.userRole}
                 <span class="text-csi-blue text-base font-normal">({data.userRole})</span>
             {/if}
         </h1>
-        <h2 class="text-csi-white text-center text-2xl font-bold lg:ml-12 lg:text-left">Your Dashboard</h2>
+        <h2 class="text-stardew-font-color font-stardew-body text-center text-4xl lg:ml-12 lg:text-left">Your Dashboard</h2>
 
         <main class="mt-6 flex flex-col lg:flex-row lg:justify-evenly">
             <div class="bg-csi-neutral-900 mb-8 flex flex-col gap-y-2.5 rounded-2xl p-6 lg:w-7/15">
