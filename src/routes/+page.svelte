@@ -241,9 +241,23 @@
                         <p class="text-stardew-font-color text-xl font-stardew-body">{quizProgress}</p>
                     </div>
 
-                    <div class="h-6 w-full overflow-hidden rounded-full bg-gray-700">
+                    <!-- <div class="h-6 w-full overflow-hidden rounded-full bg-gray-700">
                         <div class="h-full bg-cyan-400" style="width: {calculatePercentage(quizProgress)}%"></div>
+                    </div> -->
+
+                    <div class="grid grid-cols-14 gap-2">
+                        {#each {length: 10} as _, index (index)}
+                            <div
+                                class="border-2 border-stardew-border-dark bg-stardew-empty-progress h-8 {(index+1) % 5 == 0 ? 'col-span-3' : 'col-span-1'} rounded-sm"
+                            >
+                                <div
+                                    class="bg-csi-blue h-full"
+                                    style="width: {getSegmentFill(index, calculatePercentage(quizProgress))}%"
+                                ></div>  
+                            </div>
+                        {/each}
                     </div>
+
                     <p class="text-stardew-font-color font-stardew-body text-2xl">{quizClosingString}</p>
                     <div class="text-stardew-font-color font-stardew-body">
                         <p class="pb-2 text-2xl">Constitution Quiz Mechanics</p>
