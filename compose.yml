@@ -1,16 +1,20 @@
 services:
-  www:
-    build:
-      context: .
-    container_name: up-csi-app
-    restart: always
+  app:
+    build: .
+    container_name: app
     ports:
-      - ${CONTAINER_PORT:-3000}:3000
-    env_file:
-      - .env
-    healthcheck:
-      test: ['CMD-SHELL', 'wget -q0- http://localhost:${CONTAINER_PORT}/']
-      interval: 10s
-      timeout: 30s
-      retries: 5
-      start_period: 10s
+      - 127.0.0.1:3000:3000
+    networks:
+      - default
+      - traefik_net
+    labels:
+      - "traefik.enable=true"
+      - "traefik.docker.network=traefik_net"
+      - "traefik.http.routers.app.rule=Host(`app.up-csi.org`)"
+      - "traefik.http.routers.app.entrypoints=websecure"
+      - "traefik.http.services.app.loadbalancer.server.port=3000"
+      - "traefik.http.routers.app.tls=true"
+
+networks:
+  traefik_net:
+    external: true
