@@ -177,6 +177,13 @@
         }
     }
 
+    // for the progress bar segments, each segment represents 10% of the total progress
+    function getSegmentFill(index: number, currentProgress: number) {
+        const segmentStart = index * 10;
+        const rawFill = Math.min(Math.max(currentProgress - segmentStart, 0), 10);
+        return (rawFill / 10) * 100;
+    }
+
     $effect(() => {
         updateTimeLeft();
         const interval = setInterval(updateTimeLeft, 1000);
@@ -185,88 +192,118 @@
 </script>
 
 {#if data.session}
-    <div class="font-inter h-screen flex-1 flex-row bg-[#161619] px-4 py-6 sm:px-6 lg:px-10">
-        <h1 class="text-csi-white mb-2 text-center text-4xl font-bold lg:ml-12 lg:text-left">
+    <div class="font-inter h-screen flex-1 flex-row bg-gradient-to-b from-stardew-bg-light to-stardew-bg-dark px-4 py-6 sm:px-6 lg:px-10">
+        <h1 class="text-stardew-font-color font-stardew-body mb-2 text-center text-5xl lg:ml-12 lg:text-left">
             Hello, {$username}!
             {#if data.userRole}
                 <span class="text-csi-blue text-base font-normal">({data.userRole})</span>
             {/if}
         </h1>
-        <h2 class="text-csi-white text-center text-2xl font-bold lg:ml-12 lg:text-left">Your Dashboard</h2>
+        <h2 class="text-stardew-font-color font-stardew-body text-center text-4xl lg:ml-12 lg:text-left">Your Dashboard</h2>
 
         <main class="mt-6 flex flex-col lg:flex-row lg:justify-evenly">
-            <div class="bg-csi-neutral-900 mb-8 flex flex-col gap-y-2.5 rounded-2xl p-6 lg:w-7/15">
-                <h2 class="text-csi-blue text-3xl font-bold">Signature Sheet</h2>
+            <div class="p-1 bg-stardew-border-fill border-6 border-stardew-border-dark mb-8 lg:w-7/15">
+                <div class="bg-gradient-to-b from-stardew-bg-light to-stardew-bg-dark flex flex-col gap-y-2.5 p-6 border-6 border-stardew-border-dark">
+                    <h2 class="text-csi-blue font-stardew-body text-5xl">Signature Sheet</h2>
 
-                {#each signatureSheet as section (section.name)}
-                    <div>
-                        <div class="flex justify-between">
-                            <h3 class="text-csi-white">{section.name}</h3>
-                            <p class="text-csi-white">{section.progress}</p>
+                    {#each signatureSheet as section (section.name)}
+                        <div>
+                            <div class="flex justify-between">
+                                <h3 class="text-stardew-font-color font-stardew-body text-xl">{section.name}</h3>
+                                <p class="text-stardew-font-color font-stardew-body">{section.progress}</p>
+                            </div>
+                            <!-- <div class="mt-1 h-6 w-full overflow-hidden rounded-full bg-gray-700">
+                                <div
+                                    class="{section.color} h-full"
+                                    style="width: {calculatePercentage(section.progress)}%"
+                                ></div>
+                            </div> -->
+                            <div class="grid grid-cols-14 gap-2">
+                                {#each {length: 10} as _, index (index)}
+                                    <div
+                                        class="border-2 border-stardew-border-dark bg-stardew-empty-progress h-8 {(index+1) % 5 == 0 ? 'col-span-3' : 'col-span-1'} rounded-sm"
+                                    >
+                                        <div
+                                            class="{section.color} h-full"
+                                            style="width: {getSegmentFill(index, calculatePercentage(section.progress))}%"
+                                        ></div>  
+                                    </div>
+                                {/each}
+                            </div>
                         </div>
-                        <div class="mt-1 h-6 w-full overflow-hidden rounded-full bg-gray-700">
-                            <div
-                                class="{section.color} h-full"
-                                style="width: {calculatePercentage(section.progress)}%"
-                            ></div>
-                        </div>
-                    </div>
-                {/each}
+                    {/each}
+                </div>
             </div>
 
-            <div class="bg-csi-neutral-900 mb-8 flex flex-col gap-y-4 rounded-2xl p-6 lg:w-7/15">
-                <h2 class="text-csi-blue text-3xl font-bold">Constitution Quiz</h2>
-                <div class="flex justify-between">
-                    <h3 class="text-csi-white text-lg font-bold">Progress</h3>
-                    <p class="text-csi-white">{quizProgress}</p>
-                </div>
+            <div class="mb-8 lg:w-7/15 p-1 bg-stardew-border-fill border-6 border-stardew-border-dark">
+                <div class="bg-gradient-to-b from-stardew-bg-light to-stardew-bg-dark flex flex-col gap-y-4 p-6 border-6 border-stardew-border-dark h-full">
+                    <h2 class="text-csi-blue text-5xl font-stardew-body">Constitution Quiz</h2>
+                    <div class="flex justify-between">
+                        <h3 class="text-stardew-font-color text-2xl font-stardew-body">Progress</h3>
+                        <p class="text-stardew-font-color text-xl font-stardew-body">{quizProgress}</p>
+                    </div>
 
-                <div class="h-6 w-full overflow-hidden rounded-full bg-gray-700">
-                    <div class="h-full bg-cyan-400" style="width: {calculatePercentage(quizProgress)}%"></div>
-                </div>
-                <p class="text-csi-white">{quizClosingString}</p>
-                <div class="text-csi-white">
-                    <p class="pb-2 text-lg font-bold">Constitution Quiz Mechanics</p>
-                    <ul class="pr-0 pl-5 md:pl-10" style="list-style-type:circle;">
-                        <li class="py-1">The constitution quiz is a requirement for all CSI Applicants</li>
-                        <li class="py-1">
-                            This quiz is open notes. You may view a copy of the constitution <a
-                                class="text-csi-blue hover:underline hover:duration-300 hover:ease-in-out"
-                                href="https://drive.google.com/file/d/152hPWrIF-88ojZggTRiNIjjM_Dzei_oy/view"
-                                target="_blank">here</a
+                    <!-- <div class="h-6 w-full overflow-hidden rounded-full bg-gray-700">
+                        <div class="h-full bg-cyan-400" style="width: {calculatePercentage(quizProgress)}%"></div>
+                    </div> -->
+
+                    <div class="grid grid-cols-14 gap-2">
+                        {#each {length: 10} as _, index (index)}
+                            <div
+                                class="border-2 border-stardew-border-dark bg-stardew-empty-progress h-8 {(index+1) % 5 == 0 ? 'col-span-3' : 'col-span-1'} rounded-sm"
                             >
-                            and a copy of the brandbook
-                            <a
-                                class="text-csi-blue hover:underline hover:duration-300 hover:ease-in-out"
-                                href="https://drive.google.com/file/d/1NG2kW9WoIOG3mpGzZ6KFz4p50JT4u8p4/view?usp=sharing"
-                                target="_blank">here</a
-                            >.
-                        </li>
-                        <li class="py-1">
-                            Please keep the contents of the quiz confidential. You may not consult with other applicants
-                            or members!
-                        </li>
-                        <li class="py-1">
-                            The consti quiz is open from <b
-                                >{quizRawStart.toLocaleDateString('en-us', { month: 'short' })}
-                                {quizRawStart.getDate()} ({quizRawStart.toLocaleDateString('en-us', {
-                                    weekday: 'short',
-                                })}) to {quizRawEnd.toLocaleDateString('en-us', { month: 'short' })}
-                                {quizRawEnd.getDate()} ({quizRawEnd.toLocaleDateString('en-us', {
-                                    weekday: 'short',
-                                })})</b
-                            >. Your progress will be saved when you exit.
-                        </li>
-                    </ul>
-                </div>
+                                <div
+                                    class="bg-csi-blue h-full"
+                                    style="width: {getSegmentFill(index, calculatePercentage(quizProgress))}%"
+                                ></div>  
+                            </div>
+                        {/each}
+                    </div>
 
-                {#if new Date().getTime() >= quizRawStart.getTime() && new Date().getTime() <= quizRawEnd.getTime()}
-                    <a
-                        href="./consti-quiz"
-                        class="bg-csi-blue w-1/4 self-center rounded-3xl py-2 text-center font-bold text-[#161619]"
-                        >Continue</a
-                    >
-                {/if}
+                    <p class="text-stardew-font-color font-stardew-body text-2xl">{quizClosingString}</p>
+                    <div class="text-stardew-font-color font-stardew-body">
+                        <p class="pb-2 text-2xl">Constitution Quiz Mechanics</p>
+                        <ul class="pr-0 pl-5 md:pl-10" style="list-style-type:circle;">
+                            <li class="py-1 text-lg">The constitution quiz is a requirement for all CSI Applicants</li>
+                            <li class="py-1 text-lg">
+                                This quiz is open notes. You may view a copy of the constitution <a
+                                    class="text-csi-blue hover:underline hover:duration-300 hover:ease-in-out"
+                                    href="https://drive.google.com/file/d/152hPWrIF-88ojZggTRiNIjjM_Dzei_oy/view"
+                                    target="_blank">here</a
+                                >
+                                and a copy of the brandbook
+                                <a
+                                    class="text-csi-blue hover:underline hover:duration-300 hover:ease-in-out"
+                                    href="https://drive.google.com/file/d/1NG2kW9WoIOG3mpGzZ6KFz4p50JT4u8p4/view?usp=sharing"
+                                    target="_blank">here</a
+                                >.
+                            </li>
+                            <li class="py-1 text-lg">
+                                Please keep the contents of the quiz confidential. You may not consult with other applicants
+                                or members!
+                            </li>
+                            <li class="py-1 text-lg">
+                                The consti quiz is open from <b
+                                    >{quizRawStart.toLocaleDateString('en-us', { month: 'short' })}
+                                    {quizRawStart.getDate()} ({quizRawStart.toLocaleDateString('en-us', {
+                                        weekday: 'short',
+                                    })}) to {quizRawEnd.toLocaleDateString('en-us', { month: 'short' })}
+                                    {quizRawEnd.getDate()} ({quizRawEnd.toLocaleDateString('en-us', {
+                                        weekday: 'short',
+                                    })})</b
+                                >. Your progress will be saved when you exit.
+                            </li>
+                        </ul>
+                    </div>
+
+                    {#if new Date().getTime() >= quizRawStart.getTime() && new Date().getTime() <= quizRawEnd.getTime()}
+                        <a
+                            href="./consti-quiz"
+                            class="bg-csi-blue w-1/4 self-center rounded-3xl py-2 text-center font-bold text-[#161619]"
+                            >Continue</a
+                        >
+                    {/if}
+                </div>
             </div>
         </main>
     </div>
