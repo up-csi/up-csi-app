@@ -240,7 +240,7 @@
 
                 <!-- Submit button -->
                 <button
-                    class="bg-csi-blue bg-opacity-10 hover:bg-innov-orange mb-3 w-50 max-w-xs rounded-full px-6 py-3 text-lg font-semibold"
+                    class="bg-csi-blue hover:bg-innov-orange bg-opacity-10 mb-3 w-50 max-w-xs rounded-full px-6 py-3 text-lg font-semibold"
                     disabled={submitting}
                 >
                     {#if submitting}
