@@ -1,3 +1,4 @@
+import { logger } from '$lib/logger';
 import { redirect } from '@sveltejs/kit';
 
 export const GET = async ({ url, locals: { supabase } }) => {
@@ -7,7 +8,7 @@ export const GET = async ({ url, locals: { supabase } }) => {
     if (code) {
         const { error: exchangeError } = await supabase.auth.exchangeCodeForSession(code);
         if (exchangeError) {
-            console.error('Code exchange failed:', exchangeError.message);
+            logger.error('Code exchange failed:', exchangeError.message);
             throw redirect(303, `/login/error?code=oauth_failed`);
         }
 
@@ -17,7 +18,7 @@ export const GET = async ({ url, locals: { supabase } }) => {
         } = await supabase.auth.getUser();
 
         if (userError || !user) {
-            console.error('Failed to get user:', userError?.message);
+            logger.error('Failed to get user:', userError?.message);
             throw redirect(303, '/login/error?code=no_user');
         }
 
@@ -31,20 +32,21 @@ export const GET = async ({ url, locals: { supabase } }) => {
         const { data, error } = await supabase.from('whitelist').select('id').eq('email', user.email).single();
 
         if (error && error.code === 'PGRST116') {
-            console.error(error.message);
-            console.warn(`Attempted login with non-whitelisted email: ${user.email}`);
+            logger.error(error.message);
+            logger.warn(`Attempted login with non-whitelisted email: ${user.email}`);
             await supabase.auth.signOut();
             throw redirect(303, `/login/error?code=non_csi`);
         }
 
         if (error || data === null) {
-            console.error('Database query error:', error);
+            logger.error('Database query error:', error);
             await supabase.auth.signOut();
             throw redirect(303, `/login/error?code=db_error`);
         }
 
         // Login Successful:
-        throw redirect(303, `/${next.slice(1)}`);
+        const safePath = next.startsWith('/') && !next.startsWith('//') ? next : '/';
+        throw redirect(303, safePath);
     }
 
     // return the user to an error page with instructions

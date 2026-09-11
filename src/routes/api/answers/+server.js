@@ -1,4 +1,5 @@
 import { json } from '@sveltejs/kit';
+import { logger } from '$lib/logger';
 
 export async function POST({ locals, request }) {
     const { supabase } = locals;
@@ -25,12 +26,11 @@ export async function POST({ locals, request }) {
             option_id: a.option_id ?? null,
             answer_text: a.answer_text ?? null,
         })),
-        // @ts-expect-error - might be necessary to avoid conflicts or creating more rows
-        { onConflict: ['user_id', 'question_id'] },
+        { onConflict: 'user_id,question_id' },
     );
 
     if (error) {
-        console.error(error);
+        logger.error(error);
         return json({ success: false, error: error.message }, { status: 500 });
     }
 

@@ -22,3 +22,13 @@ export const filledSigsheet = {
 };
 
 export const applicant_names_list = writable<string[]>([]);
+
+export interface mem {
+    member_id: number;
+    member_name: string;
+    member_committee: string;
+    role: string;
+    photo: string;
+}
+
+export const members = writable<mem[]>([]);

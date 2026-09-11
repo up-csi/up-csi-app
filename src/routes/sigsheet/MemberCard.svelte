@@ -1,7 +1,12 @@
 <script lang="ts">
     const { filled, member } = $props();
 
-    const memberimg = `/assets/members/${member.photo}.webp`;
+    // function getImage(imgname: string) {
+    //     return new URL(`../../lib/assets/members/${imgname}.webp`, import.meta.url).href;
+    // }
+
+    // const memberimg = getImage(member.photo);
+    const memberimg = $derived(`/assets/members/${member.photo}.webp`);
 </script>
 
 <main
@@ -17,7 +22,7 @@
     </div>
 
     <div>
-        <h2 class="text-csi-white text-left text-lg font-bold">{member.name}</h2>
+        <h2 class="text-csi-white text-left text-lg font-bold">{member.member_name}</h2>
         <h3 class="text-csi-white text-left text-sm">{member.role}</h3>
     </div>
 </main>

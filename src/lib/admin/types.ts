@@ -1,0 +1,103 @@
+/** Profile row for an applicant, as returned by the admin applicants endpoint. */
+export interface ApplicantProfile {
+    id: string;
+    username: string;
+    full_name: string;
+    avatar_url: string | null;
+    role: string;
+}
+
+/** Summary of a quiz submission with aggregated score. */
+export interface QuizResultSummary {
+    submission_id: string;
+    submitted_at: string;
+    user_id: string;
+    profile: { username: string; full_name: string };
+    total_score: number;
+}
+
+/** A quiz question option shown to admins when reviewing choice answers. */
+export interface QuizOptionDetail {
+    option_id: number;
+    title: string | null;
+    is_correct: boolean;
+}
+
+/** Detailed quiz answer with nested question and section info. */
+export interface QuizAnswerDetail {
+    answer_id: string;
+    question_id: number;
+    answer_text: string | null;
+    option_id: number | null;
+    points: number;
+    is_checked: boolean;
+    question: {
+        title: string;
+        point_value: number;
+        type: 'radio' | 'checkbox' | 'short_text' | 'long_text';
+        section: { section_id: number; title: string };
+        options: QuizOptionDetail[];
+    };
+}
+
+/** Full quiz result detail for a single user. */
+export interface QuizResultDetail {
+    profile: { id: string; username: string; full_name: string } | null;
+    submitted_at: string | null;
+    answers: QuizAnswerDetail[];
+    max_score: number;
+    current_score: number;
+    status: 'Not Started' | 'In Progress' | 'Completed';
+}
+
+/** A single signature entry in the sigsheet. */
+export interface SigsheetSignatureDetail {
+    sig_id: string;
+    signed_at: string;
+    member_id: string;
+    member_name: string;
+}
+
+/** Sigsheet progress summary for one applicant. */
+export interface SigsheetProgressSummary {
+    profile: { id: string; username: string; full_name: string };
+    signatures: SigsheetSignatureDetail[];
+    count: number;
+}
+
+/** Grade input for an applicant (used in Plan 02). */
+export interface GradeInput {
+    user_id: string;
+    score: number;
+    max_score: number;
+    remarks?: string;
+}
+
+/** Row shape for the constiquiz respondent list page (P02-001). */
+export interface QuizRespondent {
+    user_id: string;
+    full_name: string;
+    status: 'Not Started' | 'In Progress' | 'Completed';
+    current_score: number;
+}
+
+/** Sigsheet respondent with per-committee breakdown for P03-001. */
+export interface SigsheetRespondent {
+    user_id: string;
+    full_name: string;
+    username: string;
+    total_signatures: number;
+    by_committee: Record<string, number>;
+    status: 'Not Started' | 'In Progress' | 'Completed';
+}
+
+/** Sigsheet summary for applicants on a per-committee breakdown for P03-002. */
+export interface SigsheetProfileSummary {
+    profile: { id: string; username: string; full_name: string };
+    signatures: SigsheetSignatureDetail[];
+    by_committee: Record<string, number>;
+    committee_totals: Record<string, number>;
+    total_signatures: number;
+    total_members: number;
+    status: 'Not Started' | 'In Progress' | 'Completed';
+}

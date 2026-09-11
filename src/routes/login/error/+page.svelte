@@ -1,7 +1,7 @@
 <script>
     import logo from '$lib/icons/upcsi.svg';
     const { data } = $props();
-    const errorMessage = data.message;
+    const errorMessage = $derived(data.message);
 </script>
 
 <div

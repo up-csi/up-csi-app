@@ -1,6 +1,7 @@
 import type { Answer, ISection, Question } from './consti-quiz/constiquiz-types.ts';
 import { PUBLIC_SUPABASE_ANON_KEY, PUBLIC_SUPABASE_URL } from '$env/static/public';
 import { createBrowserClient, createServerClient, isBrowser } from '@supabase/ssr';
+import { logger } from '$lib/logger';
 
 export async function load({ data, depends, fetch }) {
     depends('supabase:auth');
@@ -22,16 +23,10 @@ export async function load({ data, depends, fetch }) {
               },
           });
 
-    const {
-        data: { session },
-    } = await supabase.auth.getSession();
-
-    const {
-        data: { user },
-    } = await supabase.auth.getUser();
+    const { session } = data;
+    const user = session?.user ?? null;
 
     if (!user) {
-        console.error('Failed to fetch user.');
         return {
             session: session,
             supabase: supabase,
@@ -43,44 +38,42 @@ export async function load({ data, depends, fetch }) {
     }
 
     const uuid = user.id;
-
     const username = user.email?.split('@')[0] ?? '';
 
-    // Fetch filledSigsheet
     let filledSigsheet: Set<number> = new Set();
-    try {
-        const { data: sigRows, error: sigError } = await supabase
-            .from('sigsheet')
-            .select('member_id')
-            .eq('applicant_id', uuid);
-
-        if (sigError) throw sigError;
-
-        filledSigsheet = new Set(sigRows?.map(row => row.member_id) ?? []);
-    } catch (sigError) {
-        console.error('Error fetching sigsheet: ', sigError);
-    }
-
-    // Fetch gdrive_folder_id
     let gdrive_folder_id: string = '';
-    try {
-        const response = await fetch('/api/get_gdrive_folder', {
-            method: 'POST',
-            body: JSON.stringify({
-                uuid: uuid,
-                username: username,
-            }),
-        });
 
-        if (!response.ok) {
-            const gDriveError = await response.json().catch(() => ({}));
-            console.error('Error fetching gdrive folder:', gDriveError);
-        } else {
-            const folderData = await response.json();
-            gdrive_folder_id = folderData.folder_id ?? '';
+    if (data.userRole === 'applicant') {
+        // Fetch filledSigsheet
+        try {
+            const { data: sigRows, error: sigError } = await supabase
+                .from('sigsheet')
+                .select('member_id')
+                .eq('applicant_id', uuid);
+
+            if (sigError) throw sigError;
+
+            filledSigsheet = new Set(sigRows?.map(row => row.member_id) ?? []);
+        } catch (sigError) {
+            logger.error('Error fetching sigsheet: ', sigError);
         }
-    } catch (gDriveError) {
-        console.error('Unexpected error fetching gdrive folder:', gDriveError);
+
+        // Fetch gdrive_folder_id
+        try {
+            const response = await fetch('/api/get_gdrive_folder', {
+                method: 'POST',
+            });
+
+            if (!response.ok) {
+                const gDriveError = await response.json().catch(() => ({}));
+                logger.error('Error fetching gdrive folder:', gDriveError);
+            } else {
+                const folderData = await response.json();
+                gdrive_folder_id = folderData.folder_id ?? '';
+            }
+        } catch (gDriveError) {
+            logger.error('Unexpected error fetching gdrive folder:', gDriveError);
+        }
     }
 
     // Functions for fetching constiquiz
@@ -92,8 +85,7 @@ export async function load({ data, depends, fetch }) {
 	`);
 
         if (error) {
-            // TODO: handle error
-            console.error(error);
+            logger.error(error);
             throw error;
         }
 
@@ -118,12 +110,11 @@ export async function load({ data, depends, fetch }) {
             `);
 
         if (error || !data) {
-            console.error(error);
+            logger.error(error);
             throw error;
         }
 
-        // @ts-expect-error - no idea how to fix lint of this
-        return data ?? [];
+        return (data ?? []) as unknown as Question[];
     };
 
     const fetchAnswers = async (): Promise<Answer[]> => {
@@ -142,7 +133,7 @@ export async function load({ data, depends, fetch }) {
             .eq('user_id', uuid);
 
         if (error) {
-            console.error(error);
+            logger.error(error);
             throw error;
         }
 
@@ -152,5 +143,17 @@ export async function load({ data, depends, fetch }) {
     // fetch in parallel for faster results
     const [sections, questions, answers] = await Promise.all([fetchSections(), fetchQuestions(), fetchAnswers()]);
 
-    return { session, supabase, user, uuid, username, filledSigsheet, gdrive_folder_id, sections, questions, answers };
+    return {
+        session,
+        supabase,
+        user,
+        uuid,
+        username,
+        filledSigsheet,
+        gdrive_folder_id,
+        sections,
+        questions,
+        answers,
+        userRole: data.userRole,
+    };
 }

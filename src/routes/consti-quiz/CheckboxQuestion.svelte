@@ -19,7 +19,6 @@
         valueSet.add(option);
         const valueList = Array.from(valueSet);
         value = valueList.join('-');
-        console.log(value);
     }
 
     function removeOption(option: string) {
@@ -28,7 +27,6 @@
             .split('-')
             .filter(v => v !== option);
         value = valueList.join('-');
-        console.log(valueList);
     }
 
     function isSelected(option: string) {

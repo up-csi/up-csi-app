@@ -12,9 +12,9 @@ env:
   # SUPABASE_ACCESS_TOKEN: ${{ secrets.SUPABASE_ACCESS_TOKEN }}
   PUBLIC_SUPABASE_URL: ${{ vars.PUBLIC_SUPABASE_URL || 'http://dummy' }}
   PUBLIC_SUPABASE_ANON_KEY: ${{ vars.PUBLIC_SUPABASE_ANON_KEY || 'anon-key' }}
-  PUBLIC_SUPABASE_SERVICE_KEY: ${{ vars.PUBLIC_SUPABASE_SERVICE_KEY }}
-  PUBLIC_GOOGLE_SERVICE_EMAIL: ${{ vars.PUBLIC_GOOGLE_SERVICE_EMAIL }}
-  PUBLIC_GOOGLE_PRIVATE_KEY: ${{ vars.PUBLIC_GOOGLE_PRIVATE_KEY }}
+  SUPABASE_SERVICE_KEY: ${{ secrets.SUPABASE_SERVICE_KEY }}
+  GOOGLE_SERVICE_EMAIL: ${{ secrets.GOOGLE_SERVICE_EMAIL }}
+  GOOGLE_PRIVATE_KEY: ${{ secrets.GOOGLE_PRIVATE_KEY }}
 
   # Custom environment used for the Container registry domain, and a name for the Docker image that this workflow builds.
   REGISTRY: ghcr.io
@@ -59,9 +59,9 @@ jobs:
           CONTAINER_PORT=${{ env.CONTAINER_PORT }}
           PUBLIC_SUPABASE_URL=${{ env.PUBLIC_SUPABASE_URL }}
           PUBLIC_SUPABASE_ANON_KEY=${{ env.PUBLIC_SUPABASE_ANON_KEY }}
-          PUBLIC_SUPABASE_SERVICE_KEY=${{ env.PUBLIC_SUPABASE_SERVICE_KEY }}
-          PUBLIC_GOOGLE_SERVICE_EMAIL=${{ env.PUBLIC_GOOGLE_SERVICE_EMAIL }}
-          PUBLIC_GOOGLE_PRIVATE_KEY=${{ env.PUBLIC_GOOGLE_PRIVATE_KEY }}
+          SUPABASE_SERVICE_KEY=${{ env.SUPABASE_SERVICE_KEY }}
+          GOOGLE_SERVICE_EMAIL=${{ env.GOOGLE_SERVICE_EMAIL }}
+          GOOGLE_PRIVATE_KEY=${{ env.GOOGLE_PRIVATE_KEY }}
           EOF
 
       # This step uses the `docker/build-push-action` action to build the image, based on your repository's `Dockerfile`. If the build succeeds, it pushes the image to GitHub Packages.
