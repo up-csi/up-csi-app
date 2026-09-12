@@ -250,8 +250,8 @@
                 <aside
                     class="mb-2 h-2/5 overflow-x-auto md:h-full md:w-2/5 md:overflow-y-auto border-6 md:border-r-0 border-stardew-border-dark bg-stardew-border-fill p-1 md:pr-0.5"
                 >
-                    <div class="h-full border-6 border-stardew-border-dark p-4 pt-4 text-center md:p-8 md:text-left bg-linear-to-b from-stardew-bg-light to-stardew-bg-dark">
-                        <div class="mb-4 text-3xl font-stardew-body text-[#00C6D7] md:text-5xl">Table of Contents</div>
+                    <div class="overflow-y-auto h-full border-6 border-stardew-border-dark p-4 pt-4 text-center md:p-8 md:text-left bg-linear-to-b from-stardew-bg-light to-stardew-bg-dark">
+                        <div class="mb-2 text-3xl font-stardew-body text-[#00C6D7] md:text-5xl">Table of Contents</div>
 
                         <!-- Section dropdown -->
                         <div class="rounded-lg p-6">
