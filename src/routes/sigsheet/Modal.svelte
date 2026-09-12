@@ -79,6 +79,7 @@
             <!-- Close button -->
             <div class="flex justify-end">
                 <button
+                    disabled={submitting}
                     aria-label="Close modal"
                     onclick={closeModal}
                     class="text-engg-red hover:text-csi-blue cursor-pointer font-stardew-body text-4xl"
