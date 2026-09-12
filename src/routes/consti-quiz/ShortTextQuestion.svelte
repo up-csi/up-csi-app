@@ -12,5 +12,5 @@
 </script>
 
 <Question {title}>
-    <input type="text" bind:value {placeholder} class="w-full rounded border-none focus:ring-2 focus:outline-none" />
+    <input type="text" bind:value {placeholder} class="text-lg w-full focus:outline-none border-2 border-t-stardew-bg-dark border-l-stardew-bg-light border-b-stardew-bg-light border-r-stardew-bg-dark text-stardew-font-color font-stardew-body" />
 </Question>
