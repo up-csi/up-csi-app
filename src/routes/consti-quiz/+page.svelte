@@ -220,7 +220,7 @@
 </script>
 
 <div class="my-12 flex h-screen text-[#F9FAFB]">
-    {#if false/* hasSubmitted */}
+    {#if hasSubmitted}
         <!-- Content area -->
         <div class="font-inter h-screen flex-row px-4 py-6 sm:px-6 lg:px-10">
             <!-- Main Content -->
@@ -228,7 +228,7 @@
                 <QuizSummaryPage {checkedPoints} {uncheckedPoints} {totalPoints} />
             </main>
         </div>
-    {:else if false /* !isOpen */}
+    {:else if !isOpen}
         <!-- Content area -->
         <div class="font-inter h-screen flex-1 flex-row px-4 py-6 sm:px-6 lg:px-10">
             <!-- Main Content -->
