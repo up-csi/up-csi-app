@@ -51,7 +51,7 @@
                 class="form-checkbox h-5 w-5"
                 checked={isSelected(item.id.toString())}
             />
-            <span class="text-md">{item.label}</span>
+            <span class="text-lg">{item.label}</span>
         </label>
     {/each}
 </Question>

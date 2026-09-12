@@ -219,10 +219,10 @@
     });
 </script>
 
-<div class="my-12 flex h-screen bg-[#161619] text-[#F9FAFB]">
+<div class="my-12 flex h-screen text-[#F9FAFB]">
     {#if hasSubmitted}
         <!-- Content area -->
-        <div class="font-inter h-screen flex-row bg-[#161619] px-4 py-6 sm:px-6 lg:px-10">
+        <div class="font-inter h-screen flex-row px-4 py-6 sm:px-6 lg:px-10">
             <!-- Main Content -->
             <main class="mt-6 flex flex-row justify-evenly">
                 <QuizSummaryPage {checkedPoints} {uncheckedPoints} {totalPoints} />
@@ -230,7 +230,7 @@
         </div>
     {:else if !isOpen}
         <!-- Content area -->
-        <div class="font-inter h-screen flex-1 flex-row bg-[#161619] px-4 py-6 sm:px-6 lg:px-10">
+        <div class="font-inter h-screen flex-1 flex-row px-4 py-6 sm:px-6 lg:px-10">
             <!-- Main Content -->
             <main class="mt-6 flex flex-col lg:flex-row lg:justify-evenly">
                 <QuizClosedPage />
@@ -238,54 +238,67 @@
         </div>
     {:else}
         <!-- Right side container (flexbox column) -->
-        <div class="flex flex-1 flex-col bg-[#161619]">
+        <div class="flex flex-1 flex-col">
             <!-- Banner at top (full width) -->
-            <div class="bg-[#161619] p-8 pb-4">
-                <h1 class="text-3xl font-bold md:text-5xl">Constitution Quiz</h1>
+            <div class="p-8 pb-4">
+                <h1 class="text-4xl font-stardew-body md:text-6xl text-csi-blue">Constitution Quiz</h1>
             </div>
 
             <!-- Content area -->
-            <div class="flex flex-1 flex-col overflow-hidden md:flex-row">
+            <div class="flex flex-1 flex-col overflow-hidden md:flex-row px-6">
                 <!-- Quiz Navigation Sidebar -->
                 <aside
-                    class="mb-2 h-2/5 overflow-x-auto bg-[#161619] p-4 pt-4 text-center md:h-full md:w-2/5 md:overflow-y-auto md:p-8 md:text-left"
+                    class="mb-2 h-2/5 overflow-x-auto md:h-full md:w-2/5 md:overflow-y-auto border-6 md:border-r-0 border-stardew-border-dark bg-stardew-border-fill p-1 md:pr-0.5"
                 >
-                    <div class="mb-4 text-xl font-bold text-[#00C6D7] md:text-3xl">Table of Contents</div>
+                    <div class="overflow-y-auto h-full border-6 border-stardew-border-dark p-4 pt-4 text-center md:p-8 md:text-left bg-linear-to-b from-stardew-bg-light to-stardew-bg-dark">
+                        <div class="mb-2 text-3xl font-stardew-body text-[#00C6D7] md:text-5xl">Table of Contents</div>
 
-                    <!-- Section dropdown -->
-                    <div class="rounded-lg bg-[#262629] p-6">
-                        <SectionNav sections={rearrangedSections!} />
+                        <!-- Section dropdown -->
+                        <div class="rounded-lg p-6">
+                            <SectionNav sections={rearrangedSections!} />
+                        </div>
                     </div>
                 </aside>
 
                 <!-- Main Content -->
-                <main class="h-3/5 w-full overflow-y-auto bg-[#161619] p-4 pt-4 md:h-full md:w-3/5 md:p-8">
-                    {#each rearrangedSections! as { section_id, title, points } (section_id)}
-                        <Section id={section_id.toString()} {title} {points}>
-                            {#each questions!.filter(question => question.section.title === title) as question, i (question.question_id)}
-                                {#if question.type === 'long_text'}
-                                    <LongTextQuestion
-                                        title={question.title}
-                                        bind:value={sectionToAnswers[section_id]![i]!}
-                                    />
-                                {:else if question.type === 'short_text'}
-                                    <ShortTextQuestion
-                                        title={question.title}
-                                        bind:value={sectionToAnswers[section_id]![i]!}
-                                    />
-                                {:else if question.type === 'radio'}
-                                    {#if question.section.title === 'Bonus'}
-                                        <RadioQuestion
+                <main class="overflow-hidden h-3/5 w-full md:h-full p-1 md:pl-0.5 md:w-3/5 border-6 md:border-l-0 border-stardew-border-dark bg-stardew-border-fill">
+                    <div class="overflow-y-auto h-full border-6 border-stardew-border-dark p-4 pt-4 md:p-8 bg-linear-to-b from-stardew-bg-light to-stardew-bg-dark">
+                        {#each rearrangedSections! as { section_id, title, points } (section_id)}
+                            <Section id={section_id.toString()} {title} {points}>
+                                {#each questions!.filter(question => question.section.title === title) as question, i (question.question_id)}
+                                    {#if question.type === 'long_text'}
+                                        <LongTextQuestion
                                             title={question.title}
-                                            bind:value={sectionToAnswers[section_id]![i]}
-                                            items={question.options!.map(option => ({
-                                                id: option.option_id,
-                                                label: option.title,
-                                            }))}
-                                            other
+                                            bind:value={sectionToAnswers[section_id]![i]!}
                                         />
-                                    {:else}
-                                        <RadioQuestion
+                                    {:else if question.type === 'short_text'}
+                                        <ShortTextQuestion
+                                            title={question.title}
+                                            bind:value={sectionToAnswers[section_id]![i]!}
+                                        />
+                                    {:else if question.type === 'radio'}
+                                        {#if question.section.title === 'Bonus'}
+                                            <RadioQuestion
+                                                title={question.title}
+                                                bind:value={sectionToAnswers[section_id]![i]}
+                                                items={question.options!.map(option => ({
+                                                    id: option.option_id,
+                                                    label: option.title,
+                                                }))}
+                                                other
+                                            />
+                                        {:else}
+                                            <RadioQuestion
+                                                title={question.title}
+                                                bind:value={sectionToAnswers[section_id]![i]!}
+                                                items={question.options!.map(option => ({
+                                                    id: option.option_id,
+                                                    label: option.title,
+                                                }))}
+                                            />
+                                        {/if}
+                                    {:else if question.type === 'checkbox'}
+                                        <CheckboxQuestion
                                             title={question.title}
                                             bind:value={sectionToAnswers[section_id]![i]!}
                                             items={question.options!.map(option => ({
@@ -293,22 +306,13 @@
                                                 label: option.title,
                                             }))}
                                         />
+                                    {:else}
+                                        <p>{title}</p>
                                     {/if}
-                                {:else if question.type === 'checkbox'}
-                                    <CheckboxQuestion
-                                        title={question.title}
-                                        bind:value={sectionToAnswers[section_id]![i]!}
-                                        items={question.options!.map(option => ({
-                                            id: option.option_id,
-                                            label: option.title,
-                                        }))}
-                                    />
-                                {:else}
-                                    <p>{title}</p>
-                                {/if}
-                            {/each}
-                        </Section>
-                    {/each}
+                                {/each}
+                            </Section>
+                        {/each}
+                    </div>
                 </main>
 
                 <!-- Save Button -->
