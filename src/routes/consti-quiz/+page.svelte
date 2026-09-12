@@ -241,7 +241,7 @@
         <div class="flex flex-1 flex-col">
             <!-- Banner at top (full width) -->
             <div class="p-8 pb-4">
-                <h1 class="text-4xl font-stardew-body md:text-6xl">Constitution Quiz</h1>
+                <h1 class="text-4xl font-stardew-body md:text-6xl text-csi-blue">Constitution Quiz</h1>
             </div>
 
             <!-- Content area -->
