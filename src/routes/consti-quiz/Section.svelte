@@ -26,7 +26,7 @@
             py-1 px-2
         ">
             <p class="font-stardew-body">
-                <span class="text-[#00C6D7] text-2xl md:text-3xl">{title}</span> <span class="text-lg md:text-xl">[{points} Points]</span>
+                <span class="text-[#00C6D7] text-2xl md:text-3xl">{title}</span> <span class="text-lg md:text-xl whitespace-nowrap text-stardew-font-color">[{points} Points]</span>
             </p>
         </div>
 
