@@ -17,7 +17,7 @@
 
     const { data } = $props();
     // Data loaded once per page visit — intentionally not reactive
-    const { user, sections, questions, answers, hasSubmitted, isOpen } = data;
+    const { user, sections, questions, answers, hasSubmitted, isOpen } = $derived(data);
 
     // NOTE: do we even this need this part
     const questionIdToPoints = {

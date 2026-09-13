@@ -1,5 +1,6 @@
 <script lang="ts">
     import Question from './Question.svelte';
+    import { SvelteSet } from 'svelte/reactivity';
 
     interface Item {
         id: number;
@@ -10,7 +11,7 @@
     let { title = '', value = $bindable(''), items = [] as Item[] } = $props();
 
     function addOption(option: string) {
-        const valueSet: Set<string> = new Set(
+        const valueSet: Set<string> = new SvelteSet(
             value
                 .toString()
                 .split('-')

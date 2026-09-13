@@ -220,7 +220,7 @@
                             <div class="grid grid-cols-14 gap-1 md:gap-2">
                                 {#each {length: 10} as _, index (index)}
                                     <div
-                                        class="border-2 border-stardew-border-dark bg-stardew-empty-progress h-4 md:h-8 {(index+1) % 5 == 0 ? 'col-span-3' : 'col-span-1'} rounded-sm"
+                                        class="border-2 border-stardew-border-dark bg-stardew-empty-progress h-4 md:h-8 {(index+1) % 5 === 0 ? 'col-span-3' : 'col-span-1'} rounded-sm"
                                     >
                                         <div
                                             class="{section.color} h-full"
@@ -249,7 +249,7 @@
                     <div class="grid grid-cols-14 gap-1 md:gap-2">
                         {#each {length: 10} as _, index (index)}
                             <div
-                                class="border-2 border-stardew-border-dark bg-stardew-empty-progress h-4 md:h-8 {(index+1) % 5 == 0 ? 'col-span-3' : 'col-span-1'} rounded-sm"
+                                class="border-2 border-stardew-border-dark bg-stardew-empty-progress h-4 md:h-8 {(index+1) % 5 === 0 ? 'col-span-3' : 'col-span-1'} rounded-sm"
                             >
                                 <div
                                     class="bg-csi-blue h-full"

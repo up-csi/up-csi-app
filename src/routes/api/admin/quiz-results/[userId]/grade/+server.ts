@@ -48,7 +48,7 @@ export async function POST(event: RequestEvent) {
 
     const { error: updateErr } = await supabase
         .from('constiquiz-answers')
-        .update({ points, is_checked: true })
+        .update({ points, is_checked: true } as never)
         .eq('answer_id', answer_id);
 
     if (updateErr) {
