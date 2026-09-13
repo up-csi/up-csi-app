@@ -14,7 +14,7 @@ const supabase: Handle = ({ event, resolve }) => {
              * the cookie options. Setting `path` to `/` replicates previous/
              * standard behavior.
              */
-            setAll: (cookiesToSet: { name: any; value: any; options: any; }[]) => {
+            setAll: (cookiesToSet: { name: any; value: any; options: any }[]) => {
                 cookiesToSet.forEach(({ name, value, options }) => {
                     event.cookies.set(name, value, { ...options, path: '/' });
                 });
