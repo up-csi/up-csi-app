@@ -72,20 +72,20 @@
     id="content"
 >
     <h1
-        class="text-stardew-font-color mb-3 w-full text-2xl font-stardew-body min-[320px]:text-4xl min-[375px]:mb-4 min-[390px]:mb-[1.5rem] min-[640px]:text-5xl min-[1024px]:text-6xl"
+        class="text-stardew-font-color font-stardew-body mb-3 w-full text-2xl min-[320px]:text-4xl min-[375px]:mb-4 min-[390px]:mb-[1.5rem] min-[640px]:text-5xl min-[1024px]:text-6xl"
     >
         {categoryHeaders[activeCategory]}
     </h1>
 
     <div class="flex flex-col-reverse gap-3 min-[375px]:gap-4 min-[390px]:gap-6 min-[834px]:flex-row">
         {#if activeCategory !== 'CoApp'}
-            <div class="border-6 border-stardew-border-dark p-1 bg-stardew-border-fill">
+            <div class="border-stardew-border-dark bg-stardew-border-fill border-6 p-1">
                 <div
-                    class="border-6 p-6 border-stardew-border-dark bg-gradient-to-b from-stardew-bg-light to-stardew-bg-dark grid w-full h-fit grid-cols-2 gap-1.5 min-[375px]:gap-3 min-[390px]:gap-4 min-[480px]:grid-cols-4 min-[834px]:flex-1 min-[834px]:grid-cols-4 min-[834px]:gap-4 min-[1280px]:grid-cols-4"
+                    class="border-stardew-border-dark from-stardew-bg-light to-stardew-bg-dark grid h-fit w-full grid-cols-2 gap-1.5 border-6 bg-gradient-to-b p-6 min-[375px]:gap-3 min-[390px]:gap-4 min-[480px]:grid-cols-4 min-[834px]:flex-1 min-[834px]:grid-cols-4 min-[834px]:gap-4 min-[1280px]:grid-cols-4"
                 >
                     {#each $members.filter(member => member.member_committee === activeCategory) as member (member.member_name)}
-                        <div in:fade={{ duration: 1300 }} class="w-full h-full">
-                            <button onclick={() => openModal(member)} class="w-full h-full cursor-pointer">
+                        <div in:fade={{ duration: 1300 }} class="h-full w-full">
+                            <button onclick={() => openModal(member)} class="h-full w-full cursor-pointer">
                                 <MemberCard filled={$filledSigsheet.has(member.member_id)} {member} />
                             </button>
                         </div>
@@ -97,23 +97,22 @@
                 class="flex flex-row flex-wrap justify-start gap-1 min-[375px]:gap-1.5 min-[390px]:gap-2 min-[834px]:ml-8 min-[834px]:flex-col min-[834px]:items-start min-[834px]:gap-4"
             >
                 {#each categories as category (category)}
-                    <div class="w-full rounded-lg border-4 border-stardew-border-dark bg-stardew-border-fill p-0.5 align-middle">
+                    <div
+                        class="border-stardew-border-dark bg-stardew-border-fill w-full rounded-lg border-4 p-0.5 align-middle"
+                    >
                         <button
-                            class="font-stardew-body text-stardew-font-color text-sm font-bold
-                                   flex w-full items-center gap-2 p-1
-                                   cursor-pointer
-                                   rounded-md border-4 border-stardew-border-dark bg-stardew-bg-light bg-opacity-10      
-                                   opacity-70 
+                            class="font-stardew-body text-stardew-font-color border-stardew-border-dark bg-stardew-bg-light
+                                   bg-opacity-10 flex w-full cursor-pointer items-center
+                                   gap-2
+                                   rounded-md border-4 p-1 text-sm font-bold
+                                   opacity-70
                                    transition-opacity duration-300 hover:opacity-100
-                                   min-[390px]:gap-2 min-[390px]:px-[0.7rem] min-[390px]:py-1.5 min-[390px]:text-sm min-[640px]:px-[0.9rem] min-[640px]:py-2 min-[640px]:text-base 
-                                   {activeCategory === category
-                                        ? 'opacity-100!'
-                                        : ''}"
-                            
+                                   min-[390px]:gap-2 min-[390px]:px-[0.7rem] min-[390px]:py-1.5 min-[390px]:text-sm min-[640px]:px-[0.9rem] min-[640px]:py-2 min-[640px]:text-base
+                                   {activeCategory === category ? 'opacity-100!' : ''}"
                             onclick={() => (activeCategory = category)}
                         >
                             <span
-                                class="border-2 bg-mni-pink aspect-square w-[1.5rem] flex-shrink-0 rounded-full min-[390px]:w-[1.5rem]"
+                                class="bg-mni-pink aspect-square w-[1.5rem] flex-shrink-0 rounded-full border-2 min-[390px]:w-[1.5rem]"
                                 style:background-color={categoryColors[category]}
                             ></span>
                             <span class="flex items-center">{category}</span>
@@ -121,18 +120,18 @@
                     </div>
                 {/each}
 
-                <div class="w-full rounded-lg border-4 border-stardew-border-dark bg-stardew-border-fill p-0.5 align-middle"> 
+                <div
+                    class="border-stardew-border-dark bg-stardew-border-fill w-full rounded-lg border-4 p-0.5 align-middle"
+                >
                     <button
-                        class="font-stardew-body text-stardew-font-color text-sm font-bold
-                               flex w-full items-center gap-2 px-[0.8rem] py-2
-                               cursor-pointer    
-                               rounded-md border-4 border-stardew-border-dark bg-stardew-bg-light bg-opacity-10            
-                               opacity-70 
+                        class="font-stardew-body text-stardew-font-color border-stardew-border-dark bg-stardew-bg-light
+                               bg-opacity-10 flex w-full cursor-pointer items-center gap-2
+                               rounded-md
+                               border-4 px-[0.8rem] py-2 text-sm font-bold
+                               opacity-70
                                transition-opacity duration-300 hover:opacity-100
-                               min-[390px]:gap-2 min-[390px]:px-[0.7rem] min-[390px]:py-1.5 min-[390px]:text-sm min-[640px]:px-[0.9rem] min-[640px]:py-2 min-[640px]:text-base 
-                               {activeCategory === 'CoApp'
-                                    ? 'opacity-100'
-                                    : ''}"
+                               min-[390px]:gap-2 min-[390px]:px-[0.7rem] min-[390px]:py-1.5 min-[390px]:text-sm min-[640px]:px-[0.9rem] min-[640px]:py-2 min-[640px]:text-base
+                               {activeCategory === 'CoApp' ? 'opacity-100' : ''}"
                         aria-label="co-app sigsheet"
                         onclick={() => {
                             activeCategory = 'CoApp';

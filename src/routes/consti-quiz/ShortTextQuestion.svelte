@@ -12,5 +12,10 @@
 </script>
 
 <Question {title}>
-    <input type="text" bind:value {placeholder} class="text-lg w-full focus:outline-none border-2 border-t-stardew-bg-dark border-l-stardew-bg-light border-b-stardew-bg-light border-r-stardew-bg-dark text-stardew-font-color font-stardew-body" />
+    <input
+        type="text"
+        bind:value
+        {placeholder}
+        class="border-t-stardew-bg-dark border-l-stardew-bg-light border-b-stardew-bg-light border-r-stardew-bg-dark text-stardew-font-color font-stardew-body w-full border-2 text-lg focus:outline-none"
+    />
 </Question>

@@ -33,8 +33,10 @@
 @component
 A base component for all question components.
 -->
-<div class="mb-5 p-1 border-6 border-stardew-border-dark bg-stardew-border-fill font-stardew-body text-stardew-font-color">
-    <div class="p-5 bg-linear-to-b from-stardew-bg-light to-stardew-bg-dark border-6 border-stardew-border-dark">
+<div
+    class="border-stardew-border-dark bg-stardew-border-fill font-stardew-body text-stardew-font-color mb-5 border-6 p-1"
+>
+    <div class="from-stardew-bg-light to-stardew-bg-dark border-stardew-border-dark border-6 bg-linear-to-b p-5">
         <!-- TODO: find better implementation for
                 mutually exclusive properties
         -->

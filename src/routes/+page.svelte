@@ -191,18 +191,24 @@
 </script>
 
 {#if data.session}
-    <div class="font-inter h-full flex-1 flex-row bg-gradient-to-b from-stardew-bg-light to-stardew-bg-dark px-4 py-6 sm:px-6 lg:px-10">
+    <div
+        class="font-inter from-stardew-bg-light to-stardew-bg-dark h-full flex-1 flex-row bg-gradient-to-b px-4 py-6 sm:px-6 lg:px-10"
+    >
         <h1 class="text-stardew-font-color font-stardew-body mb-2 text-center text-5xl lg:ml-12 lg:text-left">
             Hello, {$username}!
             {#if data.userRole}
                 <span class="text-csi-blue text-base font-normal">({data.userRole})</span>
             {/if}
         </h1>
-        <h2 class="text-stardew-font-color font-stardew-body text-center text-4xl lg:ml-12 lg:text-left">Your Dashboard</h2>
+        <h2 class="text-stardew-font-color font-stardew-body text-center text-4xl lg:ml-12 lg:text-left">
+            Your Dashboard
+        </h2>
 
         <main class="mt-6 flex flex-col lg:flex-row lg:justify-evenly">
-            <div class="p-1 bg-stardew-border-fill border-6 border-stardew-border-dark mb-8 lg:w-7/15">
-                <div class="bg-gradient-to-b from-stardew-bg-light to-stardew-bg-dark flex flex-col gap-y-2.5 p-6 border-6 border-stardew-border-dark">
+            <div class="bg-stardew-border-fill border-stardew-border-dark mb-8 border-6 p-1 lg:w-7/15">
+                <div
+                    class="from-stardew-bg-light to-stardew-bg-dark border-stardew-border-dark flex flex-col gap-y-2.5 border-6 bg-gradient-to-b p-6"
+                >
                     <h2 class="text-csi-blue font-stardew-body text-5xl">Signature Sheet</h2>
 
                     {#each signatureSheet as section (section.name)}
@@ -218,14 +224,22 @@
                                 ></div>
                             </div> -->
                             <div class="grid grid-cols-14 gap-1 md:gap-2">
-                                {#each {length: 10} as _, index (index)}
+                                {#each { length: 10 } as _, index (index)}
                                     <div
-                                        class="border-2 border-stardew-border-dark bg-stardew-empty-progress h-4 md:h-8 {(index+1) % 5 === 0 ? 'col-span-3' : 'col-span-1'} rounded-sm"
+                                        class="border-stardew-border-dark bg-stardew-empty-progress h-4 border-2 md:h-8 {(index +
+                                            1) %
+                                            5 ===
+                                        0
+                                            ? 'col-span-3'
+                                            : 'col-span-1'} rounded-sm"
                                     >
                                         <div
                                             class="{section.color} h-full"
-                                            style="width: {getSegmentFill(index, calculatePercentage(section.progress))}%"
-                                        ></div>  
+                                            style="width: {getSegmentFill(
+                                                index,
+                                                calculatePercentage(section.progress),
+                                            )}%"
+                                        ></div>
                                     </div>
                                 {/each}
                             </div>
@@ -234,12 +248,14 @@
                 </div>
             </div>
 
-            <div class="mb-8 lg:w-7/15 p-1 bg-stardew-border-fill border-6 border-stardew-border-dark">
-                <div class="bg-gradient-to-b from-stardew-bg-light to-stardew-bg-dark flex flex-col gap-y-4 p-6 border-6 border-stardew-border-dark h-full">
-                    <h2 class="text-csi-blue text-5xl font-stardew-body">Constitution Quiz</h2>
+            <div class="bg-stardew-border-fill border-stardew-border-dark mb-8 border-6 p-1 lg:w-7/15">
+                <div
+                    class="from-stardew-bg-light to-stardew-bg-dark border-stardew-border-dark flex h-full flex-col gap-y-4 border-6 bg-gradient-to-b p-6"
+                >
+                    <h2 class="text-csi-blue font-stardew-body text-5xl">Constitution Quiz</h2>
                     <div class="flex justify-between">
-                        <h3 class="text-stardew-font-color text-2xl font-stardew-body">Progress</h3>
-                        <p class="text-stardew-font-color text-xl font-stardew-body">{quizProgress}</p>
+                        <h3 class="text-stardew-font-color font-stardew-body text-2xl">Progress</h3>
+                        <p class="text-stardew-font-color font-stardew-body text-xl">{quizProgress}</p>
                     </div>
 
                     <!-- <div class="h-6 w-full overflow-hidden rounded-full bg-gray-700">
@@ -247,14 +263,19 @@
                     </div> -->
 
                     <div class="grid grid-cols-14 gap-1 md:gap-2">
-                        {#each {length: 10} as _, index (index)}
+                        {#each { length: 10 } as _, index (index)}
                             <div
-                                class="border-2 border-stardew-border-dark bg-stardew-empty-progress h-4 md:h-8 {(index+1) % 5 === 0 ? 'col-span-3' : 'col-span-1'} rounded-sm"
+                                class="border-stardew-border-dark bg-stardew-empty-progress h-4 border-2 md:h-8 {(index +
+                                    1) %
+                                    5 ===
+                                0
+                                    ? 'col-span-3'
+                                    : 'col-span-1'} rounded-sm"
                             >
                                 <div
                                     class="bg-csi-blue h-full"
                                     style="width: {getSegmentFill(index, calculatePercentage(quizProgress))}%"
-                                ></div>  
+                                ></div>
                             </div>
                         {/each}
                     </div>
@@ -278,8 +299,8 @@
                                 >.
                             </li>
                             <li class="py-1 text-lg">
-                                Please keep the contents of the quiz confidential. You may not consult with other applicants
-                                or members!
+                                Please keep the contents of the quiz confidential. You may not consult with other
+                                applicants or members!
                             </li>
                             <li class="py-1 text-lg">
                                 The consti quiz is open from <b

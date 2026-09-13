@@ -241,17 +241,19 @@
         <div class="flex flex-1 flex-col">
             <!-- Banner at top (full width) -->
             <div class="p-8 pb-4">
-                <h1 class="text-4xl font-stardew-body md:text-6xl text-csi-blue">Constitution Quiz</h1>
+                <h1 class="font-stardew-body text-csi-blue text-4xl md:text-6xl">Constitution Quiz</h1>
             </div>
 
             <!-- Content area -->
-            <div class="flex flex-1 flex-col overflow-hidden md:flex-row px-6">
+            <div class="flex flex-1 flex-col overflow-hidden px-6 md:flex-row">
                 <!-- Quiz Navigation Sidebar -->
                 <aside
-                    class="mb-2 h-2/5 overflow-x-auto md:h-full md:w-2/5 md:overflow-y-auto border-6 md:border-r-0 border-stardew-border-dark bg-stardew-border-fill p-1 md:pr-0.5"
+                    class="border-stardew-border-dark bg-stardew-border-fill mb-2 h-2/5 overflow-x-auto border-6 p-1 md:h-full md:w-2/5 md:overflow-y-auto md:border-r-0 md:pr-0.5"
                 >
-                    <div class="overflow-y-auto h-full border-6 border-stardew-border-dark p-4 pt-4 text-center md:p-8 md:text-left bg-linear-to-b from-stardew-bg-light to-stardew-bg-dark">
-                        <div class="mb-2 text-3xl font-stardew-body text-[#00C6D7] md:text-5xl">Table of Contents</div>
+                    <div
+                        class="border-stardew-border-dark from-stardew-bg-light to-stardew-bg-dark h-full overflow-y-auto border-6 bg-linear-to-b p-4 pt-4 text-center md:p-8 md:text-left"
+                    >
+                        <div class="font-stardew-body mb-2 text-3xl text-[#00C6D7] md:text-5xl">Table of Contents</div>
 
                         <!-- Section dropdown -->
                         <div class="rounded-lg p-6">
@@ -261,8 +263,12 @@
                 </aside>
 
                 <!-- Main Content -->
-                <main class="overflow-hidden h-3/5 w-full md:h-full p-1 md:pl-0.5 md:w-3/5 border-6 md:border-l-0 border-stardew-border-dark bg-stardew-border-fill">
-                    <div class="overflow-y-auto h-full border-6 border-stardew-border-dark p-4 pt-4 md:p-8 bg-linear-to-b from-stardew-bg-light to-stardew-bg-dark">
+                <main
+                    class="border-stardew-border-dark bg-stardew-border-fill h-3/5 w-full overflow-hidden border-6 p-1 md:h-full md:w-3/5 md:border-l-0 md:pl-0.5"
+                >
+                    <div
+                        class="border-stardew-border-dark from-stardew-bg-light to-stardew-bg-dark h-full overflow-y-auto border-6 bg-linear-to-b p-4 pt-4 md:p-8"
+                    >
                         {#each rearrangedSections! as { section_id, title, points } (section_id)}
                             <Section id={section_id.toString()} {title} {points}>
                                 {#each questions!.filter(question => question.section.title === title) as question, i (question.question_id)}

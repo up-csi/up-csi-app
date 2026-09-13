@@ -14,19 +14,22 @@
 
 <div {id}>
     <div class="mb-3 flex flex-col items-center text-center">
-        <div class="
-            inline-block border-solid
-            border-x-32 border-y-16
-            [border-image-source:url('assets/stardew-banner.svg')]
-            [border-image-slice:16_32_16_32_fill]
+        <div
+            class="
+            inline-block border-x-32
+            border-y-16 border-solid
+            px-2
+            py-1
             [border-image-repeat:repeat]
-            [image-rendering:pixelated]
+            [border-image-slice:16_32_16_32_fill]
+            [border-image-source:url('assets/stardew-banner.svg')]
             [image-rendering:-moz-crisp-edges]
-            [image-rendering:crisp-edges]
-            py-1 px-2
-        ">
+            [image-rendering:crisp-edges] [image-rendering:pixelated]
+        "
+        >
             <p class="font-stardew-body">
-                <span class="text-[#00C6D7] text-2xl md:text-3xl">{title}</span> <span class="text-lg md:text-xl whitespace-nowrap text-stardew-font-color">[{points} Points]</span>
+                <span class="text-2xl text-[#00C6D7] md:text-3xl">{title}</span>
+                <span class="text-stardew-font-color text-lg whitespace-nowrap md:text-xl">[{points} Points]</span>
             </p>
         </div>
 

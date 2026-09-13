@@ -26,7 +26,7 @@
                 type="text"
                 bind:value={otherValue}
                 placeholder="Enter response..."
-                class="text-lg w-full focus:outline-none border-2 border-t-stardew-bg-dark border-l-stardew-bg-light border-b-stardew-bg-light border-r-stardew-bg-dark"
+                class="border-t-stardew-bg-dark border-l-stardew-bg-light border-b-stardew-bg-light border-r-stardew-bg-dark w-full border-2 text-lg focus:outline-none"
                 onfocus={() => (value = otherValue)}
                 oninput={() => (value = otherValue)}
             />
