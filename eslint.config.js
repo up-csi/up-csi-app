@@ -24,6 +24,7 @@ export default tsEslint.config(
         rules: {
             'svelte/no-at-html-tags': 'warn',
             'svelte/require-each-key': 'off',
+            'svelte/no-navigation-without-resolve': 'off',
         },
     },
     {

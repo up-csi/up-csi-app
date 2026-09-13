@@ -4,6 +4,7 @@
 @theme {
     /* fonts */
     --font-inter: 'Inter', sans;
+    --font-stardew-body: 'StardewBody', sans-serif;
 
     /* colors */
     --color-csi-blue: #00c6d7;
@@ -26,6 +27,22 @@
     --color-exte-blue: #3f5fac;
     --color-mni-pink: #f26c9f;
     --color-bnc-green: #47b749;
-    --color-engg-blue: #e53333;
+    --color-engg-red: #e53333;
     --color-csi-grey: #2c2c2e;
+    --color-stardew-bg-light: #ffc77c;
+    --color-stardew-bg-dark: #eca96a;
+    --color-stardew-border-dark: #66311a;
+    --color-stardew-border-light: #ffd690;
+    --color-stardew-border-shadow: #dfa05a;
+    --color-stardew-border-fill: #b55d11;
+    --color-stardew-font-color: #5c2c16;
+    --color-stardew-empty-progress: #ca803f;
+}
+
+@font-face {
+    font-family: StardewBody;
+    src: url('/fonts/Stardew_Valley.ttf') format('truetype');
+    font-weight: normal;
+    font-style: normal;
+    font-display: swap;
 }

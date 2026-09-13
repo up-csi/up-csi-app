@@ -13,6 +13,10 @@
 </script>
 
 <Question {title}>
-    <textarea bind:value {placeholder} {rows} class="w-full rounded border-none focus:ring-2 focus:outline-none"
+    <textarea
+        bind:value
+        {placeholder}
+        {rows}
+        class="border-t-stardew-bg-dark border-l-stardew-bg-light border-b-stardew-bg-light border-r-stardew-bg-dark text-stardew-font-color font-stardew-body w-full border-2 text-lg focus:outline-none"
     ></textarea>
 </Question>

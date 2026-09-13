@@ -33,20 +33,24 @@
 @component
 A base component for all question components.
 -->
-<div class="bg-csi-neutral-900 mb-5 rounded-md p-5">
-    <!-- TODO: find better implementation for
-               mutually exclusive properties
-    -->
-    {#if title}
-        <header class="mb-2 md:mb-5">
-            <h2 class="text-lg font-bold md:text-xl">
-                {title}
-            </h2>
-        </header>
-    {:else if header}
-        <header class="mb-2 md:mb-5">
-            {@render header?.()}
-        </header>
-    {/if}
-    {@render children?.()}
+<div
+    class="border-stardew-border-dark bg-stardew-border-fill font-stardew-body text-stardew-font-color mb-5 border-6 p-1"
+>
+    <div class="from-stardew-bg-light to-stardew-bg-dark border-stardew-border-dark border-6 bg-linear-to-b p-5">
+        <!-- TODO: find better implementation for
+                mutually exclusive properties
+        -->
+        {#if title}
+            <header class="mb-2 md:mb-5">
+                <h2 class="text-xl md:text-2xl">
+                    {title}
+                </h2>
+            </header>
+        {:else if header}
+            <header class="mb-2 md:mb-5">
+                {@render header?.()}
+            </header>
+        {/if}
+        {@render children?.()}
+    </div>
 </div>
