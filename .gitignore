@@ -2,3 +2,9 @@
 /.svelte-kit
 node_modules
 .env
+docs/
+CLAUDE.md
+.agents/
+.claude/
+skills-lock.json
+.DS_Store

@@ -10,12 +10,14 @@
     import Section from './Section.svelte';
     import SectionNav from './SectionNav.svelte';
     import ShortTextQuestion from './ShortTextQuestion.svelte';
+    import { logger } from '$lib/logger';
 
     import { browser } from '$app/environment';
     import { onMount } from 'svelte';
 
     const { data } = $props();
-    const { user, sections, questions, answers, hasSubmitted, isOpen } = data;
+    // Data loaded once per page visit — intentionally not reactive
+    const { user, sections, questions, answers, hasSubmitted, isOpen } = $derived(data);
 
     // NOTE: do we even this need this part
     const questionIdToPoints = {
@@ -150,7 +152,7 @@
 
             return json;
         } catch (error) {
-            console.error(error);
+            logger.error(error);
         }
     }
 
@@ -187,7 +189,7 @@
 
             return await res.json();
         } catch (err) {
-            console.error(err);
+            logger.error(err);
         }
     }
 
@@ -217,10 +219,10 @@
     });
 </script>
 
-<div class="my-12 flex h-screen bg-[#161619] text-[#F9FAFB]">
+<div class="my-12 flex h-screen text-[#F9FAFB]">
     {#if hasSubmitted}
         <!-- Content area -->
-        <div class="font-inter h-screen flex-row bg-[#161619] px-4 py-6 sm:px-6 lg:px-10">
+        <div class="font-inter h-screen flex-row px-4 py-6 sm:px-6 lg:px-10">
             <!-- Main Content -->
             <main class="mt-6 flex flex-row justify-evenly">
                 <QuizSummaryPage {checkedPoints} {uncheckedPoints} {totalPoints} />
@@ -228,7 +230,7 @@
         </div>
     {:else if !isOpen}
         <!-- Content area -->
-        <div class="font-inter h-screen flex-1 flex-row bg-[#161619] px-4 py-6 sm:px-6 lg:px-10">
+        <div class="font-inter h-screen flex-1 flex-row px-4 py-6 sm:px-6 lg:px-10">
             <!-- Main Content -->
             <main class="mt-6 flex flex-col lg:flex-row lg:justify-evenly">
                 <QuizClosedPage />
@@ -236,54 +238,73 @@
         </div>
     {:else}
         <!-- Right side container (flexbox column) -->
-        <div class="flex flex-1 flex-col bg-[#161619]">
+        <div class="flex flex-1 flex-col">
             <!-- Banner at top (full width) -->
-            <div class="bg-[#161619] p-8 pb-4">
-                <h1 class="text-3xl font-bold md:text-5xl">Constitution Quiz</h1>
+            <div class="p-8 pb-4">
+                <h1 class="font-stardew-body text-csi-blue text-4xl md:text-6xl">Constitution Quiz</h1>
             </div>
 
             <!-- Content area -->
-            <div class="flex flex-1 flex-col overflow-hidden md:flex-row">
+            <div class="flex flex-1 flex-col overflow-hidden px-6 md:flex-row">
                 <!-- Quiz Navigation Sidebar -->
                 <aside
-                    class="mb-2 h-2/5 overflow-x-auto bg-[#161619] p-4 pt-4 text-center md:h-full md:w-2/5 md:overflow-y-auto md:p-8 md:text-left"
+                    class="border-stardew-border-dark bg-stardew-border-fill mb-2 h-2/5 overflow-x-auto border-6 p-1 md:h-full md:w-2/5 md:overflow-y-auto md:border-r-0 md:pr-0.5"
                 >
-                    <div class="mb-4 text-xl font-bold text-[#00C6D7] md:text-3xl">Table of Contents</div>
+                    <div
+                        class="border-stardew-border-dark from-stardew-bg-light to-stardew-bg-dark h-full overflow-y-auto border-6 bg-linear-to-b p-4 pt-4 text-center md:p-8 md:text-left"
+                    >
+                        <div class="font-stardew-body mb-2 text-3xl text-[#00C6D7] md:text-5xl">Table of Contents</div>
 
-                    <!-- Section dropdown -->
-                    <div class="rounded-lg bg-[#262629] p-6">
-                        <SectionNav sections={rearrangedSections!} />
+                        <!-- Section dropdown -->
+                        <div class="rounded-lg p-6">
+                            <SectionNav sections={rearrangedSections!} />
+                        </div>
                     </div>
                 </aside>
 
                 <!-- Main Content -->
-                <main class="h-3/5 w-full overflow-y-auto bg-[#161619] p-4 pt-4 md:h-full md:w-3/5 md:p-8">
-                    {#each rearrangedSections! as { section_id, title, points } (section_id)}
-                        <Section id={section_id.toString()} {title} {points}>
-                            {#each questions!.filter(question => question.section.title === title) as question, i}
-                                {#if question.type === 'long_text'}
-                                    <LongTextQuestion
-                                        title={question.title}
-                                        bind:value={sectionToAnswers[section_id]![i]!}
-                                    />
-                                {:else if question.type === 'short_text'}
-                                    <ShortTextQuestion
-                                        title={question.title}
-                                        bind:value={sectionToAnswers[section_id]![i]!}
-                                    />
-                                {:else if question.type === 'radio'}
-                                    {#if question.section.title === 'Bonus'}
-                                        <RadioQuestion
+                <main
+                    class="border-stardew-border-dark bg-stardew-border-fill h-3/5 w-full overflow-hidden border-6 p-1 md:h-full md:w-3/5 md:border-l-0 md:pl-0.5"
+                >
+                    <div
+                        class="border-stardew-border-dark from-stardew-bg-light to-stardew-bg-dark h-full overflow-y-auto border-6 bg-linear-to-b p-4 pt-4 md:p-8"
+                    >
+                        {#each rearrangedSections! as { section_id, title, points } (section_id)}
+                            <Section id={section_id.toString()} {title} {points}>
+                                {#each questions!.filter(question => question.section.title === title) as question, i (question.question_id)}
+                                    {#if question.type === 'long_text'}
+                                        <LongTextQuestion
                                             title={question.title}
-                                            bind:value={sectionToAnswers[section_id]![i]}
-                                            items={question.options!.map(option => ({
-                                                id: option.option_id,
-                                                label: option.title,
-                                            }))}
-                                            other
+                                            bind:value={sectionToAnswers[section_id]![i]!}
                                         />
-                                    {:else}
-                                        <RadioQuestion
+                                    {:else if question.type === 'short_text'}
+                                        <ShortTextQuestion
+                                            title={question.title}
+                                            bind:value={sectionToAnswers[section_id]![i]!}
+                                        />
+                                    {:else if question.type === 'radio'}
+                                        {#if question.section.title === 'Bonus'}
+                                            <RadioQuestion
+                                                title={question.title}
+                                                bind:value={sectionToAnswers[section_id]![i]}
+                                                items={question.options!.map(option => ({
+                                                    id: option.option_id,
+                                                    label: option.title,
+                                                }))}
+                                                other
+                                            />
+                                        {:else}
+                                            <RadioQuestion
+                                                title={question.title}
+                                                bind:value={sectionToAnswers[section_id]![i]!}
+                                                items={question.options!.map(option => ({
+                                                    id: option.option_id,
+                                                    label: option.title,
+                                                }))}
+                                            />
+                                        {/if}
+                                    {:else if question.type === 'checkbox'}
+                                        <CheckboxQuestion
                                             title={question.title}
                                             bind:value={sectionToAnswers[section_id]![i]!}
                                             items={question.options!.map(option => ({
@@ -291,22 +312,13 @@
                                                 label: option.title,
                                             }))}
                                         />
+                                    {:else}
+                                        <p>{title}</p>
                                     {/if}
-                                {:else if question.type === 'checkbox'}
-                                    <CheckboxQuestion
-                                        title={question.title}
-                                        bind:value={sectionToAnswers[section_id]![i]!}
-                                        items={question.options!.map(option => ({
-                                            id: option.option_id,
-                                            label: option.title,
-                                        }))}
-                                    />
-                                {:else}
-                                    <p>{title}</p>
-                                {/if}
-                            {/each}
-                        </Section>
-                    {/each}
+                                {/each}
+                            </Section>
+                        {/each}
+                    </div>
                 </main>
 
                 <!-- Save Button -->

@@ -1,4 +1,5 @@
-import { type Handle } from '@sveltejs/kit';
+import { type Handle, redirect } from '@sveltejs/kit';
+import type { AppRole } from '$lib/server/auth';
 import { createServerClient } from '@supabase/ssr';
 import { sequence } from '@sveltejs/kit/hooks';
 
@@ -13,7 +14,7 @@ const supabase: Handle = ({ event, resolve }) => {
              * the cookie options. Setting `path` to `/` replicates previous/
              * standard behavior.
              */
-            setAll: cookiesToSet => {
+            setAll: (cookiesToSet: { name: string; value: string; options: Record<string, unknown> }[]) => {
                 cookiesToSet.forEach(({ name, value, options }) => {
                     event.cookies.set(name, value, { ...options, path: '/' });
                 });
@@ -48,20 +49,29 @@ const supabase: Handle = ({ event, resolve }) => {
     });
 };
 
-// const authGuard: Handle = async ({ event, resolve }) => {
-//   const { session, user } = await event.locals.safeGetSession()
-//   event.locals.session = session
-//   event.locals.user = user
-//
-//   if (!event.locals.session && event.url.pathname.startsWith('/private')) {
-//     redirect(303, '/login')
-//   }
-//
-//   if (event.locals.session && event.url.pathname === '/login') {
-//     redirect(303, '/private')
-//   }
-//
-//   return resolve(event)
-// }
+const authGuard: Handle = async ({ event, resolve }) => {
+    const { locals } = event;
+    const { session, user } = await locals.safeGetSession();
+    let userRole: AppRole | null = null;
 
-export const handle: Handle = sequence(supabase);
+    if (user) {
+        const { data: profile } = await locals.supabase.from('profiles').select('role').eq('id', user.id).single();
+        userRole = (profile?.role as AppRole) ?? 'applicant';
+    }
+
+    locals.session = session;
+    locals.user = user;
+    locals.userRole = userRole;
+
+    const { pathname } = event.url;
+    const isPublicRoute = pathname === '/login' || pathname.startsWith('/login/');
+    const isApiRoute = pathname.startsWith('/api/');
+
+    if (!session && !isPublicRoute && !isApiRoute) {
+        redirect(303, '/login');
+    }
+
+    return resolve(event);
+};
+
+export const handle: Handle = sequence(supabase, authGuard);
