@@ -34,7 +34,7 @@
 
     // Get applicant_names_list
     onMount(async () => {
-        const { data: app_data, error: app_error } = await supabase.from('profiles').select('full_name');
+        const { data: app_data, error: app_error } = await supabase.from('profiles').select('full_name').eq('role','applicant');
         if (app_error) {
             logger.error('Error fetching profile names: ', app_error);
         } else if (app_data) {
