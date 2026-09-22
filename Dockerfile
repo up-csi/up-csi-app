@@ -9,7 +9,7 @@ RUN corepack enable pnpm
 WORKDIR /app
 
 # Load into virtual store
-COPY package.json pnpm-lock.yaml ./
+COPY pnpm-lock.yaml .
 RUN pnpm fetch
 
 # Copy project files
