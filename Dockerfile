@@ -33,5 +33,6 @@ COPY --from=build /app/build build/
 
 # Expose port and start server
 ENV PORT=3000
+ENV BODY_SIZE_LIMIT=10M
 EXPOSE ${PORT}
 CMD ["build/index.js"]
