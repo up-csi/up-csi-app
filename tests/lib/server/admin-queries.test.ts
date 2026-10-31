@@ -1,8 +1,13 @@
 import { describe, expect, it } from 'vitest';
-import { createMockSupabaseClient } from './helpers';
-import { fetchApplicants } from '../admin-queries';
+import { createMockSupabaseClient } from '../../helpers';
+
+type AdminQueries = typeof import('../../../src/lib/server/admin-queries'); // NOTE:
+const ADMIN_QUERIES_PATH = '../../../src/lib/server/admin-queries'; // Type is explicitly defined to avoid false flags
+const ADMIN_QUERIES: AdminQueries = await import(ADMIN_QUERIES_PATH);
 
 describe('fetchApplicants', () => {
+    const { fetchApplicants } = ADMIN_QUERIES;
+
     it('returns applicant profiles when query succeeds', async () => {
         const { client, whenFrom } = createMockSupabaseClient();
         const mockApplicants = [
@@ -79,7 +84,7 @@ describe('fetchAllQuizResults', () => {
             error: null,
         });
 
-        const { fetchAllQuizResults } = await import('../admin-queries');
+        const { fetchAllQuizResults } = ADMIN_QUERIES;
         const result = await fetchAllQuizResults(client);
 
         expect(result.results).toHaveLength(2);
@@ -103,7 +108,7 @@ describe('fetchAllQuizResults', () => {
         const { client, whenFrom } = createMockSupabaseClient();
         whenFrom('constiquiz-submissions').select({ data: [], error: null });
 
-        const { fetchAllQuizResults } = await import('../admin-queries');
+        const { fetchAllQuizResults } = ADMIN_QUERIES;
         const result = await fetchAllQuizResults(client);
 
         expect(result).toEqual({ results: [] });
@@ -124,7 +129,7 @@ describe('fetchAllQuizResults', () => {
         });
         whenFrom('constiquiz-answers').select({ data: [], error: null });
 
-        const { fetchAllQuizResults } = await import('../admin-queries');
+        const { fetchAllQuizResults } = ADMIN_QUERIES;
         const result = await fetchAllQuizResults(client);
 
         expect(result.results[0]?.total_score).toBe(0);
@@ -151,7 +156,7 @@ describe('fetchAllQuizResults', () => {
             error: null,
         });
 
-        const { fetchAllQuizResults } = await import('../admin-queries');
+        const { fetchAllQuizResults } = ADMIN_QUERIES;
         const result = await fetchAllQuizResults(client);
 
         expect(result.results[0]?.total_score).toBe(5);
@@ -161,7 +166,7 @@ describe('fetchAllQuizResults', () => {
         const { client, whenFrom } = createMockSupabaseClient();
         whenFrom('constiquiz-submissions').select({ data: null, error: { message: 'db error' } });
 
-        const { fetchAllQuizResults } = await import('../admin-queries');
+        const { fetchAllQuizResults } = ADMIN_QUERIES;
         await expect(fetchAllQuizResults(client)).rejects.toThrow('db error');
     });
 
@@ -180,7 +185,7 @@ describe('fetchAllQuizResults', () => {
         });
         whenFrom('constiquiz-answers').select({ data: null, error: { message: 'answers error' } });
 
-        const { fetchAllQuizResults } = await import('../admin-queries');
+        const { fetchAllQuizResults } = ADMIN_QUERIES;
         await expect(fetchAllQuizResults(client)).rejects.toThrow('answers error');
     });
 });
@@ -222,7 +227,7 @@ describe('fetchQuizResultDetail', () => {
             error: null,
         });
 
-        const { fetchQuizResultDetail } = await import('../admin-queries');
+        const { fetchQuizResultDetail } = ADMIN_QUERIES;
         const result = await fetchQuizResultDetail(client, 'u1');
 
         expect(result.profile).toEqual({ id: 'u1', username: 'alice', full_name: 'Alice A' });
@@ -263,7 +268,7 @@ describe('fetchQuizResultDetail', () => {
         whenFrom('constiquiz-submissions').select({ data: null, error: null });
         whenFrom('constiquiz-questions').select({ data: [{ point_value: 3 }], error: null });
 
-        const { fetchQuizResultDetail } = await import('../admin-queries');
+        const { fetchQuizResultDetail } = ADMIN_QUERIES;
         const result = await fetchQuizResultDetail(client, 'u1');
 
         expect(result.submitted_at).toBeNull();
@@ -278,7 +283,7 @@ describe('fetchQuizResultDetail', () => {
         whenFrom('constiquiz-submissions').select({ data: null, error: null });
         whenFrom('constiquiz-questions').select({ data: [{ point_value: 10 }], error: null });
 
-        const { fetchQuizResultDetail } = await import('../admin-queries');
+        const { fetchQuizResultDetail } = ADMIN_QUERIES;
         const result = await fetchQuizResultDetail(client, 'u1');
 
         expect(result.status).toBe('Not Started');
@@ -293,7 +298,7 @@ describe('fetchQuizResultDetail', () => {
         whenFrom('constiquiz-submissions').select({ data: null, error: null });
         whenFrom('constiquiz-questions').select({ data: [], error: null });
 
-        const { fetchQuizResultDetail } = await import('../admin-queries');
+        const { fetchQuizResultDetail } = ADMIN_QUERIES;
         await expect(fetchQuizResultDetail(client, 'u1')).rejects.toThrow('answers failed');
     });
 });
@@ -336,7 +341,7 @@ describe('fetchSigsheetProgress', () => {
             error: null,
         });
 
-        const { fetchSigsheetProgress } = await import('../admin-queries');
+        const { fetchSigsheetProgress } = ADMIN_QUERIES;
         const result = await fetchSigsheetProgress(client);
 
         expect(result.total_members).toBe(25);
@@ -355,7 +360,7 @@ describe('fetchSigsheetProgress', () => {
         whenFrom('members').select({ data: null, error: null, count: 10 });
         whenFrom('sigsheet').select({ data: [], error: null });
 
-        const { fetchSigsheetProgress } = await import('../admin-queries');
+        const { fetchSigsheetProgress } = ADMIN_QUERIES;
         const result = await fetchSigsheetProgress(client);
 
         expect(result.total_members).toBe(10);
@@ -367,7 +372,7 @@ describe('fetchSigsheetProgress', () => {
         whenFrom('members').select({ data: null, error: null, count: 10 });
         whenFrom('sigsheet').select({ data: null, error: { message: 'sigsheet error' } });
 
-        const { fetchSigsheetProgress } = await import('../admin-queries');
+        const { fetchSigsheetProgress } = ADMIN_QUERIES;
         await expect(fetchSigsheetProgress(client)).rejects.toThrow('sigsheet error');
     });
 });
@@ -389,7 +394,7 @@ describe('fetchSigsheetDetail', () => {
             error: null,
         });
 
-        const { fetchSigsheetDetail } = await import('../admin-queries');
+        const { fetchSigsheetDetail } = ADMIN_QUERIES;
         const result = await fetchSigsheetDetail(client, 'u1');
 
         expect(result.profile).toEqual({ id: 'u1', username: 'alice', full_name: 'Alice' });
@@ -407,7 +412,7 @@ describe('fetchSigsheetDetail', () => {
         });
         whenFrom('sigsheet').select({ data: [], error: null });
 
-        const { fetchSigsheetDetail } = await import('../admin-queries');
+        const { fetchSigsheetDetail } = ADMIN_QUERIES;
         const result = await fetchSigsheetDetail(client, 'u1');
 
         expect(result.signatures).toEqual([]);
@@ -423,7 +428,7 @@ describe('fetchSigsheetDetail', () => {
         });
         whenFrom('sigsheet').select({ data: null, error: { message: 'query failed' } });
 
-        const { fetchSigsheetDetail } = await import('../admin-queries');
+        const { fetchSigsheetDetail } = ADMIN_QUERIES;
         await expect(fetchSigsheetDetail(client, 'u1')).rejects.toThrow('query failed');
     });
 });
